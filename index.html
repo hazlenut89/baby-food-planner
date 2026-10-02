@@ -443,6 +443,62 @@ body{
   margin-left:0!important;
   margin-right:0!important;
 }
+</style><style>
+/* Weekly selector final mobile alignment */
+.weekdays{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:5px!important;
+  width:100%!important;
+  align-items:stretch!important;
+}
+.weekday{
+  width:100%!important;
+  min-width:0!important;
+  min-height:116px!important;
+  padding:10px 2px!important;
+  margin:0!important;
+  border-radius:22px!important;
+  display:grid!important;
+  grid-template-rows:24px 44px 22px!important;
+  align-items:center!important;
+  justify-items:center!important;
+  text-align:center!important;
+  background:transparent!important;
+  box-sizing:border-box!important;
+}
+.weekday .dnum,.weekday .date,.weekday .dow{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  line-height:1!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.weekday.active{
+  background:#e95686!important;
+  box-shadow:0 10px 22px rgba(233,86,134,.18)!important;
+}
+.weekday.active .dnum,.weekday.active .date,.weekday.active .dow{
+  color:#fff!important;
+  background:transparent!important;
+}
+@media(max-width:430px){
+  .weekdays{gap:3px!important}
+  .weekday{min-height:108px!important;padding:8px 1px!important;border-radius:18px!important;grid-template-rows:23px 42px 21px!important}
+  .weekday .dnum{font-size:12px!important}
+  .weekday .date{font-size:15px!important}
+  .weekday .dow{font-size:12px!important}
+}
+
+/* Explicit sentence breaks should stay visible */
+.setup .hint br,.storage br{display:block!important;content:""!important;margin-top:7px!important}
 </style></head>
 <body>
 <main>
@@ -465,7 +521,7 @@ body{
 <label><span>아기 이름 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="babyName" class="meta-input" type="text" placeholder="입력하지 않아도 돼요"></label>
 <label><span>아기 생일 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="birthday" class="meta-input" type="text" readonly placeholder="날짜 선택" aria-label="아기 생일 선택"></label>
 </div>
-<p class="note" style="margin:9px 0 0">이름과 생일은 입력하지 않아도 돼요. 밤송이 식단만 바로 불러오거나 이미지로 저장할 수 있어요.</p>
+<p class="note" style="margin:9px 0 0">이름과 생일은 입력하지 않아도 돼요.<br>밤송이 식단만 바로 불러오거나 이미지로 저장할 수 있어요.</p>
 <div class="startbox"><small>출생일을 1일로 계산한 180일째</small><strong id="startDate">생일을 입력해 주세요</strong></div>
 </section>
 
