@@ -700,6 +700,52 @@ body{
 .weeksummary>.update-diet-btn{position:absolute;right:0;top:0;z-index:2}
 .calendar-action-row{display:flex;justify-content:flex-end;margin:0 0 10px}
 @media(max-width:430px){.update-diet-btn{font-size:12px;padding:9px 11px}}
+</style><style>
+/* FINAL POSITION FIX — weekly update action */
+.weeksummary{
+  position:relative!important;
+  padding-top:62px!important;
+}
+.weeksummary>.update-diet-btn{
+  position:absolute!important;
+  top:14px!important;
+  right:16px!important;
+  margin:0!important;
+  z-index:2!important;
+}
+
+/* FINAL POSITION FIX — editor modal header */
+.editor-modal-sheet{
+  padding-top:68px!important;
+}
+.editor-modal-close{
+  position:absolute!important;
+  top:16px!important;
+  right:16px!important;
+  float:none!important;
+  margin:0!important;
+  z-index:20!important;
+}
+.editor-modal-sheet #editorTitle{
+  padding-right:0!important;
+}
+.editor-modal-sheet .totalbadge,
+.editor-modal-sheet .total-badge{
+  margin-right:0!important;
+}
+
+/* Reserve a clean top-right close-button lane on desktop and mobile */
+@media(min-width:601px){
+  .editor-modal-sheet>section{
+    padding-top:0!important;
+  }
+}
+@media(max-width:600px){
+  .weeksummary{padding-top:58px!important}
+  .weeksummary>.update-diet-btn{top:12px!important;right:12px!important}
+  .editor-modal-sheet{padding-top:66px!important}
+  .editor-modal-close{top:14px!important;right:16px!important}
+}
 </style></head>
 <body>
 <main>
