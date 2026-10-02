@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fffaf1">
+<title>밤송이맘 6개월 초기이유식 캘린더</title>
+<style>
+:root{--bg:#fffaf1;--card:#fffefb;--line:#e7ddca;--text:#2d2925;--muted:#766f67;--green:#6d9f69;--green2:#edf5ea;--danger:#b75f54;--peach:#fff0e7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+main{max-width:980px;margin:0 auto;padding:18px}
+.hero{text-align:center;padding:8px 0 14px}
+h1{font-size:clamp(29px,7vw,44px);margin:0 0 9px;line-height:1.08}
+.pill{display:inline-block;background:#f4e8d0;padding:9px 14px;border-radius:999px;font-weight:800}
+.note{font-size:13px;line-height:1.55;color:var(--muted)}
+.setup{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin:10px 0 14px}
+.setupgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label span{display:block;font-size:13px;font-weight:800;margin-bottom:5px}
+input{font:inherit;color:var(--text)}
+.meta-input,.editor-input{width:100%;min-height:46px;border:1px solid var(--line);border-radius:11px;background:white;padding:10px;font-size:16px}
+.startbox{margin-top:10px;padding:12px;border-radius:12px;background:var(--green2)}
+.startbox small{color:var(--muted)} .startbox strong{display:block;margin-top:3px;font-size:18px}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0 5px}
+button{font:inherit;font-weight:900;cursor:pointer;border:0;min-height:46px;border-radius:12px;padding:10px 12px}
+.primary{background:var(--green);color:white} .secondary{background:#eee6da;color:#463d35} .outline{background:white;border:1px solid var(--line);color:var(--text)}
+.notice{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px;margin:12px 0 16px;font-size:13px;line-height:1.55;color:var(--muted)}
+.notice strong{color:var(--text)}
+.status{font-size:13px;text-align:center;color:#5b7658;min-height:20px;margin:7px 0 12px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px} .dow{text-align:center;font-size:11px;font-weight:800;color:var(--muted)}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.daybtn{min-height:105px;border:1px solid var(--line);border-radius:12px;padding:7px;background:var(--card);text-align:left;display:flex;flex-direction:column;gap:3px;min-width:0}
+.daybtn.selected{outline:2px solid var(--green);background:var(--green2)}
+.dayhead{display:flex;justify-content:space-between;gap:4px;align-items:flex-start}
+.daynum{font-size:12px;font-weight:900} .realdate{font-size:9px;color:var(--muted);white-space:nowrap}
+.summary{font-size:10px;line-height:1.28;color:var(--muted);word-break:keep-all;overflow:hidden}
+.daytotal{font-size:10px;font-weight:900;margin-top:auto;color:#557052}
+.editor{margin-top:16px;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:15px}
+.edithead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge{background:var(--green2);border-radius:999px;padding:6px 10px;font-size:13px;font-weight:900;white-space:nowrap}
+.foodrow{display:grid;grid-template-columns:46px minmax(0,1fr) 82px;gap:7px;align-items:center;margin-top:8px}
+.foodrow input{width:100%;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:10px;background:white;padding:9px;font-size:16px}
+.icon{text-align:center;padding-left:3px!important;padding-right:3px!important}
+.gwrap{display:flex;align-items:center;gap:3px} .gwrap span{font-size:12px;color:var(--muted)}
+.label{font-size:12px;color:var(--muted);font-weight:800;margin-top:12px}
+.allergy{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;font-weight:800} .allergy input{width:20px;height:20px}
+.savebtn{width:100%;margin-top:14px}
+.modalback{position:fixed;inset:0;background:rgba(0,0,0,.28);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modalback.open{display:flex} .modal{width:min(420px,100%);background:white;border-radius:18px;padding:18px} .modal h2{margin:0 0 8px;font-size:20px} .modalactions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px} .danger{background:var(--danger);color:white}
+@media(max-width:700px){.actions{grid-template-columns:1fr}.setupgrid{grid-template-columns:1fr}.daybtn{min-height:88px;padding:5px}.summary{font-size:9px}.daynum{font-size:11px}.calendar{gap:4px}}
+
+/* 2026 pastel mobile dashboard refresh */
+body{background:linear-gradient(180deg,#f3fbff 0%,#fffaf6 46%,#f8f5ff 100%);color:#2f3440}
+.wrap{max-width:760px}
+.hero{background:linear-gradient(135deg,#dff6ff,#f6efff 55%,#fff4df);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:22px;box-shadow:0 18px 45px rgba(76,107,130,.10)}
+.hero h1{letter-spacing:-.04em}.hero p{color:#6f7782}
+.card,.editor{border:0!important;border-radius:24px!important;background:rgba(255,255,255,.88)!important;box-shadow:0 12px 32px rgba(76,107,130,.08)}
+.meta-input,.editor-input{border:1px solid #e7edf2!important;background:#fbfdff!important;border-radius:15px!important}
+.actions button,.btn{border-radius:16px!important}
+#seedBtn{background:#bdefff!important;color:#24536a!important}
+#imageBtn{background:#d9ccff!important;color:#493c73!important}
+#resetBtn{background:#ffe3df!important;color:#7a4842!important}
+.viewtabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#edf4f7;padding:5px;border-radius:18px;margin:16px 0}
+.viewtab{border:0;background:transparent;padding:11px 8px;border-radius:14px;font-weight:800;color:#7c8790;font-size:14px}
+.viewtab.active{background:white;color:#33414b;box-shadow:0 5px 14px rgba(74,100,118,.10)}
+.weekpanel{display:none}.weekpanel.active{display:block}.monthpanel.hidden{display:none}
+.weeknav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 12px}
+.weeknav button{width:40px;height:40px;border:0;border-radius:50%;background:#f1f7fa;font-size:20px;color:#56656e}
+.weektitle{text-align:center}.weektitle strong{display:block;font-size:18px}.weektitle span{font-size:12px;color:#8a9298}
+.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px}
+.weekday{border:0;background:transparent;border-radius:18px;padding:9px 2px;text-align:center;color:#7f8991;font-size:11px;min-width:0}
+.weekday .wdn{display:block;font-weight:700}.weekday .wdd{display:flex;width:34px;height:34px;margin:4px auto 0;align-items:center;justify-content:center;border-radius:50%;font-weight:800;font-size:14px;color:#46545e}
+.weekday.active{background:#eefaff}.weekday.active .wdd{background:#7ed9f5;color:white;box-shadow:0 7px 16px rgba(90,196,231,.28)}
+.weeksummary{background:linear-gradient(135deg,#effbff,#fff);border-radius:22px;padding:16px;margin-bottom:12px}
+.weeksummary .big{font-size:30px;font-weight:900;letter-spacing:-.04em}.weeksummary .muted{font-size:12px;color:#879098}
+.weekfoodcards{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.weekfood{background:white;border-radius:18px;padding:12px;min-height:82px;box-shadow:0 5px 14px rgba(75,105,122,.06)}
+.weekfood .ico{font-size:23px}.weekfood strong{display:block;margin-top:5px;font-size:13px}.weekfood small{color:#929aa0}
+.weekallergy{margin-top:10px;padding:10px 12px;background:#fff1f0;border-radius:14px;color:#9a514c;font-size:12px;font-weight:700}
+.sectionhint{font-size:12px;color:#8a9298;margin:-5px 0 12px}
+@media(max-width:700px){body{padding:10px}.wrap{padding:0}.hero{padding:18px;border-radius:24px}.weekfoodcards{grid-template-columns:1fr 1fr}}
+</style>
+
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root{
+  --ink:#17191d; --muted:#7b7f87; --line:#edf0f3;
+  --pink:#f7b9c8; --pink2:#fff0f4;
+  --peach:#ffb79d; --peach2:#fff0ea;
+  --yellow:#ffe69b; --yellow2:#fff8dc;
+  --green:#cfeaa8; --green2:#f0f8df;
+  --blue:#bfe5f8; --blue2:#eaf7fd;
+  --lav:#d9cff8; --lav2:#f3effd;
+}
+html,body,button,input,select,textarea{
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif!important;
+}
+body{
+  background:#f5f6f8!important;color:var(--ink)!important;
+  letter-spacing:-.018em;
+}
+.wrap{max-width:720px!important;padding:14px 12px 42px!important}
+.hero{
+  background:#fff!important;border:0!important;border-radius:30px!important;
+  padding:24px 22px!important;box-shadow:0 16px 44px rgba(34,40,49,.07)!important;
+  position:relative;overflow:hidden;
+}
+.hero:after{
+  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  right:-55px;top:-55px;background:linear-gradient(145deg,var(--pink2),var(--yellow2));z-index:0;
+}
+.hero>*{position:relative;z-index:1}
+.hero h1{font-weight:800!important;font-size:27px!important;line-height:1.18!important}
+.hero p{font-weight:450!important;color:var(--muted)!important;line-height:1.55!important}
+.card,.editor{
+  background:#fff!important;border:0!important;border-radius:28px!important;
+  box-shadow:0 12px 36px rgba(34,40,49,.06)!important;
+}
+.meta-input,.editor-input{
+  background:#f8f9fb!important;border:1px solid #eff1f4!important;
+  border-radius:16px!important;font-weight:550!important;
+}
+.startbox{background:var(--yellow2)!important;border:0!important;border-radius:20px!important}
+.actions{gap:8px!important}
+.actions button,.btn{
+  min-height:46px;border:0!important;border-radius:17px!important;
+  font-weight:750!important;box-shadow:none!important;
+}
+#seedBtn{background:var(--green2)!important;color:#526c35!important}
+#imageBtn{background:var(--lav2)!important;color:#5d5185!important}
+#resetBtn{background:var(--pink2)!important;color:#86535e!important}
+
+.viewtabs{
+  background:#e9ebef!important;padding:5px!important;border-radius:18px!important;
+  margin:18px 0 12px!important;
+}
+.viewtab{
+  padding:12px 8px!important;border-radius:14px!important;font-weight:750!important;
+  color:#878b92!important;
+}
+.viewtab.active{
+  background:#fff!important;color:#17191d!important;
+  box-shadow:0 4px 14px rgba(34,40,49,.08)!important;
+}
+
+#weekPanel{padding:18px!important}
+.weeknav{margin:0 0 16px!important}
+.weeknav button{
+  background:#f6f7f9!important;color:#4f535a!important;width:42px!important;height:42px!important;
+  font-weight:600!important;
+}
+.weektitle strong{font-size:19px!important;font-weight:800!important}
+.weektitle span{font-size:12px!important;color:#969aa1!important}
+.weekdays{gap:5px!important;margin-bottom:15px!important}
+.weekday{
+  padding:8px 1px 10px!important;border-radius:22px!important;color:#858991!important;
+  transition:.15s ease;
+}
+.weekday .wdn{font-size:11px!important;font-weight:600!important}
+.weekday .wdd{
+  width:38px!important;height:42px!important;border-radius:19px!important;
+  font-size:14px!important;font-weight:750!important;color:#33373d!important;
+}
+.weekday.active{
+  background:transparent!important;
+}
+.weekday.active .wdn{color:#d94f7d!important;font-weight:750!important}
+.weekday.active .wdd{
+  background:#e95888!important;color:#fff!important;
+  box-shadow:0 8px 18px rgba(225,79,127,.28)!important;
+  transform:translateY(-1px);
+}
+.weeksummary{
+  background:#fff!important;border:1px solid #f0f1f3!important;border-radius:24px!important;
+  padding:17px!important;box-shadow:0 8px 24px rgba(34,40,49,.045)!important;
+}
+.weeksummary .big{font-size:36px!important;font-weight:800!important}
+.weeksummary .muted{color:#92969d!important;font-weight:500!important}
+.weekfoodcards{gap:9px!important}
+.weekfood{
+  border:0!important;border-radius:20px!important;padding:14px!important;min-height:96px!important;
+  box-shadow:none!important;
+}
+.weekfood:nth-child(6n+1){background:var(--yellow2)!important}
+.weekfood:nth-child(6n+2){background:var(--green2)!important}
+.weekfood:nth-child(6n+3){background:var(--pink2)!important}
+.weekfood:nth-child(6n+4){background:var(--blue2)!important}
+.weekfood:nth-child(6n+5){background:var(--peach2)!important}
+.weekfood:nth-child(6n+6){background:var(--lav2)!important}
+.weekfood .ico{font-size:25px!important}
+.weekfood strong{font-size:14px!important;font-weight:750!important}
+.weekfood small{font-size:12px!important;color:#777c84!important;font-weight:550!important}
+.weekallergy{
+  background:#fff0f1!important;color:#a44c58!important;border-radius:15px!important;
+}
+.sectionhint{color:#979ba2!important}
+
+.calendar{gap:7px!important}
+.calendar .dow{font-weight:650!important;color:#969aa1!important}
+.day{
+  border:1px solid #f0f1f3!important;background:#fff!important;border-radius:18px!important;
+  box-shadow:none!important;min-height:112px!important;
+}
+.day.selected{
+  border:2px solid #ef7b9f!important;background:#fff8fa!important;
+  box-shadow:0 8px 20px rgba(225,79,127,.10)!important;
+}
+.day .num{font-weight:800!important}
+.day .date{color:#9b9fa6!important}
+.editor{padding:20px!important}
+.editor h2,.editor h3{font-weight:800!important}
+.food-row{
+  border:0!important;background:#f8f9fb!important;border-radius:18px!important;
+}
+.totalbox{
+  background:var(--blue2)!important;border:0!important;border-radius:20px!important;
+}
+#saveDay{background:#202226!important;color:#fff!important}
+.note{color:#8c9097!important}
+.modal-card{border-radius:28px!important}
+@media(max-width:520px){
+  .wrap{padding:10px 10px 34px!important}
+  .hero{border-radius:26px!important;padding:21px 18px!important}
+  .hero h1{font-size:25px!important}
+  .weekfoodcards{grid-template-columns:1fr 1fr!important}
+  .weekfood{min-height:92px!important}
+}
+</style>
+
+
+<meta name="theme-color" content="#fff7f3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="이유식 식단표">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+
+
+<style>
+.install-card{display:none;margin:12px 0;background:#fff;border-radius:24px;padding:16px 17px;box-shadow:0 10px 28px rgba(34,40,49,.055)}
+.install-card.show{display:block}.install-row{display:flex;gap:12px;align-items:center}
+.install-icon{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#fff0f4,#fff8dc);display:flex;align-items:center;justify-content:center;font-size:26px;flex:none}
+.install-copy{flex:1}.install-copy strong{display:block;font-size:14px;font-weight:800}.install-copy span{display:block;margin-top:3px;color:#8b8f96;font-size:12px;line-height:1.4}
+.install-btn{margin-top:11px;width:100%;border:0;border-radius:15px;padding:11px;background:#f3effd;color:#5d5185;font-weight:750}
+</style>
+
+
+<style>
+.brandby{margin-top:7px;font-size:13px;font-weight:700;letter-spacing:-.01em;color:#d65f84}
+</style>
+
+
+<style>
+/* Hero vertical rhythm: title → byline → pill spacing */
+.hero h1{margin:0!important}
+.hero .brandby{margin:14px 0 0!important;line-height:1.35}
+.hero .pill{margin-top:14px!important}
+</style>
+
+
+<style>
+.foodrow{display:grid!important;grid-template-columns:48px minmax(0,1fr) 92px 34px!important;gap:7px!important;align-items:center}
+.removeFood{width:32px;height:32px;border:0;border-radius:50%;background:#fff0f4;color:#b45b73;font-size:22px;line-height:1;font-weight:500}
+.addFoodBtn{width:100%;margin-top:9px;padding:13px;border:1.5px dashed #e4d9f8;border-radius:16px;background:#faf8ff;color:#65578c;font-weight:750;font-family:inherit}
+@media(max-width:430px){.foodrow{grid-template-columns:42px minmax(0,1fr) 78px 30px!important}.removeFood{width:29px;height:29px}}
+</style>
+
+</head>
+<body>
+<main>
+<section class="hero">
+<h1>6개월 초기이유식 캘린더</h1><div class="brandby">by 밤송이맘 🌰</div>
+<div class="pill">180일 시작 · 하루 1끼 · 직접 기록형</div>
+<p class="note">밤송이 식단 예시를 불러오거나 우리 아기 식단을 직접 기록해 보세요.</p>
+</section>
+
+<section id="installCard" class="install-card">
+  <div class="install-row">
+    <div class="install-icon">🥣</div>
+    <div class="install-copy"><strong>홈 화면에 저장해서 앱처럼 쓰기</strong><span id="installGuide">홈 화면에서 바로 식단을 기록할 수 있어요.</span></div>
+  </div>
+  <button id="installBtn" class="install-btn" type="button">홈 화면에 추가하는 방법</button>
+</section>
+
+<section class="setup">
+<div class="setupgrid">
+<label><span>아기 이름 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="babyName" class="meta-input" type="text" placeholder="입력하지 않아도 돼요"></label>
+<label><span>아기 생일 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="birthday" class="meta-input" type="date"></label>
+</div>
+<p class="note" style="margin:9px 0 0">이름과 생일은 입력하지 않아도 돼요. 밤송이 식단만 바로 불러오거나 이미지로 저장할 수 있어요.</p>
+<div class="startbox"><small>출생일을 1일로 계산한 180일째</small><strong id="startDate">생일을 입력해 주세요</strong></div>
+</section>
+
+<div class="actions">
+<button id="seedBtn" class="primary" type="button">🌰 밤송이 식단으로 채우기</button>
+<button id="resetBtn" class="secondary" type="button">↻ 식단표 초기화</button>
+<button id="imageBtn" class="outline" type="button">🖼️ 전체 식단표 이미지로 저장</button>
+</div>
+
+<section class="notice"><strong>저장 안내</strong><br>
+입력한 식단은 현재 브라우저에 저장돼요. 브라우저 데이터를 삭제하거나 <strong>Safari 비공개 브라우징</strong>처럼 저장이 제한되는 환경에서는 입력 내용이 사라질 수 있어요. 중요한 식단은 미리 작성한 뒤 <strong>이미지로 저장</strong>해 보관해 주세요.
+</section>
+<div id="status" class="status" aria-live="polite">날짜를 누르면 그날 식단을 입력할 수 있어요.</div>
+
+<div class="week"><div class="dow">월</div><div class="dow">화</div><div class="dow">수</div><div class="dow">목</div><div class="dow">금</div><div class="dow">토</div><div class="dow">일</div></div>
+
+<div class="viewtabs" role="tablist" aria-label="식단 보기">
+  <button id="weekTab" class="viewtab active" type="button">주간 식단</button>
+  <button id="allTab" class="viewtab" type="button">전체 캘린더</button>
+</div>
+
+<section id="weekPanel" class="weekpanel active card" style="padding:15px">
+  <div class="weeknav">
+    <button id="prevWeek" type="button" aria-label="이전 주">‹</button>
+    <div class="weektitle"><strong id="weekRange">180–186일</strong><span id="weekDateRange">6개월 초기이유식</span></div>
+    <button id="nextWeek" type="button" aria-label="다음 주">›</button>
+  </div>
+  <div id="weekDays" class="weekdays"></div>
+  <div id="weekDetail"></div>
+  <p class="sectionhint" style="margin:12px 2px 0">날짜를 누르면 아래에서 음식과 중량을 바로 수정할 수 있어요.</p>
+</section>
+
+<section id="monthPanel" class="monthpanel hidden">
+<p class="sectionhint">180–210일 전체 식단을 한눈에 볼 수 있어요.</p>
+<section id="calendar" class="calendar">
+<div id="calendarFallback" style="grid-column:1/-1;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px;text-align:center">
+<strong>캘린더를 불러오는 중이에요.</strong>
+<div class="note" style="margin-top:6px">계속 보이지 않는다면 페이지를 새로고침하거나 Safari/Chrome 등 일반 브라우저에서 다시 열어주세요.</div>
+</div>
+</section>
+</section>
+<noscript>
+<div style="margin-top:10px;border:1px solid #e7ddca;background:#fffefb;border-radius:14px;padding:18px;text-align:center">
+<strong>캘린더를 불러오지 못했어요.</strong>
+<p style="margin:7px 0 0;color:#766f67;font-size:13px;line-height:1.55">JavaScript가 꺼져 있거나 현재 화면에서 실행이 제한되어 있어요. Safari/Chrome 등 일반 브라우저에서 다시 열어주세요.</p>
+</div>
+</noscript>
+
+<section class="editor">
+<div class="edithead">
+<div><div class="note">선택한 날짜</div><strong id="editorTitle" style="font-size:22px">180일</strong><div id="editorRealDate" class="note"></div></div>
+<div id="editorTotal" class="badge">총 0g</div>
+</div>
+<div class="label">구성 음식</div>
+<div id="foodEditor"></div>
+<div class="label">추가재료</div>
+<input id="addedFood" class="editor-input" type="text" placeholder="오늘 처음 추가한 재료">
+<label style="display:block;margin-top:12px;font-size:13px;font-weight:800">실제 섭취량 (g)</label>
+<input id="actualIntake" class="editor-input" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 27" style="margin-top:6px">
+<label class="allergy"><input id="allergy" type="checkbox"> 알러지 반응 있음</label>
+<button id="saveDay" class="primary savebtn" type="button">이 날짜 식단 저장</button>
+</section>
+</main>
+
+<div id="modal" class="modalback" role="dialog" aria-modal="true">
+<div class="modal"><h2>식단표를 모두 초기화할까요?</h2><p class="note">입력한 음식, 중량, 추가재료, 실제 섭취량, 알러지 체크와 브라우저에 저장된 식단 데이터가 모두 삭제됩니다.</p>
+<div class="modalactions"><button id="cancelReset" class="secondary" type="button">취소</button><button id="confirmReset" class="danger" type="button">삭제하기</button></div></div>
+</div>
+
+<script>
+(()=>{
+const DB='bam-weaning-db', STORE='planner', KEY='main';
+const SEED={"foods": {"180": [["🍚", "쌀미음", 10]], "181": [["🍚", "쌀미음", 20]], "182": [["🍚", "쌀", 20], ["🥩", "소고기", 10]], "183": [["🍚", "쌀", 20], ["🥩", "소고기", 10]], "184": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "185": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "186": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "187": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "188": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "189": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "190": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "191": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "192": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "193": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "194": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "195": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "196": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "197": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "198": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "199": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "200": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "201": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "202": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🧅", "양파", 5]], "203": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🧅", "양파", 5]], "204": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "205": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "206": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "207": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "208": [["🌾", "곡류", 30], ["🥚", "완숙계란", 5], ["🥒", "애호박", 5]], "209": [["🌾", "곡류", 30], ["🥚", "완숙계란", 10], ["🥦", "브로콜리", 5]], "210": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5], ["🥕", "당근", 5]]}, "added": {"180": "시작", "181": "적응", "182": "🥩 소고기 10g", "183": "🥩 소고기 10g", "184": "🌾 오트밀 20g", "185": "🌾 오트밀 20g", "186": "🥒 애호박 10g", "187": "🥒 애호박 10g", "188": "🥬 청경채 5g", "189": "🥬 청경채 5g", "190": "🥦 브로콜리 10g", "191": "🥦 브로콜리 10g", "192": "🥬 양배추 10g", "193": "🥬 양배추 10g", "194": "🥬 시금치 5g", "195": "🥬 시금치 5g", "196": "🥕 당근 10g", "197": "🥕 당근 10g", "198": "🎃 단호박 10g", "199": "🎃 단호박 10g", "200": "🥔 감자 10g", "201": "🥔 감자 10g", "202": "🧅 양파 5g", "203": "🧅 양파 5g", "204": "🥬 배추 10g", "205": "🥬 배추 10g", "206": "🍠 고구마 10g", "207": "🍠 고구마 10g", "208": "🥚 완숙계란 5g", "209": "🥚 완숙계란 10g", "210": "조합"}};
+const days=Array.from({length:31},(_,i)=>180+i);
+let selected=180;
+let state={babyName:'',birthday:'',days:{}};
+days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});
+
+const $=id=>document.getElementById(id);
+let appStarted=false;
+window.addEventListener('error',()=>{{
+ const cal=document.getElementById('calendar');
+ if(cal && !appStarted) cal.innerHTML='<div style="grid-column:1/-1;border:1px solid #e7ddca;background:#fffefb;border-radius:14px;padding:18px;text-align:center"><strong>캘린더를 불러오지 못했어요.</strong><div style="margin-top:6px;color:#766f67;font-size:13px;line-height:1.55">페이지를 새로고침해 주세요. 계속 보이지 않는다면 Safari/Chrome 등 일반 브라우저에서 다시 열어주세요.</div></div>';
+}});
+const calendar=$('calendar'), editor=$('foodEditor');
+const weekPanel=$('weekPanel'), monthPanel=$('monthPanel');
+let weekStart=180;
+
+function parseDate(v){if(!v)return null;const p=v.split('-').map(Number);if(p.length!==3)return null;return new Date(Date.UTC(p[0],p[1]-1,p[2]));}
+function addDays(dt,n){if(!dt)return null;const x=new Date(dt.getTime());x.setUTCDate(x.getUTCDate()+n);return x;}
+function fmt(dt){if(!dt)return '';return `${dt.getUTCFullYear()}년 ${dt.getUTCMonth()+1}월 ${dt.getUTCDate()}일`;}
+function shortFmt(dt){if(!dt)return '';return `${dt.getUTCMonth()+1}/${dt.getUTCDate()}`;}
+function dayDate(day){const b=parseDate(state.birthday);return b?addDays(b,day-1):null;}
+function total(day){return state.days[day].foods.reduce((s,f)=>s+(Number(f.g)||0),0);}
+function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return arr.length?arr.slice(0,3).map(f=>(f.icon||'')+f.name).join(' · '):'식단 입력';}
+
+
+function weekSlice(){
+ const maxStart=204;
+ weekStart=Math.max(180,Math.min(maxStart,weekStart));
+ return Array.from({length:7},(_,i)=>weekStart+i).filter(d=>d<=210);
+}
+function renderWeek(){
+ const ws=weekSlice();
+ $('weekRange').textContent=ws[0]+'–'+ws[ws.length-1]+'일';
+ const first=dayDate(ws[0]), last=dayDate(ws[ws.length-1]);
+ $('weekDateRange').textContent=first&&last?(fmt(first)+' – '+fmt(last)):'6개월 초기이유식';
+ $('prevWeek').disabled=weekStart<=180;$('nextWeek').disabled=weekStart>=204;
+ $('prevWeek').style.opacity=$('prevWeek').disabled?'.3':'1';
+ $('nextWeek').style.opacity=$('nextWeek').disabled?'.3':'1';
+ const host=$('weekDays');host.innerHTML='';
+ const names=['일','월','화','수','목','금','토'];
+ ws.forEach(d=>{
+   const date=dayDate(d), b=document.createElement('button');
+   b.type='button';b.className='weekday'+(d===selected?' active':'');
+   const dow=date?names[date.getDay()]:'';
+   b.innerHTML='<span class="wdn">'+(dow||d+'일')+'</span><span class="wdd">'+(date?date.getDate():d)+'</span>';
+   b.onclick=()=>{selected=d;renderWeek();renderCalendar();renderEditor();};
+   host.appendChild(b);
+ });
+ if(!ws.includes(selected)) selected=ws[0];
+ const data=state.days[selected]||{foods:[],added:'',actualIntake:'',allergy:false};
+ const total=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
+ const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
+ $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+selected+'일'+(dayDate(selected)?' · '+fmt(dayDate(selected)):'')+'</div><div class="big">'+total+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력해 주세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
+}
+function renderHeader(){
+ $('babyName').value=state.babyName||'';
+ $('birthday').value=state.birthday||'';
+ const s=dayDate(180); $('startDate').textContent=s?fmt(s):'생일을 입력해 주세요';
+}
+function renderCalendar(){
+ calendar.innerHTML='';
+ days.forEach(day=>{
+  const b=document.createElement('button'); b.type='button'; b.className='daybtn'+(day===selected?' selected':'');
+  const rd=dayDate(day);
+  b.innerHTML=`<div class="dayhead"><span class="daynum">${day}일 ${state.days[day].allergy?'⚠️':''}</span><span class="realdate">${shortFmt(rd)}</span></div><div class="summary">${summary(day)}</div><div class="daytotal">준비 ${total(day)}g${state.days[day].actualIntake!==""&&state.days[day].actualIntake!=null?` · 섭취 ${state.days[day].actualIntake}g`:""}</div>`;
+  b.addEventListener('click',()=>{selected=day;renderCalendar();renderEditor();});
+  calendar.appendChild(b);
+ });
+}
+function foodRow(f={icon:'🥄',name:'',g:''}){
+ const r=document.createElement('div');r.className='foodrow';
+ r.innerHTML=`<input class="icon" type="text" value="${f.icon||'🥄'}" aria-label="음식 아이콘"><input class="fname" type="text" value="${f.name||''}" placeholder="음식명"><div class="gwrap"><input class="fg" type="number" min="0" step="1" inputmode="decimal" value="${f.g??''}" placeholder="0"><span>g</span></div><button class="removeFood" type="button" aria-label="음식 삭제">×</button>`;
+ r.querySelector('.removeFood').onclick=()=>{r.remove();updateEditorTotal();};
+ return r;
+}
+function renderEditor(){
+ $('editorTitle').textContent=selected+'일';
+ $('editorRealDate').textContent=fmt(dayDate(selected));
+ $('addedFood').value=state.days[selected].added||'';
+ $('actualIntake').value=state.days[selected].actualIntake??'';
+ $('allergy').checked=!!state.days[selected].allergy;
+ editor.innerHTML='';
+ const foods=[...state.days[selected].foods];
+ foods.forEach(f=>editor.appendChild(foodRow(f)));
+ const add=document.createElement('button');
+ add.type='button';add.id='addFoodBtn';add.className='addFoodBtn';add.textContent='＋ 음식 추가';
+ add.onclick=()=>{editor.insertBefore(foodRow(),add);updateEditorTotal();};
+ editor.appendChild(add);
+ updateEditorTotal();
+}
+function updateEditorTotal(){let s=0;editor.querySelectorAll('.fg').forEach(i=>s+=Number(i.value)||0);$('editorTotal').textContent='총 '+s+'g';}
+editor.addEventListener('input',e=>{if(e.target.classList.contains('fg'))updateEditorTotal();});
+
+function readEditor(){
+ const foods=[];
+ editor.querySelectorAll('.foodrow').forEach(r=>{
+  const name=r.querySelector('.fname').value.trim();
+  if(name) foods.push({icon:r.querySelector('.icon').value||'🥄',name,g:Number(r.querySelector('.fg').value)||0});
+ });
+ state.days[selected]={foods,added:$('addedFood').value.trim(),actualIntake:$('actualIntake').value===''?'':Number($('actualIntake').value),allergy:$('allergy').checked};
+}
+
+function seedAll(){
+ days.forEach(day=>{state.days[day]={foods:(SEED.foods[day]||[]).map(f=>({icon:f[0],name:f[1],g:f[2]})),added:SEED.added[day]||'',actualIntake:'',allergy:false};});
+ renderCalendar();renderEditor();saveState();
+ $('status').textContent='🌰 밤송이 식단을 캘린더에 채웠어요. 각 날짜를 눌러 수정할 수 있어요.';
+}
+
+function openDB(){
+ return new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE)};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+}
+async function saveState(){
+ try{const db=await openDB();const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(state,KEY);await new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});}
+ catch(e){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}}
+}
+async function loadState(){
+ try{const db=await openDB();const tx=db.transaction(STORE,'readonly');const req=tx.objectStore(STORE).get(KEY);const v=await new Promise((res,rej)=>{req.onsuccess=()=>res(req.result);req.onerror=()=>rej(req.error)});if(v)state=v;}
+ catch(e){try{const raw=localStorage.getItem(KEY);if(raw)state=JSON.parse(raw);}catch(_){}}
+ days.forEach(d=>{if(!state.days[d])state.days[d]={foods:[],added:'',actualIntake:'',allergy:false};});
+ renderHeader();renderCalendar();renderEditor();
+}
+async function clearStorage(){try{const db=await openDB();const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(KEY);}catch(e){}try{localStorage.removeItem(KEY)}catch(e){}}
+
+$('babyName').addEventListener('input',e=>{state.babyName=e.target.value;saveState();});
+$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();saveState();});
+$('saveDay').addEventListener('click',()=>{readEditor();renderCalendar();saveState();$('status').textContent=`${selected}일 식단을 저장했어요.`;});
+$('seedBtn').addEventListener('click',seedAll);
+$('resetBtn').addEventListener('click',()=>$('modal').classList.add('open'));
+$('cancelReset').addEventListener('click',()=>$('modal').classList.remove('open'));
+$('confirmReset').addEventListener('click',async()=>{state={babyName:$('babyName').value||'',birthday:$('birthday').value||'',days:{}};days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});await clearStorage();$('modal').classList.remove('open');renderHeader();renderCalendar();renderEditor();renderWeek();$('status').textContent='식단표와 저장된 데이터를 초기화했어요.';});
+
+
+$('weekTab').addEventListener('click',()=>{
+ $('weekTab').classList.add('active');$('allTab').classList.remove('active');
+ weekPanel.classList.add('active');monthPanel.classList.add('hidden');renderWeek();
+});
+$('allTab').addEventListener('click',()=>{
+ $('allTab').classList.add('active');$('weekTab').classList.remove('active');
+ weekPanel.classList.remove('active');monthPanel.classList.remove('hidden');renderCalendar();
+});
+$('prevWeek').addEventListener('click',()=>{weekStart=Math.max(180,weekStart-7);selected=weekStart;renderWeek();renderCalendar();renderEditor();});
+$('nextWeek').addEventListener('click',()=>{weekStart=Math.min(204,weekStart+7);selected=weekStart;renderWeek();renderCalendar();renderEditor();});
+$('imageBtn').addEventListener('click',()=>{
+ readEditor();renderCalendar();saveState();
+ const c=document.createElement('canvas');c.width=1400;c.height=1900;const x=c.getContext('2d');
+ x.fillStyle='#fffaf1';x.fillRect(0,0,c.width,c.height);
+ x.fillStyle='#2d2925';x.font='bold 56px sans-serif';x.fillText((state.babyName?state.babyName+'의 ':'')+'6개월 초기이유식 식단표',70,90);
+ x.font='26px sans-serif';x.fillStyle='#6f675f';const s=dayDate(180);x.fillText((s?fmt(s)+' 시작 · ':'')+'180일~210일',70,135);
+ const cols=4,cellW=300,cellH=185,gap=16,startX=70,startY=190;
+ days.forEach((day,idx)=>{
+  const col=idx%cols,row=Math.floor(idx/cols),px=startX+col*(cellW+gap),py=startY+row*(cellH+gap);
+  x.fillStyle='#fff';x.strokeStyle='#dfd4c2';x.lineWidth=2;x.beginPath();
+  if(x.roundRect)x.roundRect(px,py,cellW,cellH,16);else x.rect(px,py,cellW,cellH);
+  x.fill();x.stroke();
+  x.fillStyle='#2d2925';x.font='bold 24px sans-serif';x.fillText(day+'일'+(state.days[day].allergy?' ⚠️':''),px+15,py+32);
+  x.fillStyle='#7b736b';x.font='16px sans-serif';x.fillText(shortFmt(dayDate(day)),px+220,py+32);
+  x.fillStyle='#5e5852';x.font='18px sans-serif';state.days[day].foods.slice(0,4).forEach((f,i)=>x.fillText((f.icon||'')+f.name+' '+(f.g||0)+'g',px+15,py+64+i*25));
+  x.fillStyle='#557052';x.font='bold 18px sans-serif';x.fillText('총 '+total(day)+'g',px+15,py+170);
+ });
+ x.fillStyle='#746d65';x.font='18px sans-serif';x.fillText('※ g은 실제 제공량 예시이며 아기별 섭취량은 다를 수 있어요.',70,1815);
+ x.fillText('※ 브라우저 환경에 따라 저장 데이터가 사라질 수 있어 이미지를 함께 보관해 주세요.',70,1850);
+ const a=document.createElement('a');a.download=(state.babyName?state.babyName+'_':'')+'6개월_초기이유식_식단표.png';a.href=c.toDataURL('image/png');a.click();
+ $('status').textContent='이미지 저장을 준비했어요.';
+});
+
+
+let deferredInstallPrompt=null;
+const installCard=$('installCard'), installBtn=$('installBtn'), installGuide=$('installGuide');
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+const ua=navigator.userAgent||'', isiOS=/iPhone|iPad|iPod/i.test(ua), isAndroid=/Android/i.test(ua);
+
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+if(!isStandalone){
+  installCard.classList.add('show');
+  if(isiOS){
+    installGuide.textContent='Safari의 공유 버튼 → “홈 화면에 추가”를 눌러주세요.';
+    installBtn.textContent='iPhone 설치 방법 보기';
+    installBtn.onclick=()=>alert('iPhone Safari에서 아래 공유 버튼(□↑)을 누른 뒤 “홈 화면에 추가”를 선택해 주세요.');
+  }else if(isAndroid){
+    installGuide.textContent='Chrome에서 앱 설치 또는 홈 화면 추가를 사용할 수 있어요.';
+    installBtn.textContent='홈 화면에 설치';
+    installBtn.onclick=()=> deferredInstallPrompt ? deferredInstallPrompt.prompt() : alert('Chrome 오른쪽 위 ⋮ 메뉴에서 “앱 설치” 또는 “홈 화면에 추가”를 선택해 주세요.');
+  }else{
+    installBtn.onclick=()=> deferredInstallPrompt ? deferredInstallPrompt.prompt() : alert('브라우저 메뉴에서 “앱 설치” 또는 “홈 화면에 추가”를 선택해 주세요.');
+  }
+}
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredInstallPrompt=e;
+  if(!isStandalone){installCard.classList.add('show');installBtn.textContent='홈 화면에 설치';}
+});
+window.addEventListener('appinstalled',()=>{installCard.classList.remove('show');deferredInstallPrompt=null;});
+
+loadState();
+})();
+</script>
+</body>
+</html>
