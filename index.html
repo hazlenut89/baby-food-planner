@@ -335,7 +335,115 @@ body{
   .removeFood{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important}
 }
 </style>
-</head>
+<style>
+/* icon picker mobile containment */
+.iconpicker{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+.iconpicker.open{display:block!important}
+.iconpicker .icon-grid,
+.iconpicker .icongrid,
+.iconpicker > div:last-child{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+.iconpicker button{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  aspect-ratio:1/1!important;
+  height:auto!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  font-size:24px!important;
+}
+@media(max-width:430px){
+  .iconpicker .icon-grid,
+  .iconpicker .icongrid,
+  .iconpicker > div:last-child{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .iconpicker button{font-size:23px!important}
+}
+</style>
+<style>
+/* Mobile polish 2 */
+.iconpicker{
+  left:0!important;
+  right:0!important;
+  width:auto!important;
+  max-width:100%!important;
+  padding:16px!important;
+  box-sizing:border-box!important;
+}
+.iconpicker .icons{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+.iconpicker .icons button{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:auto!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  margin:0!important;
+  font-size:20px!important;
+  line-height:1!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:430px){
+  .iconpicker{padding:14px!important}
+  .iconpicker .icons{gap:6px!important}
+  .iconpicker .icons button{font-size:19px!important}
+}
+
+/* weekly date strip: each day uses one identical column */
+.weekdays{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  align-items:start!important;
+  gap:0!important;
+}
+.weekday{
+  width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  text-align:center!important;
+  padding-left:0!important;
+  padding-right:0!important;
+  box-sizing:border-box!important;
+}
+.weekday .dnum,
+.weekday .date,
+.weekday .dow{
+  width:100%!important;
+  text-align:center!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+</style></head>
 <body>
 <main>
 <section class="hero">
@@ -511,7 +619,7 @@ function renderWeek(focusDay=selected){
  const data=state.days[focus]||{foods:[],added:'',actualIntake:'',allergy:false};
  const prepared=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
  const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+esc(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
- $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력해 주세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
+ $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
 }
 function renderHeader(){
  $('babyName').value=state.babyName||'';
