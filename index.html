@@ -280,6 +280,16 @@ body{
 <style>
 #status{min-height:20px;font-weight:700}
 </style>
+<style>
+.daybtn .summary .foodline{display:block;margin:2px 0;line-height:1.35}
+.icon{cursor:pointer!important;caret-color:transparent}
+.emoji-picker{position:fixed;z-index:9999;display:none;width:min(340px,calc(100vw - 32px));padding:14px;background:#fff;border:1px solid #e7e8ec;border-radius:22px;box-shadow:0 16px 50px rgba(30,35,45,.18)}
+.emoji-picker.open{display:block}
+.emoji-picker-title{font-size:13px;font-weight:800;color:#777d86;margin:0 0 10px 2px}
+.emoji-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.emoji-option{border:0;background:#f6f7f9;border-radius:12px;aspect-ratio:1;font-size:23px;cursor:pointer}
+.emoji-option:hover,.emoji-option:active{background:#fff3d5}
+</style>
 </head>
 <body>
 <main>
@@ -395,7 +405,7 @@ function fmt(dt){if(!dt)return '';return `${dt.getUTCFullYear()}년 ${dt.getUTCM
 function shortFmt(dt){if(!dt)return '';return `${dt.getUTCMonth()+1}/${dt.getUTCDate()}`;}
 function dayDate(day){const b=parseDate(state.birthday);return b?addDays(b,day-1):null;}
 function total(day){return state.days[day].foods.reduce((s,f)=>s+(Number(f.g)||0),0);}
-function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return arr.length?arr.map(f=>(f.icon||'')+f.name+' '+(Number(f.g)||0)+'g').join(' · '):'식단 입력';}
+function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return arr.length?arr.map(f=>'<span class="foodline">'+esc(f.icon||'🥄')+esc(f.name)+' '+(Number(f.g)||0)+'g</span>').join(''):'식단 입력';}
 
 
 function weekSlice(){
@@ -403,29 +413,41 @@ function weekSlice(){
  weekStart=Math.max(180,Math.min(maxStart,weekStart));
  return Array.from({length:7},(_,i)=>weekStart+i).filter(d=>d<=210);
 }
-function renderWeek(){
+function renderWeek(focusDay=selected){
+ // 주간뷰는 호출 시 전달받은 날짜를 단일 기준으로 사용한다.
+ const requested=Number(focusDay)||180;
+ weekStart=Math.max(180,Math.min(204,180+Math.floor((requested-180)/7)*7));
  const ws=weekSlice();
- if(!ws.includes(selected)) selected=ws[0];
+ const focus=ws.includes(requested)?requested:ws[0];
+ selected=focus;
+
  $('weekRange').textContent=ws[0]+'–'+ws[ws.length-1]+'일';
  const first=dayDate(ws[0]), last=dayDate(ws[ws.length-1]);
  $('weekDateRange').textContent=first&&last?(fmt(first)+' – '+fmt(last)):'6개월 초기이유식';
  $('prevWeek').disabled=weekStart<=180;$('nextWeek').disabled=weekStart>=204;
  $('prevWeek').style.opacity=$('prevWeek').disabled?'.3':'1';
  $('nextWeek').style.opacity=$('nextWeek').disabled?'.3':'1';
+
  const host=$('weekDays');host.innerHTML='';
  const names=['일','월','화','수','목','금','토'];
  ws.forEach(d=>{
    const date=dayDate(d), b=document.createElement('button');
-   b.type='button';b.className='weekday'+(d===selected?' active':'');
+   b.type='button';b.className='weekday'+(d===focus?' active':'');
    const dow=date?names[date.getUTCDay()]:'';
    b.innerHTML='<span class="wdn">'+d+'일</span><span class="wdd">'+(date?shortFmt(date):'—')+'</span>'+(date?'<small class="weekdow">'+dow+'</small>':'');
-   b.onclick=()=>{selected=d;renderEditor();renderCalendar();renderWeek();};
+   b.onclick=()=>{
+     selected=d;
+     renderEditor();
+     renderCalendar();
+     renderWeek(d);
+   };
    host.appendChild(b);
  });
- const data=state.days[selected]||{foods:[],added:'',actualIntake:'',allergy:false};
- const total=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
- const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
- $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+selected+'일'+(dayDate(selected)?' · '+fmt(dayDate(selected)):'')+'</div><div class="big">'+total+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력해 주세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
+
+ const data=state.days[focus]||{foods:[],added:'',actualIntake:'',allergy:false};
+ const prepared=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
+ const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+esc(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
+ $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력해 주세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
 }
 function renderHeader(){
  $('babyName').value=state.babyName||'';
@@ -438,13 +460,47 @@ function renderCalendar(){
   const b=document.createElement('button'); b.type='button'; b.className='daybtn'+(day===selected?' selected':'');
   const rd=dayDate(day);
   b.innerHTML=`<div class="dayhead"><span class="daynum">${day}일 ${state.days[day].allergy?'⚠️':''}</span><span class="realdate">${shortFmt(rd)}</span></div><div class="summary">${summary(day)}</div><div class="daytotal">준비 ${total(day)}g${state.days[day].actualIntake!==""&&state.days[day].actualIntake!=null?` · 섭취 ${state.days[day].actualIntake}g`:""}</div>`;
-  b.addEventListener('click',()=>{selected=day;weekStart=Math.max(180,Math.min(204,180+Math.floor((day-180)/7)*7));renderCalendar();renderEditor();renderWeek();});
+  b.addEventListener('click',()=>{selected=day;weekStart=Math.max(180,Math.min(204,180+Math.floor((day-180)/7)*7));renderCalendar();renderEditor();renderWeek(day);});
   calendar.appendChild(b);
  });
 }
+const FOOD_EMOJIS=['🥣','🍚','🥄','🌾','🥩','🐟','🐔','🥚','🥦','🥬','🥒','🥕','🎃','🥔','🍠','🧅','🍅','🌽','🫛','🍎','🍐','🍌','🍑','🫐','🥑','🫘','🍄','🧀'];
+
+let emojiTarget=null;
+function ensureEmojiPicker(){
+ let picker=$('emojiPicker');
+ if(picker) return picker;
+ picker=document.createElement('div');
+ picker.id='emojiPicker'; picker.className='emoji-picker';
+ picker.innerHTML='<div class="emoji-picker-title">음식 아이콘 선택</div><div class="emoji-grid">'+FOOD_EMOJIS.map(e=>'<button type="button" class="emoji-option" data-emoji="'+e+'">'+e+'</button>').join('')+'</div>';
+ document.body.appendChild(picker);
+ picker.addEventListener('click',e=>{
+   const btn=e.target.closest('.emoji-option'); if(!btn||!emojiTarget)return;
+   emojiTarget.value=btn.dataset.emoji;
+   picker.classList.remove('open'); emojiTarget=null;
+ });
+ return picker;
+}
+function openEmojiPicker(input){
+ const picker=ensureEmojiPicker(), rect=input.getBoundingClientRect();
+ emojiTarget=input;
+ picker.classList.add('open');
+ const w=Math.min(340,window.innerWidth-32);
+ picker.style.left=Math.max(16,Math.min(rect.left,window.innerWidth-w-16))+'px';
+ const ph=250;
+ picker.style.top=(rect.bottom+10+ph<window.innerHeight?rect.bottom+10:Math.max(16,rect.top-ph-10))+'px';
+}
+document.addEventListener('pointerdown',e=>{
+ const picker=$('emojiPicker');
+ if(picker&&picker.classList.contains('open')&&!picker.contains(e.target)&&!e.target.classList.contains('icon')){
+   picker.classList.remove('open'); emojiTarget=null;
+ }
+});
+
 function foodRow(f={icon:'🥄',name:'',g:''}){
  const r=document.createElement('div');r.className='foodrow';
- r.innerHTML=`<input class="icon" type="text" value="${f.icon||'🥄'}" aria-label="음식 아이콘"><input class="fname" type="text" value="${f.name||''}" placeholder="음식명"><div class="gwrap"><input class="fg" type="number" min="0" step="1" inputmode="decimal" value="${f.g??''}" placeholder="0"><span>g</span></div><button class="removeFood" type="button" aria-label="음식 삭제">×</button>`;
+ r.innerHTML=`<input class="icon" type="text" readonly value="${f.icon||'🥄'}" aria-label="음식 아이콘 선택" title="눌러서 음식 아이콘 선택"><input class="fname" type="text" value="${f.name||''}" placeholder="음식명"><div class="gwrap"><input class="fg" type="number" min="0" step="1" inputmode="decimal" value="${f.g??''}" placeholder="0"><span>g</span></div><button class="removeFood" type="button" aria-label="음식 삭제">×</button>`;
+ r.querySelector('.icon').onclick=e=>{e.preventDefault();openEmojiPicker(e.currentTarget);};
  r.querySelector('.removeFood').onclick=()=>{r.remove();updateEditorTotal();};
  return r;
 }
@@ -477,10 +533,23 @@ function readEditor(day=selected){
  return day;
 }
 
-function seedAll(){
- days.forEach(day=>{state.days[day]={foods:(SEED.foods[day]||[]).map(f=>({icon:f[0],name:f[1],g:f[2]})),added:SEED.added[day]||'',actualIntake:'',allergy:false};});
- renderCalendar();renderEditor();renderWeek();saveState();
- $('status').textContent='🌰 밤송이 식단을 캘린더에 채웠어요. 각 날짜를 눌러 수정할 수 있어요.';
+async function seedAll(){
+ days.forEach(day=>{
+   state.days[day]={
+     foods:(SEED.foods[day]||[]).map(f=>({icon:f[0],name:f[1],g:Number(f[2])||0})),
+     added:SEED.added[day]||'',
+     actualIntake:'',
+     allergy:false
+   };
+ });
+ // 샘플 식단을 불러오면 180일부터 시작하고, 저장된 동일 state를 모든 뷰가 사용한다.
+ selected=180;
+ weekStart=180;
+ await saveState();
+ renderEditor();
+ renderCalendar();
+ renderWeek(180);
+ $('status').textContent='🌰 밤송이 식단을 주간 식단과 전체 캘린더에 채웠어요. 각 날짜를 눌러 수정할 수 있어요.';
 }
 
 function openDB(){
@@ -494,37 +563,38 @@ async function loadState(){
  try{const db=await openDB();const tx=db.transaction(STORE,'readonly');const req=tx.objectStore(STORE).get(KEY);const v=await new Promise((res,rej)=>{req.onsuccess=()=>res(req.result);req.onerror=()=>rej(req.error)});if(v)state=v;}
  catch(e){try{const raw=localStorage.getItem(KEY);if(raw)state=JSON.parse(raw);}catch(_){}}
  days.forEach(d=>{if(!state.days[d])state.days[d]={foods:[],added:'',actualIntake:'',allergy:false};});
- renderHeader();renderCalendar();renderEditor();renderWeek();
+ renderHeader();renderCalendar();renderEditor();renderWeek(selected);
 }
 async function clearStorage(){try{const db=await openDB();const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(KEY);}catch(e){}try{localStorage.removeItem(KEY)}catch(e){}}
 
 $('babyName').addEventListener('input',e=>{state.babyName=e.target.value;saveState();});
-$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();renderWeek();saveState();});
+$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();renderWeek(selected);saveState();});
 $('saveDay').addEventListener('click',async()=>{
  const editDay=Number($('editorTitle').dataset.day)||selected;
- selected=editDay;
  readEditor(editDay);
- renderCalendar();
- renderWeek();
+ selected=editDay;
  await saveState();
+ renderCalendar();
+ renderWeek(editDay);
+ renderEditor();
  $('status').textContent=`${editDay}일 식단을 저장했어요.`;
 });
 $('seedBtn').addEventListener('click',seedAll);
 $('resetBtn').addEventListener('click',()=>$('modal').classList.add('open'));
 $('cancelReset').addEventListener('click',()=>$('modal').classList.remove('open'));
-$('confirmReset').addEventListener('click',async()=>{state={babyName:$('babyName').value||'',birthday:$('birthday').value||'',days:{}};days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});await clearStorage();$('modal').classList.remove('open');renderHeader();renderCalendar();renderEditor();renderWeek();$('status').textContent='식단표와 저장된 데이터를 초기화했어요.';});
+$('confirmReset').addEventListener('click',async()=>{state={babyName:$('babyName').value||'',birthday:$('birthday').value||'',days:{}};days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});await clearStorage();$('modal').classList.remove('open');renderHeader();renderCalendar();renderEditor();renderWeek(selected);$('status').textContent='식단표와 저장된 데이터를 초기화했어요.';});
 
 
 $('weekTab').addEventListener('click',()=>{
  $('weekTab').classList.add('active');$('allTab').classList.remove('active');
- weekPanel.classList.add('active');monthPanel.classList.add('hidden');renderWeek();
+ weekPanel.classList.add('active');monthPanel.classList.add('hidden');renderWeek(selected);
 });
 $('allTab').addEventListener('click',()=>{
  $('allTab').classList.add('active');$('weekTab').classList.remove('active');
  weekPanel.classList.remove('active');monthPanel.classList.remove('hidden');renderCalendar();
 });
-$('prevWeek').addEventListener('click',()=>{weekStart=Math.max(180,weekStart-7);selected=weekStart;renderWeek();renderCalendar();renderEditor();});
-$('nextWeek').addEventListener('click',()=>{weekStart=Math.min(204,weekStart+7);selected=weekStart;renderWeek();renderCalendar();renderEditor();});
+$('prevWeek').addEventListener('click',()=>{weekStart=Math.max(180,weekStart-7);selected=weekStart;renderWeek(selected);renderCalendar();renderEditor();});
+$('nextWeek').addEventListener('click',()=>{weekStart=Math.min(204,weekStart+7);selected=weekStart;renderWeek(selected);renderCalendar();renderEditor();});
 $('imageBtn').addEventListener('click',()=>{
  readEditor();renderCalendar();saveState();
  const c=document.createElement('canvas');c.width=1400;c.height=1900;const x=c.getContext('2d');
