@@ -499,6 +499,184 @@ body{
 
 /* Explicit sentence breaks should stay visible */
 .setup .hint br,.storage br{display:block!important;content:""!important;margin-top:7px!important}
+</style><style>
+/* FINAL: actual emoji picker classes */
+.emoji-picker{
+  width:min(300px,calc(100vw - 40px))!important;
+  max-width:calc(100vw - 40px)!important;
+  padding:12px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+.emoji-grid{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:6px!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+.emoji-option{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  font-size:19px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+}
+@media(max-width:390px){
+  .emoji-picker{width:calc(100vw - 48px)!important;max-width:calc(100vw - 48px)!important}
+  .emoji-option{font-size:18px!important}
+}
+
+/* FINAL: actual weekly selector child classes */
+.weekdays{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:4px!important;
+}
+.weekday{
+  min-width:0!important;
+  width:100%!important;
+  min-height:112px!important;
+  padding:9px 1px!important;
+  margin:0!important;
+  border-radius:18px!important;
+  display:grid!important;
+  grid-template-rows:24px 46px 22px!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+}
+.weekday .wdn,.weekday .wdd,.weekday .weekdow{
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  line-height:1!important;
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  color:#8f9299!important;
+}
+.weekday .wdn{font-size:11px!important;font-weight:700!important}
+.weekday .wdd{font-size:15px!important;font-weight:850!important;color:#282b30!important}
+.weekday .weekdow{font-size:11px!important;font-weight:650!important}
+.weekday.active{
+  background:#ea5484!important;
+  box-shadow:0 9px 20px rgba(234,84,132,.20)!important;
+}
+.weekday.active .wdn,
+.weekday.active .wdd,
+.weekday.active .weekdow{
+  color:#fff!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+@media(max-width:430px){
+  .weekdays{gap:3px!important}
+  .weekday{min-height:106px!important;border-radius:16px!important;grid-template-rows:22px 43px 20px!important}
+  .weekday .wdn{font-size:10px!important}
+  .weekday .wdd{font-size:14px!important}
+  .weekday .weekdow{font-size:10px!important}
+}
+</style><style>
+/* HARD FIX — icon picker */
+.emoji-picker{
+  width:240px!important;
+  max-width:calc(100vw - 32px)!important;
+  padding:12px!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+.emoji-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+.emoji-option{
+  width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  margin:0!important;
+  font-size:18px!important;
+  line-height:1!important;
+  border-radius:11px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+
+/* HARD FIX — weekly selector: one compact card per day */
+.weekdays{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:6px!important;
+  width:100%!important;
+}
+.weekday{
+  width:100%!important;
+  min-width:0!important;
+  min-height:88px!important;
+  height:88px!important;
+  padding:7px 1px!important;
+  margin:0!important;
+  border-radius:15px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+  overflow:hidden!important;
+}
+.weekday .wdn,.weekday .wdd,.weekday .weekdow{
+  flex:none!important;
+  width:100%!important;
+  height:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  display:block!important;
+  text-align:center!important;
+  line-height:1.15!important;
+  background:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.weekday .wdn{font-size:11px!important;color:#8f9299!important}
+.weekday .wdd{font-size:14px!important;font-weight:850!important;color:#282b30!important}
+.weekday .weekdow{font-size:10px!important;color:#9a9da5!important}
+.weekday.active{
+  background:#ea5484!important;
+  box-shadow:0 7px 16px rgba(234,84,132,.18)!important;
+}
+.weekday.active .wdn,.weekday.active .wdd,.weekday.active .weekdow{color:#fff!important}
+
+@media(max-width:430px){
+  .weekdays{gap:4px!important}
+  .weekday{height:82px!important;min-height:82px!important;border-radius:14px!important;padding:7px 0!important}
+  .weekday .wdn{font-size:10px!important}
+  .weekday .wdd{font-size:13px!important}
+  .weekday .weekdow{font-size:10px!important}
+  .emoji-picker{width:224px!important}
+  .emoji-option{font-size:17px!important}
+}
 </style></head>
 <body>
 <main>
@@ -714,10 +892,12 @@ function openEmojiPicker(input){
  const picker=ensureEmojiPicker(), rect=input.getBoundingClientRect();
  emojiTarget=input;
  picker.classList.add('open');
- const w=Math.min(340,window.innerWidth-32);
+ const box=picker.getBoundingClientRect();
+ const w=box.width, h=box.height;
  picker.style.left=Math.max(16,Math.min(rect.left,window.innerWidth-w-16))+'px';
- const ph=250;
- picker.style.top=(rect.bottom+10+ph<window.innerHeight?rect.bottom+10:Math.max(16,rect.top-ph-10))+'px';
+ const below=rect.bottom+10;
+ const above=rect.top-h-10;
+ picker.style.top=(below+h<=window.innerHeight-16?below:Math.max(16,above))+'px';
 }
 document.addEventListener('pointerdown',e=>{
  const picker=$('emojiPicker');
