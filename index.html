@@ -694,6 +694,12 @@ body{
 .editor-modal-sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(620px,calc(100vw - 28px));max-height:min(84vh,760px);overflow:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:28px;box-shadow:0 24px 70px rgba(0,0,0,.22);padding-top:16px;box-sizing:border-box}
 .editor-modal-sheet>section{margin:0!important;box-shadow:none!important;border:0!important}.editor-modal-close{position:sticky;top:8px;z-index:5;float:right;margin:0 16px -44px 0;width:40px;height:40px;border:0;border-radius:50%;background:#f5f5f7;color:#666;font-size:26px;display:flex;align-items:center;justify-content:center}body.editor-open{overflow:hidden}
 @media(max-width:600px){.editor-modal-sheet{left:0;right:0;bottom:0;top:auto;transform:none;width:100%;max-height:88dvh;border-radius:28px 28px 0 0;padding-bottom:max(12px,env(safe-area-inset-bottom))}}
+</style><style>
+.weeksummary{position:relative!important}
+.update-diet-btn{border:0;background:#f9e9ef;color:#c94771;font-weight:850;font-size:13px;padding:10px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.weeksummary>.update-diet-btn{position:absolute;right:0;top:0;z-index:2}
+.calendar-action-row{display:flex;justify-content:flex-end;margin:0 0 10px}
+@media(max-width:430px){.update-diet-btn{font-size:12px;padding:9px 11px}}
 </style></head>
 <body>
 <main>
@@ -744,10 +750,11 @@ body{
   </div>
   <div id="weekDays" class="weekdays"></div>
   <div id="weekDetail"></div>
-  <p class="sectionhint" style="margin:12px 2px 0">날짜를 누르면 아래에서 음식과 중량을 바로 수정할 수 있어요.</p>
+  <p class="sectionhint" style="margin:12px 2px 0">날짜를 눌러 식단을 확인하고, 식단 업데이트 버튼으로 수정할 수 있어요.</p>
 </section>
 
 <section id="monthPanel" class="monthpanel hidden">
+<div class="calendar-action-row"><button type="button" id="calendarUpdateBtn" class="update-diet-btn">식단 업데이트</button></div>
 <p id="monthHint" class="sectionhint">180–210일 전체 식단을 한눈에 볼 수 있어요.</p>
 <section id="calendar" class="calendar">
 <div id="calendarFallback" style="grid-column:1/-1;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px;text-align:center">
@@ -865,9 +872,9 @@ function renderWeek(focusDay=selected){
    b.innerHTML='<span class="wdn">'+d+'일</span><span class="wdd">'+(date?shortFmt(date):'—')+'</span>'+(date?'<small class="weekdow">'+dow+'</small>':'');
    b.onclick=()=>{
      selected=d;
-     renderEditor();
      renderCalendar();
      renderWeek(d);
+     renderEditor();
    };
    host.appendChild(b);
  });
@@ -875,11 +882,17 @@ function renderWeek(focusDay=selected){
  const data=state.days[focus]||{foods:[],added:'',actualIntake:'',allergy:false};
  const prepared=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
  const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+esc(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
- $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div>'+(data.actualIntake!==''&&data.actualIntake!=null?'<div class="week-intake">실제 섭취량 <strong>'+Number(data.actualIntake)+'g</strong></div>':'')+'<div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
+ $('weekDetail').innerHTML='<div class="weeksummary"><button type="button" class="update-diet-btn" data-edit-day="'+focus+'">식단 업데이트</button><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div>'+(data.actualIntake!==''&&data.actualIntake!=null?'<div class="week-intake">실제 섭취량 <strong>'+Number(data.actualIntake)+'g</strong></div>':'')+'<div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
 }
 function openEditorModal(day){selected=Number(day)||selected;renderEditor();const m=$('editorModal');m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.classList.add('editor-open');setTimeout(()=>{m.querySelector('.editor-modal-sheet').scrollTop=0},0)}
 function closeEditorModal(){const m=$('editorModal');m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.classList.remove('editor-open');closeEmojiPicker()}
 $('closeEditorModal').addEventListener('click',closeEditorModal);$('editorModal').addEventListener('click',e=>{if(e.target.dataset.closeEditor==='1')closeEditorModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('editorModal').classList.contains('open'))closeEditorModal()});
+
+document.addEventListener('click',e=>{
+ const wb=e.target.closest('.update-diet-btn[data-edit-day]');
+ if(wb){e.preventDefault();e.stopPropagation();openEditorModal(Number(wb.dataset.editDay)||selected);return;}
+ if(e.target.closest('#calendarUpdateBtn')){e.preventDefault();e.stopPropagation();openEditorModal(selected);}
+});
 function renderHeader(){
  $('babyName').value=state.babyName||'';
  $('birthday').value=state.birthday?fmt(parseDate(state.birthday)):'';
@@ -896,7 +909,7 @@ function renderCalendar(){
   const b=document.createElement('button'); b.type='button'; b.className='daybtn'+(day===selected?' selected':'');
   const rd=dayDate(day), data=state.days[day];
   b.innerHTML=`<div class="dayhead"><span class="daynum">${day}일 ${data.allergy?'⚠️':''}</span><span class="realdate">${shortFmt(rd)}</span></div><div class="summary">${summary(day)}</div><div class="daytotal">준비 ${total(day)}g${data.actualIntake!==""&&data.actualIntake!=null?` · 섭취 ${data.actualIntake}g`:""}</div>`;
-  b.addEventListener('click',()=>{selected=day;weekStart=Math.max(rangeStart(),Math.min(rangeStart()+24,rangeStart()+Math.floor((day-rangeStart())/7)*7));renderCalendar();renderEditor();renderWeek(day);});
+  b.addEventListener('click',()=>{selected=day;weekStart=Math.max(rangeStart(),Math.min(rangeStart()+24,rangeStart()+Math.floor((day-rangeStart())/7)*7));renderCalendar();renderWeek(day);openEditorModal(day);});
   calendar.appendChild(b);
  });
 }
