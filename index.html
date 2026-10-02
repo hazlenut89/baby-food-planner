@@ -269,6 +269,17 @@ body{
 @media(max-width:430px){.foodrow{grid-template-columns:42px minmax(0,1fr) 78px 30px!important}.removeFood{width:29px;height:29px}}
 </style>
 
+<style>
+.daybtn .summary{white-space:normal!important;line-height:1.45!important;overflow-wrap:anywhere}
+</style>
+<style>
+.weekday .wdd{width:auto!important;min-width:54px!important;padding:0 8px!important;font-size:13px!important}
+.weekday .weekdow{display:block;margin-top:4px;font-size:10px;color:#9a9da5;font-weight:650}
+.weekday.active .weekdow{color:#d94f7d}
+</style>
+<style>
+#status{min-height:20px;font-weight:700}
+</style>
 </head>
 <body>
 <main>
@@ -305,8 +316,6 @@ body{
 입력한 식단은 현재 브라우저에 저장돼요. 브라우저 데이터를 삭제하거나 <strong>Safari 비공개 브라우징</strong>처럼 저장이 제한되는 환경에서는 입력 내용이 사라질 수 있어요. 중요한 식단은 미리 작성한 뒤 <strong>이미지로 저장</strong>해 보관해 주세요.
 </section>
 <div id="status" class="status" aria-live="polite">날짜를 누르면 그날 식단을 입력할 수 있어요.</div>
-
-<div class="week"><div class="dow">월</div><div class="dow">화</div><div class="dow">수</div><div class="dow">목</div><div class="dow">금</div><div class="dow">토</div><div class="dow">일</div></div>
 
 <div class="viewtabs" role="tablist" aria-label="식단 보기">
   <button id="weekTab" class="viewtab active" type="button">주간 식단</button>
@@ -386,7 +395,7 @@ function fmt(dt){if(!dt)return '';return `${dt.getUTCFullYear()}년 ${dt.getUTCM
 function shortFmt(dt){if(!dt)return '';return `${dt.getUTCMonth()+1}/${dt.getUTCDate()}`;}
 function dayDate(day){const b=parseDate(state.birthday);return b?addDays(b,day-1):null;}
 function total(day){return state.days[day].foods.reduce((s,f)=>s+(Number(f.g)||0),0);}
-function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return arr.length?arr.slice(0,3).map(f=>(f.icon||'')+f.name).join(' · '):'식단 입력';}
+function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return arr.length?arr.map(f=>(f.icon||'')+f.name+' '+(Number(f.g)||0)+'g').join(' · '):'식단 입력';}
 
 
 function weekSlice(){
@@ -396,6 +405,7 @@ function weekSlice(){
 }
 function renderWeek(){
  const ws=weekSlice();
+ if(!ws.includes(selected)) selected=ws[0];
  $('weekRange').textContent=ws[0]+'–'+ws[ws.length-1]+'일';
  const first=dayDate(ws[0]), last=dayDate(ws[ws.length-1]);
  $('weekDateRange').textContent=first&&last?(fmt(first)+' – '+fmt(last)):'6개월 초기이유식';
@@ -407,12 +417,11 @@ function renderWeek(){
  ws.forEach(d=>{
    const date=dayDate(d), b=document.createElement('button');
    b.type='button';b.className='weekday'+(d===selected?' active':'');
-   const dow=date?names[date.getDay()]:'';
-   b.innerHTML='<span class="wdn">'+(dow||d+'일')+'</span><span class="wdd">'+(date?date.getDate():d)+'</span>';
-   b.onclick=()=>{selected=d;renderWeek();renderCalendar();renderEditor();};
+   const dow=date?names[date.getUTCDay()]:'';
+   b.innerHTML='<span class="wdn">'+d+'일</span><span class="wdd">'+(date?shortFmt(date):'—')+'</span>'+(date?'<small class="weekdow">'+dow+'</small>':'');
+   b.onclick=()=>{selected=d;renderEditor();renderCalendar();renderWeek();};
    host.appendChild(b);
  });
- if(!ws.includes(selected)) selected=ws[0];
  const data=state.days[selected]||{foods:[],added:'',actualIntake:'',allergy:false};
  const total=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
  const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
@@ -429,7 +438,7 @@ function renderCalendar(){
   const b=document.createElement('button'); b.type='button'; b.className='daybtn'+(day===selected?' selected':'');
   const rd=dayDate(day);
   b.innerHTML=`<div class="dayhead"><span class="daynum">${day}일 ${state.days[day].allergy?'⚠️':''}</span><span class="realdate">${shortFmt(rd)}</span></div><div class="summary">${summary(day)}</div><div class="daytotal">준비 ${total(day)}g${state.days[day].actualIntake!==""&&state.days[day].actualIntake!=null?` · 섭취 ${state.days[day].actualIntake}g`:""}</div>`;
-  b.addEventListener('click',()=>{selected=day;renderCalendar();renderEditor();});
+  b.addEventListener('click',()=>{selected=day;weekStart=Math.max(180,Math.min(204,180+Math.floor((day-180)/7)*7));renderCalendar();renderEditor();renderWeek();});
   calendar.appendChild(b);
  });
 }
@@ -440,6 +449,7 @@ function foodRow(f={icon:'🥄',name:'',g:''}){
  return r;
 }
 function renderEditor(){
+ $('editorTitle').dataset.day=String(selected);
  $('editorTitle').textContent=selected+'일';
  $('editorRealDate').textContent=fmt(dayDate(selected));
  $('addedFood').value=state.days[selected].added||'';
@@ -457,18 +467,19 @@ function renderEditor(){
 function updateEditorTotal(){let s=0;editor.querySelectorAll('.fg').forEach(i=>s+=Number(i.value)||0);$('editorTotal').textContent='총 '+s+'g';}
 editor.addEventListener('input',e=>{if(e.target.classList.contains('fg'))updateEditorTotal();});
 
-function readEditor(){
+function readEditor(day=selected){
  const foods=[];
  editor.querySelectorAll('.foodrow').forEach(r=>{
   const name=r.querySelector('.fname').value.trim();
   if(name) foods.push({icon:r.querySelector('.icon').value||'🥄',name,g:Number(r.querySelector('.fg').value)||0});
  });
- state.days[selected]={foods,added:$('addedFood').value.trim(),actualIntake:$('actualIntake').value===''?'':Number($('actualIntake').value),allergy:$('allergy').checked};
+ state.days[day]={foods,added:$('addedFood').value.trim(),actualIntake:$('actualIntake').value===''?'':Number($('actualIntake').value),allergy:$('allergy').checked};
+ return day;
 }
 
 function seedAll(){
  days.forEach(day=>{state.days[day]={foods:(SEED.foods[day]||[]).map(f=>({icon:f[0],name:f[1],g:f[2]})),added:SEED.added[day]||'',actualIntake:'',allergy:false};});
- renderCalendar();renderEditor();saveState();
+ renderCalendar();renderEditor();renderWeek();saveState();
  $('status').textContent='🌰 밤송이 식단을 캘린더에 채웠어요. 각 날짜를 눌러 수정할 수 있어요.';
 }
 
@@ -483,13 +494,21 @@ async function loadState(){
  try{const db=await openDB();const tx=db.transaction(STORE,'readonly');const req=tx.objectStore(STORE).get(KEY);const v=await new Promise((res,rej)=>{req.onsuccess=()=>res(req.result);req.onerror=()=>rej(req.error)});if(v)state=v;}
  catch(e){try{const raw=localStorage.getItem(KEY);if(raw)state=JSON.parse(raw);}catch(_){}}
  days.forEach(d=>{if(!state.days[d])state.days[d]={foods:[],added:'',actualIntake:'',allergy:false};});
- renderHeader();renderCalendar();renderEditor();
+ renderHeader();renderCalendar();renderEditor();renderWeek();
 }
 async function clearStorage(){try{const db=await openDB();const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(KEY);}catch(e){}try{localStorage.removeItem(KEY)}catch(e){}}
 
 $('babyName').addEventListener('input',e=>{state.babyName=e.target.value;saveState();});
-$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();saveState();});
-$('saveDay').addEventListener('click',()=>{readEditor();renderCalendar();saveState();$('status').textContent=`${selected}일 식단을 저장했어요.`;});
+$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();renderWeek();saveState();});
+$('saveDay').addEventListener('click',async()=>{
+ const editDay=Number($('editorTitle').dataset.day)||selected;
+ selected=editDay;
+ readEditor(editDay);
+ renderCalendar();
+ renderWeek();
+ await saveState();
+ $('status').textContent=`${editDay}일 식단을 저장했어요.`;
+});
 $('seedBtn').addEventListener('click',seedAll);
 $('resetBtn').addEventListener('click',()=>$('modal').classList.add('open'));
 $('cancelReset').addEventListener('click',()=>$('modal').classList.remove('open'));
@@ -511,8 +530,9 @@ $('imageBtn').addEventListener('click',()=>{
  const c=document.createElement('canvas');c.width=1400;c.height=1900;const x=c.getContext('2d');
  x.fillStyle='#fffaf1';x.fillRect(0,0,c.width,c.height);
  x.fillStyle='#2d2925';x.font='bold 56px sans-serif';x.fillText((state.babyName?state.babyName+'의 ':'')+'6개월 초기이유식 식단표',70,90);
- x.font='26px sans-serif';x.fillStyle='#6f675f';const s=dayDate(180);x.fillText((s?fmt(s)+' 시작 · ':'')+'180일~210일',70,135);
- const cols=4,cellW=300,cellH=185,gap=16,startX=70,startY=190;
+ x.font='bold 24px sans-serif';x.fillStyle='#d65f84';x.fillText('by 밤송이맘 🌰',70,128);
+ x.font='26px sans-serif';x.fillStyle='#6f675f';const s=dayDate(180);x.fillText((s?fmt(s)+' 시작 · ':'')+'180일~210일',70,168);
+ const cols=4,cellW=300,cellH=185,gap=16,startX=70,startY=215;
  days.forEach((day,idx)=>{
   const col=idx%cols,row=Math.floor(idx/cols),px=startX+col*(cellW+gap),py=startY+row*(cellH+gap);
   x.fillStyle='#fff';x.strokeStyle='#dfd4c2';x.lineWidth=2;x.beginPath();
@@ -525,6 +545,7 @@ $('imageBtn').addEventListener('click',()=>{
  });
  x.fillStyle='#746d65';x.font='18px sans-serif';x.fillText('※ g은 실제 제공량 예시이며 아기별 섭취량은 다를 수 있어요.',70,1815);
  x.fillText('※ 브라우저 환경에 따라 저장 데이터가 사라질 수 있어 이미지를 함께 보관해 주세요.',70,1850);
+ x.font='bold 22px sans-serif';x.fillStyle='#9b9590';x.textAlign='right';x.fillText('by 밤송이맘 🌰 · 이유식 식단표',1330,1860);x.textAlign='left';
  const a=document.createElement('a');a.download=(state.babyName?state.babyName+'_':'')+'6개월_초기이유식_식단표.png';a.href=c.toDataURL('image/png');a.click();
  $('status').textContent='이미지 저장을 준비했어요.';
 });
