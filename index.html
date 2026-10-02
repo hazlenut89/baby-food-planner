@@ -677,6 +677,13 @@ body{
   .emoji-picker{width:224px!important}
   .emoji-option{font-size:17px!important}
 }
+</style><style>
+.week-intake{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;padding:7px 11px;border-radius:999px;
+  background:#eef6dc;color:#58704e;font-size:13px;
+}
+.week-intake strong{color:#263021}
 </style></head>
 <body>
 <main>
@@ -853,7 +860,7 @@ function renderWeek(focusDay=selected){
  const data=state.days[focus]||{foods:[],added:'',actualIntake:'',allergy:false};
  const prepared=(data.foods||[]).reduce((a,f)=>a+(Number(f.g)||0),0);
  const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+esc(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
- $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div><div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
+ $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div>'+(data.actualIntake!==''&&data.actualIntake!=null?'<div class="week-intake">실제 섭취량 <strong>'+Number(data.actualIntake)+'g</strong></div>':'')+'<div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
 }
 function renderHeader(){
  $('babyName').value=state.babyName||'';
@@ -1050,11 +1057,17 @@ $('imageBtn').addEventListener('click',()=>{
   x.fillStyle='#2d2925';x.font='bold 24px sans-serif';x.fillText(day+'일'+(state.days[day].allergy?' ⚠️':''),px+15,py+32);
   x.fillStyle='#7b736b';x.font='16px sans-serif';x.fillText(shortFmt(dayDate(day)),px+220,py+32);
   x.fillStyle='#5e5852';x.font='18px sans-serif';state.days[day].foods.slice(0,4).forEach((f,i)=>x.fillText((f.icon||'')+f.name+' '+(f.g||0)+'g',px+15,py+64+i*25));
-  x.fillStyle='#557052';x.font='bold 18px sans-serif';x.fillText('총 '+total(day)+'g',px+15,py+170);
+  x.fillStyle='#557052';x.font='bold 17px sans-serif';
+  const intake=state.days[day].actualIntake;
+  x.fillText('준비 '+total(day)+'g'+(intake!==''&&intake!=null?' · 섭취 '+Number(intake)+'g':''),px+15,py+170);
  });
- x.fillStyle='#746d65';x.font='18px sans-serif';x.fillText('※ g은 실제 제공량 예시이며 아기별 섭취량은 다를 수 있어요.',70,1815);
- x.fillText('※ 브라우저 환경에 따라 저장 데이터가 사라질 수 있어 이미지를 함께 보관해 주세요.',70,1850);
- x.font='bold 22px sans-serif';x.fillStyle='#9b9590';x.textAlign='right';x.fillText('by 밤송이맘 🌰 · 이유식 식단표',1330,1860);x.textAlign='left';
+ const lastRow=Math.floor((days.length-1)/cols);
+ const cardsBottom=startY+lastRow*(cellH+gap)+cellH;
+ const noteY=cardsBottom+38;
+ x.fillStyle='#746d65';x.font='17px sans-serif';
+ x.fillText('※ g은 실제 제공량 예시이며 아기별 섭취량은 다를 수 있어요.',70,noteY);
+ x.fillText('※ 브라우저 환경에 따라 저장 데이터가 사라질 수 있어 이미지를 함께 보관해 주세요.',70,noteY+28);
+ x.font='bold 20px sans-serif';x.fillStyle='#9b9590';x.textAlign='right';x.fillText('by 밤송이맘 🌰 · 이유식 식단표',1330,noteY+28);x.textAlign='left';
  const filename=(state.babyName?state.babyName+'_':'')+'6개월_초기이유식_식단표.png';
  c.toBlob(async blob=>{
    if(!blob){$('status').textContent='이미지를 만들지 못했어요. 다시 시도해 주세요.';return;}
