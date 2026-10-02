@@ -689,6 +689,11 @@ body{
 .startday-control{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:8px;align-items:center}
 .startday-control button{height:48px;border:1px solid var(--line);background:#fff;border-radius:14px;font-size:22px;font-weight:800;color:#555}
 .startday-control input{text-align:center;font-weight:850}
+</style><style>
+.editor-modal{position:fixed;inset:0;z-index:10000;display:none}.editor-modal.open{display:block}.editor-modal-backdrop{position:absolute;inset:0;background:rgba(25,27,31,.42);backdrop-filter:blur(2px)}
+.editor-modal-sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(620px,calc(100vw - 28px));max-height:min(84vh,760px);overflow:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:28px;box-shadow:0 24px 70px rgba(0,0,0,.22);padding-top:16px;box-sizing:border-box}
+.editor-modal-sheet>section{margin:0!important;box-shadow:none!important;border:0!important}.editor-modal-close{position:sticky;top:8px;z-index:5;float:right;margin:0 16px -44px 0;width:40px;height:40px;border:0;border-radius:50%;background:#f5f5f7;color:#666;font-size:26px;display:flex;align-items:center;justify-content:center}body.editor-open{overflow:hidden}
+@media(max-width:600px){.editor-modal-sheet{left:0;right:0;bottom:0;top:auto;transform:none;width:100%;max-height:88dvh;border-radius:28px 28px 0 0;padding-bottom:max(12px,env(safe-area-inset-bottom))}}
 </style></head>
 <body>
 <main>
@@ -758,7 +763,7 @@ body{
 </div>
 </noscript>
 
-<section class="editor">
+<div id="editorModal" class="editor-modal" aria-hidden="true"><div class="editor-modal-backdrop" data-close-editor="1"></div><div class="editor-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><button id="closeEditorModal" class="editor-modal-close" type="button" aria-label="닫기">×</button><section class="editor">
 <div class="edithead">
 <div><div class="note">선택한 날짜</div><strong id="editorTitle" style="font-size:22px">180일</strong><div id="editorRealDate" class="note"></div></div>
 <div id="editorTotal" class="badge">총 0g</div>
@@ -771,7 +776,7 @@ body{
 <input id="actualIntake" class="editor-input" type="number" min="0" step="1" inputmode="numeric" placeholder="예: 27" style="margin-top:6px">
 <label class="allergy"><input id="allergy" type="checkbox"> 알러지 반응 있음</label>
 <button id="saveDay" class="primary savebtn" type="button">이 날짜 식단 저장</button>
-</section>
+</section></div></div>
 </main>
 
 <div id="birthdayModal" class="modalback" role="dialog" aria-modal="true" aria-label="아기 생일 선택">
@@ -872,6 +877,9 @@ function renderWeek(focusDay=selected){
  const cards=(data.foods||[]).filter(f=>f.name||f.g).map(f=>'<div class="weekfood"><span class="ico">'+esc(f.icon||'🥣')+'</span><strong>'+esc(f.name||'재료')+'</strong><small>'+Number(f.g||0)+'g</small></div>').join('');
  $('weekDetail').innerHTML='<div class="weeksummary"><div class="muted">선택한 날 · '+focus+'일'+(dayDate(focus)?' · '+fmt(dayDate(focus)):'')+'</div><div class="big">'+prepared+'g</div><div class="muted">오늘 식단 총량</div>'+(data.actualIntake!==''&&data.actualIntake!=null?'<div class="week-intake">실제 섭취량 <strong>'+Number(data.actualIntake)+'g</strong></div>':'')+'<div class="weekfoodcards">'+(cards||'<div class="weekfood"><span class="ico">🥣</span><strong>식단을 입력하세요</strong><small>아래 편집기에서 추가</small></div>')+'</div>'+(data.added?'<div class="muted" style="margin-top:10px">새 재료 · '+esc(data.added)+'</div>':'')+(data.allergy?'<div class="weekallergy">⚠️ 알러지 반응 체크됨</div>':'')+'</div>';
 }
+function openEditorModal(day){selected=Number(day)||selected;renderEditor();const m=$('editorModal');m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.classList.add('editor-open');setTimeout(()=>{m.querySelector('.editor-modal-sheet').scrollTop=0},0)}
+function closeEditorModal(){const m=$('editorModal');m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.classList.remove('editor-open');closeEmojiPicker()}
+$('closeEditorModal').addEventListener('click',closeEditorModal);$('editorModal').addEventListener('click',e=>{if(e.target.dataset.closeEditor==='1')closeEditorModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('editorModal').classList.contains('open'))closeEditorModal()});
 function renderHeader(){
  $('babyName').value=state.babyName||'';
  $('birthday').value=state.birthday?fmt(parseDate(state.birthday)):'';
@@ -1054,6 +1062,7 @@ $('saveDay').addEventListener('click',async()=>{
  renderWeek(editDay);
  renderEditor();
  $('status').textContent=`${editDay}일 식단을 저장했어요.`;
+ closeEditorModal();
 });
 $('seedBtn').addEventListener('click',seedAll);
 $('resetBtn').addEventListener('click',()=>$('modal').classList.add('open'));
