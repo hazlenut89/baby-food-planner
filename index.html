@@ -290,6 +290,51 @@ body{
 .emoji-option{border:0;background:#f6f7f9;border-radius:12px;aspect-ratio:1;font-size:23px;cursor:pointer}
 .emoji-option:hover,.emoji-option:active{background:#fff3d5}
 </style>
+<style>
+/* Mobile QA fixes */
+.setup,.setupgrid,label{min-width:0}
+.meta-input{max-width:100%;display:block}
+#birthday{appearance:none;-webkit-appearance:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+
+.foodrow{grid-template-columns:48px minmax(0,1fr) 92px 38px!important}
+.removeFood{
+  width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+  padding:0!important;border-radius:50%!important;display:flex!important;align-items:center!important;
+  justify-content:center!important;justify-self:center!important;line-height:1!important;font-size:21px!important;
+}
+.gwrap{min-width:0}
+.gwrap input{min-width:0}
+
+/* 전체 캘린더는 좁은 7열 대신 읽기 쉬운 카드형 */
+.calendar{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+.daybtn{min-height:150px!important;padding:12px!important;border-radius:18px!important;gap:7px!important}
+.daynum{font-size:15px!important;color:#1687dc}
+.realdate{font-size:12px!important}
+.summary{font-size:13px!important;line-height:1.45!important;overflow:visible!important}
+.daytotal{font-size:13px!important}
+.daybtn .summary .foodline{margin:3px 0!important}
+
+.birth-cal-head{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:8px;margin-bottom:12px}
+.birth-cal-head button{min-height:42px;width:42px;border-radius:50%;background:#f4f5f7;font-size:24px;padding:0}
+.birth-cal-head strong{text-align:center;font-size:18px}
+.birth-week,.birth-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.birth-week{margin-bottom:6px;color:#92969d;font-size:12px;text-align:center}
+.birth-grid button{aspect-ratio:1;min-height:0;padding:0;border-radius:50%;background:#f8f9fb;font-size:14px}
+.birth-grid button.empty{visibility:hidden}
+.birth-grid button.selected{background:#17191d;color:#fff}
+.birth-grid button.today{outline:1.5px solid #d9cff8}
+.birthday-modal{max-width:390px}
+
+@media(max-width:700px){
+  .setupgrid{grid-template-columns:minmax(0,1fr)!important}
+  .calendar{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .daybtn{min-height:142px!important}
+}
+@media(max-width:430px){
+  .foodrow{grid-template-columns:44px minmax(0,1fr) 76px 36px!important;gap:6px!important}
+  .removeFood{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important}
+}
+</style>
 </head>
 <body>
 <main>
@@ -310,7 +355,7 @@ body{
 <section class="setup">
 <div class="setupgrid">
 <label><span>아기 이름 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="babyName" class="meta-input" type="text" placeholder="입력하지 않아도 돼요"></label>
-<label><span>아기 생일 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="birthday" class="meta-input" type="date"></label>
+<label><span>아기 생일 <small style="font-weight:500;color:var(--muted)">(선택)</small></span><input id="birthday" class="meta-input" type="text" readonly placeholder="날짜 선택" aria-label="아기 생일 선택"></label>
 </div>
 <p class="note" style="margin:9px 0 0">이름과 생일은 입력하지 않아도 돼요. 밤송이 식단만 바로 불러오거나 이미지로 저장할 수 있어요.</p>
 <div class="startbox"><small>출생일을 1일로 계산한 180일째</small><strong id="startDate">생일을 입력해 주세요</strong></div>
@@ -374,6 +419,19 @@ body{
 <button id="saveDay" class="primary savebtn" type="button">이 날짜 식단 저장</button>
 </section>
 </main>
+
+<div id="birthdayModal" class="modalback" role="dialog" aria-modal="true" aria-label="아기 생일 선택">
+<div class="modal birthday-modal">
+  <div class="birth-cal-head">
+    <button id="birthPrev" type="button" aria-label="이전 달">‹</button>
+    <strong id="birthMonthTitle"></strong>
+    <button id="birthNext" type="button" aria-label="다음 달">›</button>
+  </div>
+  <div class="birth-week"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+  <div id="birthCalendar" class="birth-grid"></div>
+  <div class="modalactions"><button id="birthCancel" class="secondary" type="button">취소</button></div>
+</div>
+</div>
 
 <div id="modal" class="modalback" role="dialog" aria-modal="true">
 <div class="modal"><h2>식단표를 모두 초기화할까요?</h2><p class="note">입력한 음식, 중량, 추가재료, 실제 섭취량, 알러지 체크와 브라우저에 저장된 식단 데이터가 모두 삭제됩니다.</p>
@@ -457,7 +515,7 @@ function renderWeek(focusDay=selected){
 }
 function renderHeader(){
  $('babyName').value=state.babyName||'';
- $('birthday').value=state.birthday||'';
+ $('birthday').value=state.birthday?fmt(parseDate(state.birthday)):'';
  const s=dayDate(180); $('startDate').textContent=s?fmt(s):'생일을 입력해 주세요';
 }
 function renderCalendar(){
@@ -575,7 +633,37 @@ async function loadState(){
 async function clearStorage(){try{const db=await openDB();const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(KEY);}catch(e){}try{localStorage.removeItem(KEY)}catch(e){}}
 
 $('babyName').addEventListener('input',e=>{state.babyName=e.target.value;saveState();});
-$('birthday').addEventListener('change',e=>{state.birthday=e.target.value;renderHeader();renderCalendar();renderEditor();renderWeek(selected);saveState();});
+let birthCursor=parseDate(state.birthday)||new Date();
+function renderBirthPicker(){
+ const y=birthCursor.getFullYear(), m=birthCursor.getMonth();
+ $('birthMonthTitle').textContent=`${y}년 ${m+1}월`;
+ const host=$('birthCalendar'); host.innerHTML='';
+ const first=new Date(y,m,1), last=new Date(y,m+1,0);
+ for(let i=0;i<first.getDay();i++){const e=document.createElement('button');e.className='empty';e.type='button';host.appendChild(e);}
+ const chosen=state.birthday;
+ const now=new Date();
+ for(let d=1;d<=last.getDate();d++){
+   const btn=document.createElement('button');btn.type='button';btn.textContent=d;
+   const iso=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+   if(iso===chosen)btn.classList.add('selected');
+   if(y===now.getFullYear()&&m===now.getMonth()&&d===now.getDate())btn.classList.add('today');
+   btn.onclick=async()=>{
+     state.birthday=iso;
+     $('birthdayModal').classList.remove('open');
+     renderHeader();renderCalendar();renderEditor();renderWeek(selected);
+     await saveState();
+   };
+   host.appendChild(btn);
+ }
+}
+$('birthday').addEventListener('click',()=>{
+ const current=parseDate(state.birthday);
+ birthCursor=current?new Date(current.getUTCFullYear(),current.getUTCMonth(),1):new Date();
+ $('birthdayModal').classList.add('open');renderBirthPicker();
+});
+$('birthPrev').addEventListener('click',()=>{birthCursor=new Date(birthCursor.getFullYear(),birthCursor.getMonth()-1,1);renderBirthPicker();});
+$('birthNext').addEventListener('click',()=>{birthCursor=new Date(birthCursor.getFullYear(),birthCursor.getMonth()+1,1);renderBirthPicker();});
+$('birthCancel').addEventListener('click',()=>$('birthdayModal').classList.remove('open'));
 $('saveDay').addEventListener('click',async()=>{
  const editDay=Number($('editorTitle').dataset.day)||selected;
  readEditor(editDay);
@@ -589,7 +677,7 @@ $('saveDay').addEventListener('click',async()=>{
 $('seedBtn').addEventListener('click',seedAll);
 $('resetBtn').addEventListener('click',()=>$('modal').classList.add('open'));
 $('cancelReset').addEventListener('click',()=>$('modal').classList.remove('open'));
-$('confirmReset').addEventListener('click',async()=>{state={babyName:$('babyName').value||'',birthday:$('birthday').value||'',days:{}};days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});await clearStorage();$('modal').classList.remove('open');renderHeader();renderCalendar();renderEditor();renderWeek(selected);$('status').textContent='식단표와 저장된 데이터를 초기화했어요.';});
+$('confirmReset').addEventListener('click',async()=>{state={babyName:$('babyName').value||'',birthday:state.birthday||'',days:{}};days.forEach(d=>state.days[d]={foods:[],added:'',actualIntake:'',allergy:false});await clearStorage();$('modal').classList.remove('open');renderHeader();renderCalendar();renderEditor();renderWeek(selected);$('status').textContent='식단표와 저장된 데이터를 초기화했어요.';});
 
 
 $('weekTab').addEventListener('click',()=>{
@@ -623,8 +711,25 @@ $('imageBtn').addEventListener('click',()=>{
  x.fillStyle='#746d65';x.font='18px sans-serif';x.fillText('※ g은 실제 제공량 예시이며 아기별 섭취량은 다를 수 있어요.',70,1815);
  x.fillText('※ 브라우저 환경에 따라 저장 데이터가 사라질 수 있어 이미지를 함께 보관해 주세요.',70,1850);
  x.font='bold 22px sans-serif';x.fillStyle='#9b9590';x.textAlign='right';x.fillText('by 밤송이맘 🌰 · 이유식 식단표',1330,1860);x.textAlign='left';
- const a=document.createElement('a');a.download=(state.babyName?state.babyName+'_':'')+'6개월_초기이유식_식단표.png';a.href=c.toDataURL('image/png');a.click();
- $('status').textContent='이미지 저장을 준비했어요.';
+ const filename=(state.babyName?state.babyName+'_':'')+'6개월_초기이유식_식단표.png';
+ c.toBlob(async blob=>{
+   if(!blob){$('status').textContent='이미지를 만들지 못했어요. 다시 시도해 주세요.';return;}
+   const file=new File([blob],filename,{type:'image/png'});
+   try{
+     if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+       await navigator.share({files:[file],title:'이유식 식단표'});
+       $('status').textContent='이미지를 공유하거나 사진 앱에 저장할 수 있어요.';
+       return;
+     }
+   }catch(err){
+     if(err && err.name==='AbortError') return;
+   }
+   const url=URL.createObjectURL(blob);
+   const a=document.createElement('a');a.href=url;a.download=filename;
+   document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(url),30000);
+   $('status').textContent='이미지를 저장했어요. iPhone에서는 공유 메뉴에서 “이미지 저장”을 선택해 주세요.';
+ },'image/png');
 });
 
 
