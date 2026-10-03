@@ -787,6 +787,17 @@ body{
 .weeksummary{cursor:pointer}
 .weeksummary .update-diet-btn{cursor:pointer}
 </style>
+
+<style>
+/* 식단 편집 팝업: 선택 날짜 변경 */
+.editor-date-wrap{position:relative;min-width:0}
+.editor-date-button{display:grid;grid-template-columns:auto auto;grid-template-areas:"day arrow" "date arrow";align-items:center;column-gap:8px;padding:4px 8px 4px 0;border:0;background:transparent;text-align:left;cursor:pointer;border-radius:12px}
+.editor-date-button:active{background:#f6f6f7}
+.editor-date-button #editorTitle{grid-area:day;line-height:1.2}
+.editor-date-button #editorRealDate{grid-area:date;display:block;margin-top:3px;white-space:nowrap}
+.editor-date-chevron{grid-area:arrow;color:#9a9ca3;font-size:18px;font-weight:800}
+.editor-day-select{position:absolute;left:0;top:24px;width:190px;height:58px;opacity:0;z-index:3;cursor:pointer}
+</style>
 </head>
 <body>
 <main>
@@ -859,7 +870,7 @@ body{
 
 <div id="editorModal" class="editor-modal" aria-hidden="true"><div class="editor-modal-backdrop" data-close-editor="1"></div><div class="editor-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><button id="closeEditorModal" class="editor-modal-close" type="button" aria-label="닫기">×</button><section class="editor">
 <div class="edithead">
-<div><div class="note">선택한 날짜</div><strong id="editorTitle" style="font-size:22px">180일</strong><div id="editorRealDate" class="note"></div></div>
+<div class="editor-date-wrap"><div class="note">선택한 날짜 · 눌러서 변경</div><button id="editorDateButton" class="editor-date-button" type="button" aria-label="식단 날짜 변경"><strong id="editorTitle" style="font-size:22px">180일</strong><span id="editorRealDate" class="note"></span><span class="editor-date-chevron">⌄</span></button><select id="editorDaySelect" class="editor-day-select" aria-label="식단 날짜 선택"></select></div>
 <div id="editorTotal" class="badge">총 0g</div>
 </div>
 <div class="label">구성 음식</div>
@@ -1053,6 +1064,18 @@ function renderEditor(){
  $('editorTitle').dataset.day=String(selected);
  $('editorTitle').textContent=selected+'일';
  $('editorRealDate').textContent=fmt(dayDate(selected));
+ const daySelect=$('editorDaySelect');
+ if(daySelect){
+   daySelect.innerHTML='';
+   for(let d=rangeStart();d<=rangeEnd();d++){
+     const opt=document.createElement('option');
+     opt.value=String(d);
+     const rd=dayDate(d);
+     opt.textContent=d+'일'+(rd?' · '+fmt(rd):'');
+     if(d===selected) opt.selected=true;
+     daySelect.appendChild(opt);
+   }
+ }
  $('addedFood').value=state.days[selected].added||'';
  $('actualIntake').value=state.days[selected].actualIntake??'';
  $('allergy').checked=!!state.days[selected].allergy;
@@ -1067,6 +1090,23 @@ function renderEditor(){
 }
 function updateEditorTotal(){let s=0;editor.querySelectorAll('.fg').forEach(i=>s+=Number(i.value)||0);$('editorTotal').textContent='총 '+s+'g';}
 editor.addEventListener('input',e=>{if(e.target.classList.contains('fg'))updateEditorTotal();});
+
+$('editorDaySelect').addEventListener('change',e=>{
+ const next=Number(e.target.value);
+ if(!Number.isFinite(next)||next<rangeStart()||next>rangeEnd()||next===selected)return;
+ selected=next;
+ weekStart=Math.max(rangeStart(),Math.min(rangeStart()+24,rangeStart()+Math.floor((next-rangeStart())/7)*7));
+ renderCalendar();
+ renderWeek(next);
+ renderEditor();
+ const sheet=$('editorModal').querySelector('.editor-modal-sheet');
+ if(sheet) sheet.scrollTop=0;
+});
+$('editorDateButton').addEventListener('click',()=>{
+ const sel=$('editorDaySelect');
+ if(sel.showPicker){try{sel.showPicker();return}catch(e){}}
+ sel.focus();sel.click();
+});
 
 function readEditor(day=selected){
  const foods=[];
