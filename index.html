@@ -1985,15 +1985,15 @@ function ingredientOptions(selectedId='',selectedName=''){
  const list=(state.ingredients||[]).filter(i=>!i.archivedAt).map(i=>`<option value="${esc(i.id)}" ${i.id===selectedId?'selected':''}>${esc(i.name)}</option>`).join('');
  return `<option value="">직접 입력하기</option>${list}`;
 }
-function cubeFormRow(c=null,defaultMadeOn=null){
- const row=document.createElement('div');row.className='cube-form-row';const name=c?cubeName(c):'';
+function cubeFormRow(c=null,defaultMadeOn=null,rowNumber=1){
+ const row=document.createElement('div');row.className='cube-form-row';row.id='cube-input-'+crypto.randomUUID();const name=c?cubeName(c):'';
  row.dataset.originalIngredientId=c?.ingredientId||'';row.dataset.originalName=name;
- row.innerHTML=`<label class="cube-name-label">식재료 이름<input class="cube-name" required maxlength="100" placeholder="예: 쌀, 소고기" value="${esc(name)}" enterkeyhint="next" autocomplete="off"></label><div class="cube-form-grid"><label>제조일<input class="cube-date" type="date" required value="${c?.madeOn||defaultMadeOn||todayISO()}" max="${todayISO()}"></label><label>보관 방법<select class="cube-storage"><option value="frozen" ${c?.storage!=='refrigerated'?'selected':''}>냉동</option><option value="refrigerated" ${c?.storage==='refrigerated'?'selected':''}>냉장</option></select></label><label>1개 중량 (g)<input class="cube-grams" type="number" min="0.1" step="any" inputmode="decimal" required value="${c?.grams||10}"></label><label>제조 수량 (개)<input class="cube-qty" type="number" min="1" step="1" inputmode="numeric" required value="${c?.initialQty||10}"></label></div>${c?'<p class="note">현재 재고 '+c.remainingQty+'개 · 이미 사용했거나 예약한 수량은 유지돼요.</p>':''}`;
+ row.innerHTML=`<strong class="cube-row-title">식재료 ${rowNumber}</strong><label class="cube-name-label">식재료 이름<input class="cube-name" required maxlength="100" placeholder="예: 쌀, 소고기" value="${esc(name)}" enterkeyhint="next" autocomplete="off"></label><div class="cube-form-grid"><label>제조일<input class="cube-date" type="date" required value="${c?.madeOn||defaultMadeOn||todayISO()}" max="${todayISO()}"></label><label>보관 방법<select class="cube-storage"><option value="frozen" ${c?.storage!=='refrigerated'?'selected':''}>냉동</option><option value="refrigerated" ${c?.storage==='refrigerated'?'selected':''}>냉장</option></select></label><label>1개 중량 (g)<input class="cube-grams" type="number" min="0.1" step="any" inputmode="decimal" required value="${c?.grams??''}"></label><label>제조 수량 (개)<input class="cube-qty" type="number" min="1" step="1" inputmode="numeric" required value="${c?.initialQty??''}"></label></div>${c?'<p class="note">현재 재고 '+c.remainingQty+'개 · 이미 사용했거나 예약한 수량은 유지돼요.</p>':''}`;
  return row;
 }
 let editingCubeId=null;
 async function openCubeForm(id=null,defaultMadeOn=null){if(!await allowEditorLeave())return;if(!storageReady){$('status').textContent='저장 데이터를 먼저 불러와 주세요.';return;}editingCubeId=id;const c=(state.cubes||[]).find(c=>c.id===id);$('cubeDialogTitle').textContent=c?'🧊 큐브 기록 수정':'🧊 큐브 만들었어요';$('cubeFormRows').replaceChildren(cubeFormRow(c,defaultMadeOn));$('addCubeRow').hidden=!!c;$('cubeError').textContent='';window.prepareInputPopup?.($('cubeDialog'));$('cubeDialog').showModal();}
-$('addCube').onclick=()=>openCubeForm();$('addCubeRow').onclick=()=>{const last=$('cubeFormRows').lastElementChild,row=cubeFormRow(null,last?.querySelector('.cube-date').value||null);if(last)row.querySelector('.cube-storage').value=last.querySelector('.cube-storage').value;$('cubeFormRows').appendChild(row);};$('cancelCube').onclick=()=>$('cubeDialog').close();
+$('addCube').onclick=()=>openCubeForm();$('addCubeRow').onclick=()=>{const last=$('cubeFormRows').lastElementChild,row=cubeFormRow(null,last?.querySelector('.cube-date').value||null,$('cubeFormRows').children.length+1);if(last)row.querySelector('.cube-storage').value=last.querySelector('.cube-storage').value;$('cubeFormRows').appendChild(row);};$('cancelCube').onclick=()=>$('cubeDialog').close();
 $('cubeForm').onsubmit=async e=>{e.preventDefault();if(cubeBusy)return;const rows=[...$('cubeFormRows').children];const next=clone(state);const now=new Date().toISOString();try{for(const row of rows){const name=row.querySelector('.cube-name').value.trim(),ing=next.ingredients.find(i=>!i.archivedAt&&ingredientKey(i.name)===ingredientKey(name)),ingredientId=ing?.id||(ingredientKey(name)===ingredientKey(row.dataset.originalName||'')?row.dataset.originalIngredientId||null:null);const madeOn=row.querySelector('.cube-date').value,storage=row.querySelector('.cube-storage').value,grams=Number(row.querySelector('.cube-grams').value),qty=Number(row.querySelector('.cube-qty').value);if(!name)throw new Error('식재료 이름을 입력해 주세요.');if(!validISO(madeOn)||madeOn>todayISO())throw new Error('제조일을 확인해 주세요.');if(!Number.isFinite(grams)||grams<=0||!Number.isSafeInteger(qty)||qty<1)throw new Error('중량과 제조 수량을 확인해 주세요.');const existing=next.cubes.find(c=>c.id===editingCubeId);if(existing){const used=existing.initialQty-existing.remainingQty;const reserved=cubeReservations(existing.id);if((next.cubeUsages||[]).some(u=>u.cubeBatchId===existing.id)&&grams!==existing.grams)throw new Error('사용 이력이 있는 큐브는 중량을 변경할 수 없어요.');if(qty<used+reserved)throw new Error('이미 사용했거나 예약한 수량보다 제조 수량을 적게 설정할 수 없어요.');Object.assign(existing,{ingredientId,name,madeOn,storage,grams,initialQty:qty,remainingQty:Math.max(0,qty-used),updatedAt:now});}else next.cubes.push({id:'cube-'+crypto.randomUUID(),ingredientId,name,madeOn,storage,grams,initialQty:qty,remainingQty:qty,createdAt:now,updatedAt:now});}
  cubeBusy=true;$('saveCube').disabled=true;await commitState(next);trackPlannerEvent(editingCubeId?'cube_edit':'cube_create');trackPlannerEvent('popup_save',{popup_name:'cube'});$('cubeDialog').close();refresh();showCubeToast('큐브 기록을 저장했어요.');}catch(err){$('cubeError').textContent=err.message;}finally{cubeBusy=false;$('saveCube').disabled=false;}};
 async function useCubeForSelectedMeal(cubeId,foodName,dayNumber){
@@ -2242,7 +2242,7 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
  function resize(targets=roots.filter(shown)){
   const height=Math.max(120,Math.floor((window.visualViewport?.height||innerHeight)-24));
   for(const root of targets)if(root.dataset.inputHeight!==String(height)){
-   root.style.setProperty('--popup-height',height+'px');root.dataset.inputHeight=String(height);
+   root.style.setProperty('--input-scroll-height',height+'px');root.dataset.inputHeight=String(height);
   }
  }
  function lock(){if(saved)return;
@@ -2250,7 +2250,7 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
   Object.assign(document.body.style,{position:'fixed',top:-saved.y+'px',left:-saved.x+'px',width:'100%',overflow:'hidden'});
   Object.assign(document.documentElement.style,{overflow:'hidden',overscrollBehavior:'none',scrollBehavior:'auto'});
  }
- window.prepareInputPopup=root=>{lock();resize([root]);};
+ window.prepareInputPopup=root=>{lock();root.style.setProperty('--popup-height',Math.max(120,Math.floor(Math.max(document.documentElement.clientHeight,innerHeight,window.visualViewport?.height||0)-24))+'px');resize([root]);};
  function sync(){
   if(roots.some(shown)){lock();return;}
   if(frame){cancelAnimationFrame(frame);frame=0;}
@@ -2268,13 +2268,13 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 </script><style id="shared-input-structure">
 #editorModal .editor-modal-sheet,#cubeDialog,#ingredientDialog,.input-popup,.input-popup input,.input-popup textarea,.input-popup select{transition:none!important;animation:none!important}
 #editorModal{top:0!important;bottom:0!important;height:auto!important;overflow:hidden!important}
-#editorModal .editor-modal-sheet,#cubeDialog[open],#ingredientDialog[open]{position:fixed!important;top:12px!important;left:50%!important;bottom:auto!important;transform:translateX(-50%)!important;height:var(--popup-height,calc(100svh - 24px))!important;max-height:none!important;overflow:hidden!important;padding:0!important;margin:0!important;box-sizing:border-box}
+#editorModal .editor-modal-sheet,#cubeDialog[open],#ingredientDialog[open]{position:fixed!important;top:12px!important;left:0!important;right:0!important;bottom:auto!important;transform:none!important;height:var(--popup-height,calc(100svh - 24px))!important;max-height:none!important;overflow:hidden!important;padding:0!important;margin:0 auto!important;box-sizing:border-box}
 #editorModal .editor-modal-sheet{width:min(620px,calc(100vw - 24px))!important;border-radius:28px!important}
 #cubeDialog,#ingredientDialog{width:min(460px,calc(100vw - 24px))!important}
-#editorModal .input-popup,#cubeForm.input-popup,#ingredientForm.input-popup{display:flex!important;flex-direction:column!important;height:100%!important;min-height:0!important;overflow:hidden!important;padding:0!important;margin:0!important}
+#editorModal .input-popup,#cubeForm.input-popup,#ingredientForm.input-popup{display:flex!important;flex-direction:column!important;height:min(100%,var(--input-scroll-height,100%))!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;overflow-anchor:none;scroll-behavior:auto;-webkit-overflow-scrolling:touch;padding:0!important;margin:0!important}
 .input-popup>.input-header,.input-popup>.input-actions{flex:0 0 auto;min-width:0;padding:14px 16px;background:var(--card,#fffefb)}
 .input-popup>.input-header{outline:none;padding-right:48px}.input-popup>.input-header .bamsongi-context-banner{margin:0 0 10px!important}.input-popup>.input-header .dialog-character{width:48px!important;height:44px!important;margin:0 auto 6px!important}.input-popup>.input-header h2{margin-bottom:0!important}
-.input-popup>.input-content{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;overflow-anchor:none;scroll-behavior:auto;scroll-padding:8px;padding:0 16px 16px}
+.input-popup>.input-content{flex:0 0 auto!important;min-height:0!important;overflow:visible!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;overflow-anchor:none;scroll-behavior:auto;scroll-padding:8px;padding:0 16px 16px}
 .input-popup>.input-actions{padding:10px 16px max(10px,env(safe-area-inset-bottom));border-top:1px solid var(--line,#e7ddca)}
 .input-actions>.dialog-actions,.input-actions>.editor-save-bar{position:static!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:transparent!important}
 #closeEditorModal{position:absolute!important;top:10px!important;right:10px!important;float:none!important;margin:0!important;z-index:10}
@@ -2283,5 +2283,8 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 @media(max-width:600px){#editorModal .editor-modal-sheet{width:100%!important;border-radius:24px 24px 0 0!important}.input-popup>.input-header{padding:12px 16px}.input-popup>.input-header .bamsongi-context-banner{margin-right:28px!important}}
 
 
+
+.cube-row-title{display:block;margin:0 0 10px;font-size:14px;color:var(--text)}
+#cubeForm .dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style></body>
 </html>
