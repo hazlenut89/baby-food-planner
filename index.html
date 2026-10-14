@@ -1734,7 +1734,7 @@ if(!isStandalone){
  else if(isChromeAndroid){installMessage='Chrome의 메뉴(⋮) → 홈 화면에 추가 또는 앱 설치.';}
  else{installMessage='브라우저 메뉴에서 홈 화면에 추가 또는 앱 설치를 찾아주세요.';}
  installGuide.textContent=installMessage;
- installBtn.onclick=()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();return;}installGuide.textContent=installMessage;installGuide.scrollIntoView({block:'nearest'});};
+ installBtn.onclick=()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();return;}alert(installMessage);};
 }
 window.addEventListener('beforeinstallprompt',e=>{
  e.preventDefault();deferredInstallPrompt=e;
