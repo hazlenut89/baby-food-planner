@@ -1027,7 +1027,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 <button id="imageBtn" class="outline" type="button">🖼️ 이유식 식단 캘린더뷰 이미지 저장</button>
 </div>
 
-<div class="v2-nav"><button id="sharePlannerBtn" type="button" class="outline" aria-label="플래너 공유"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M7 10H4v11h16V10h-3"/></svg><span>공유</span></button><button id="todayBtn" type="button">오늘</button><button id="openJump" type="button">날짜 이동</button><span id="currentLocation" aria-live="polite"></span></div>
+<div class="v2-nav"><button id="todayBtn" type="button">오늘</button><button id="openJump" type="button">날짜 이동</button><span id="currentLocation" aria-live="polite"></span></div>
 
 <section class="notice storage-summary"><p><strong>이 브라우저에 저장돼요.</strong> 중요한 기록은 데이터 백업으로 보관해 주세요.</p><details id="storageGuide"><summary>저장 및 사용 안내 보기</summary><p>브라우저 데이터를 삭제하거나 비공개 모드·저장 공간 제한이 있는 환경에서는 기록이 사라질 수 있어요. 다른 브라우저나 주소로 옮길 때는 데이터 백업·복원을 이용해 주세요.</p><p>백업 및 복원 메뉴에서 모든 날짜의 식단, 아기 정보, 메모, 식재료 맵을 보관할 수 있어요. 기록 합치기는 현재 기록을 유지하고, 전체 복원은 백업·최종 확인 후 교체해요.</p><p>이미지는 현재 보고 있는 31일의 이유식 식단 캘린더를 저장하며, 날짜별 메모와 📝 표시는 이미지에 포함되지 않아요.</p></details></section>
 <div id="status" class="status" aria-live="polite">날짜를 누르면 그날 식단을 입력할 수 있어요.</div>
@@ -2216,24 +2216,7 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 .daybtn .prepared-amount strong,.daybtn .intake-amount strong{font-size:11px!important}
 .bottom-backup-wrap>.bamsongi-context-banner{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box!important}
 </style>
-<script>
-(function(){
- const button=document.getElementById('sharePlannerBtn');
- button.onclick=async()=>{
-  const url=location.href,status=document.getElementById('status');
-  if(typeof navigator.share==='function'){
-   try{await navigator.share({title:'밤송이맘 이유식 플래너',url});}
-   catch(e){if(e.name!=='AbortError')status.textContent='공유를 열지 못했어요. 브라우저 공유 메뉴를 이용해 주세요.';}
-   return;
-  }
-  try{
-   if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(url);
-   else{const field=document.createElement('textarea');field.value=url;field.style.cssText='position:fixed;opacity:0';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();if(!copied)throw new Error('copy');}
-   status.textContent='주소를 복사했어요.';
-  }catch(e){window.prompt('주소를 복사해 주세요.',url);}
- };
-})();
-</script><style id="v262-targeted-ux">
+<style id="v262-targeted-ux">
 #emojiPicker{z-index:20000!important;width:min(300px,calc(100vw - 24px))!important;max-height:calc(var(--usable-height,100dvh) - 24px);overflow-y:auto;overscroll-behavior:contain;padding:10px;border-radius:18px}
 #emojiPicker .emoji-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
 #emojiPicker .emoji-option{min-height:38px;height:38px;padding:3px;font-size:23px}
@@ -2252,5 +2235,6 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 #installGuideSteps li:nth-child(3) .install-step-icon{background:#eff6e3;color:#66864c}
 .install-step-text{min-width:0;align-self:center}
 </style>
+<style id="cube-edit-button-font">.cube-controls .cube-batch-detail{font-size:13px!important}</style>
 </body>
 </html>
