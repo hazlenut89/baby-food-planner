@@ -2240,9 +2240,14 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
  const shown=root=>root.id==='editorModal'?root.classList.contains('open'):root.open;
  let saved=null,frame=0;
  function resize(targets=roots.filter(shown)){
-  const height=Math.max(120,Math.floor((window.visualViewport?.height||innerHeight)-24));
-  for(const root of targets)if(root.dataset.inputHeight!==String(height)){
-   root.style.setProperty('--input-scroll-height',height+'px');root.dataset.inputHeight=String(height);
+  const viewport=window.visualViewport;
+  const height=Math.max(1,Math.floor((viewport?.height||innerHeight)-24));
+  const top=Math.max(0,viewport?.offsetTop||0)+12;
+  for(const root of targets){
+   if(root.dataset.inputHeight!==String(height)){
+    root.style.setProperty('--input-scroll-height',height+'px');root.dataset.inputHeight=String(height);
+   }
+   root.style.setProperty('--input-viewport-top',top+'px');
   }
  }
  function lock(){if(saved)return;
@@ -2262,16 +2267,21 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
  for(const root of roots){new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:root.id==='editorModal'?['class']:['open']});root.addEventListener('close',sync);}
  function scheduleResize(){if(!roots.some(shown)||frame)return;frame=requestAnimationFrame(()=>{frame=0;resize();});}
  // Keyboard events change available height only. No focus/scroll listeners or scrolling.
- if(window.visualViewport)window.visualViewport.addEventListener('resize',scheduleResize);
+ if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',scheduleResize);
+  // Safari may pan the visible viewport during focus; only follow its coordinates.
+  window.visualViewport.addEventListener('scroll',scheduleResize);
+ }
  else window.addEventListener('resize',scheduleResize);
 })();
 </script><style id="shared-input-structure">
 #editorModal .editor-modal-sheet,#cubeDialog,#ingredientDialog,.input-popup,.input-popup input,.input-popup textarea,.input-popup select{transition:none!important;animation:none!important}
 #editorModal{top:0!important;bottom:0!important;height:auto!important;overflow:hidden!important}
-#editorModal .editor-modal-sheet,#cubeDialog[open],#ingredientDialog[open]{position:fixed!important;top:12px!important;left:0!important;right:0!important;bottom:auto!important;transform:none!important;height:auto!important;max-height:var(--input-scroll-height,calc(100svh - 24px))!important;overflow:hidden!important;padding:0!important;margin:0 auto!important;box-sizing:border-box}
+#editorModal .editor-modal-sheet,#cubeDialog[open],#ingredientDialog[open]{position:fixed!important;top:var(--input-viewport-top,12px)!important;left:0!important;right:0!important;bottom:auto!important;transform:none!important;height:auto!important;max-height:var(--input-scroll-height,calc(100svh - 24px))!important;overflow:hidden!important;padding:0!important;margin:0 auto!important;box-sizing:border-box}
 #editorModal .editor-modal-sheet{width:min(620px,calc(100vw - 24px))!important;border-radius:28px!important}
 #cubeDialog,#ingredientDialog{width:min(460px,calc(100vw - 24px))!important}
-#editorModal .input-popup,#cubeForm.input-popup,#ingredientForm.input-popup{display:flex!important;flex-direction:column!important;height:auto!important;max-height:var(--input-scroll-height,calc(100svh - 24px))!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;overflow-anchor:none;scroll-behavior:auto;-webkit-overflow-scrolling:touch;padding:0!important;margin:0!important}
+#editorModal .input-popup,#cubeForm.input-popup,#ingredientForm.input-popup{display:flex!important;flex-direction:column!important;height:auto!important;max-height:var(--input-scroll-height,calc(100svh - 24px))!important;min-height:0!important;box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;overflow-anchor:none;scroll-behavior:auto;scroll-padding:8px!important;-webkit-overflow-scrolling:touch;padding:0!important;margin:0!important}
+.input-popup>.input-header,.input-popup>.input-content,.input-popup>.input-actions{box-sizing:border-box}
 .input-popup>.input-header,.input-popup>.input-actions{flex:0 0 auto;min-width:0;padding:14px 16px;background:var(--card,#fffefb)}
 .input-popup>.input-header{outline:none;padding-right:48px}.input-popup>.input-header .bamsongi-context-banner{margin:0 0 10px!important}.input-popup>.input-header .dialog-character{width:48px!important;height:44px!important;margin:0 auto 6px!important}.input-popup>.input-header h2{margin-bottom:0!important}
 .input-popup>.input-content{flex:0 0 auto!important;min-height:0!important;overflow:visible!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;overflow-anchor:none;scroll-behavior:auto;scroll-padding:8px;padding:0 16px 16px}
