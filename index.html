@@ -1408,7 +1408,7 @@ function renderEditor(){
  foods.forEach(f=>editor.appendChild(foodRow(f)));
  const add=document.createElement('button');
  add.type='button';add.id='addFoodBtn';add.className='addFoodBtn';add.textContent='＋ 음식 추가';
- add.onclick=()=>{const row=foodRow();editor.insertBefore(row,add);updateEditorTotal();requestAnimationFrame(()=>{const input=row.querySelector('.fname');input.focus({preventScroll:true});row.scrollIntoView({block:'nearest'});});};
+ add.onclick=()=>{const row=foodRow();editor.insertBefore(row,add);updateEditorTotal();requestAnimationFrame(()=>revealInInputPane(row));};
  editor.appendChild(add);
  // 기존 예약을 편집기에 다시 불러오되 준비량은 이미 식단에 반영되어 있으므로 중복 가산하지 않음.
  for(const u of dayCubeUsages(selected).filter(x=>x.status==='planned')){
@@ -1992,7 +1992,7 @@ function cubeFormRow(c=null,defaultMadeOn=null){
  return row;
 }
 let editingCubeId=null;
-async function openCubeForm(id=null,defaultMadeOn=null){if(!await allowEditorLeave())return;if(!storageReady){$('status').textContent='저장 데이터를 먼저 불러와 주세요.';return;}editingCubeId=id;const c=(state.cubes||[]).find(c=>c.id===id);$('cubeDialogTitle').textContent=c?'🧊 큐브 기록 수정':'🧊 큐브 만들었어요';$('cubeFormRows').replaceChildren(cubeFormRow(c,defaultMadeOn));$('addCubeRow').hidden=!!c;$('cubeError').textContent='';$('cubeDialog').showModal();}
+async function openCubeForm(id=null,defaultMadeOn=null){if(!await allowEditorLeave())return;if(!storageReady){$('status').textContent='저장 데이터를 먼저 불러와 주세요.';return;}editingCubeId=id;const c=(state.cubes||[]).find(c=>c.id===id);$('cubeDialogTitle').textContent=c?'🧊 큐브 기록 수정':'🧊 큐브 만들었어요';$('cubeFormRows').replaceChildren(cubeFormRow(c,defaultMadeOn));$('addCubeRow').hidden=!!c;$('cubeError').textContent='';window.lockInputBackground?.();$('cubeDialog').showModal();}
 $('addCube').onclick=()=>openCubeForm();$('addCubeRow').onclick=()=>{const last=$('cubeFormRows').lastElementChild,row=cubeFormRow(null,last?.querySelector('.cube-date').value||null);if(last)row.querySelector('.cube-storage').value=last.querySelector('.cube-storage').value;$('cubeFormRows').appendChild(row);};$('cancelCube').onclick=()=>$('cubeDialog').close();
 $('cubeForm').onsubmit=async e=>{e.preventDefault();if(cubeBusy)return;const rows=[...$('cubeFormRows').children];const next=clone(state);const now=new Date().toISOString();try{for(const row of rows){const name=row.querySelector('.cube-name').value.trim(),ing=next.ingredients.find(i=>!i.archivedAt&&ingredientKey(i.name)===ingredientKey(name)),ingredientId=ing?.id||(ingredientKey(name)===ingredientKey(row.dataset.originalName||'')?row.dataset.originalIngredientId||null:null);const madeOn=row.querySelector('.cube-date').value,storage=row.querySelector('.cube-storage').value,grams=Number(row.querySelector('.cube-grams').value),qty=Number(row.querySelector('.cube-qty').value);if(!name)throw new Error('식재료 이름을 입력해 주세요.');if(!validISO(madeOn)||madeOn>todayISO())throw new Error('제조일을 확인해 주세요.');if(!Number.isFinite(grams)||grams<=0||!Number.isSafeInteger(qty)||qty<1)throw new Error('중량과 제조 수량을 확인해 주세요.');const existing=next.cubes.find(c=>c.id===editingCubeId);if(existing){const used=existing.initialQty-existing.remainingQty;const reserved=cubeReservations(existing.id);if((next.cubeUsages||[]).some(u=>u.cubeBatchId===existing.id)&&grams!==existing.grams)throw new Error('사용 이력이 있는 큐브는 중량을 변경할 수 없어요.');if(qty<used+reserved)throw new Error('이미 사용했거나 예약한 수량보다 제조 수량을 적게 설정할 수 없어요.');Object.assign(existing,{ingredientId,name,madeOn,storage,grams,initialQty:qty,remainingQty:Math.max(0,qty-used),updatedAt:now});}else next.cubes.push({id:'cube-'+crypto.randomUUID(),ingredientId,name,madeOn,storage,grams,initialQty:qty,remainingQty:qty,createdAt:now,updatedAt:now});}
  cubeBusy=true;$('saveCube').disabled=true;await commitState(next);trackPlannerEvent(editingCubeId?'cube_edit':'cube_create');trackPlannerEvent('popup_save',{popup_name:'cube'});$('cubeDialog').close();refresh();showCubeToast('큐브 기록을 저장했어요.');}catch(err){$('cubeError').textContent=err.message;}finally{cubeBusy=false;$('saveCube').disabled=false;}};
@@ -2236,5 +2236,31 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 .install-step-text{min-width:0;align-self:center}
 </style>
 <style id="cube-edit-button-font">.cube-controls .cube-batch-detail{font-size:13px!important}</style>
+<script id="input-scroll-stability">
+(function(){
+ const root=document.documentElement,editor=document.getElementById('editorModal'),cube=document.getElementById('cubeDialog');let locked=false,saved=null,timer=null,height=0;
+ const active=()=>editor.classList.contains('open')||cube.open;
+ function viewportHeight(){return Math.round(window.visualViewport?.height||innerHeight);}
+ function setHeight(){const next=viewportHeight();if(Math.abs(next-height)>2){height=next;root.style.setProperty('--input-pane-height',height+'px');}}
+ function lock(){if(locked)return;locked=true;saved={x:scrollX,y:scrollY,css:document.body.style.cssText};document.body.style.position='fixed';document.body.style.top=-saved.y+'px';document.body.style.left=-saved.x+'px';document.body.style.width='100%';document.body.style.overflow='hidden';height=0;setHeight();}
+ window.lockInputBackground=lock;
+ function sync(){if(active()){lock();return;}if(!locked)return;locked=false;clearTimeout(timer);const previous=saved;saved=null;document.body.style.cssText=previous.css;requestAnimationFrame(()=>window.scrollTo(previous.x,previous.y));}
+ function paneFor(el){return el.closest('#cubeDialog,.editor-modal-sheet');}
+ window.revealInInputPane=function(el){const pane=paneFor(el);if(!pane)return;const r=el.getBoundingClientRect(),p=pane.getBoundingClientRect(),footer=pane.querySelector('.editor-save-bar,.dialog-actions'),f=footer?.getBoundingClientRect(),v=window.visualViewport,visibleTop=Math.max(p.top,v?.offsetTop||0),visibleBottom=Math.min(p.bottom,(v?.offsetTop||0)+(v?.height||innerHeight)),bottom=f&&f.top>visibleTop?Math.min(visibleBottom,f.top):visibleBottom;let delta=0;if(r.bottom>bottom-12)delta=r.bottom-bottom+12;else if(r.top<visibleTop+12)delta=r.top-visibleTop-12;if(Math.abs(delta)>1)pane.scrollTop+=delta;};
+ function settledViewport(){if(!active())return;clearTimeout(timer);timer=setTimeout(()=>{if(!active())return;setHeight();const input=document.activeElement;if(input?.matches('input,select,textarea')&&paneFor(input))window.revealInInputPane(input);},180);}
+ new MutationObserver(sync).observe(editor,{attributes:true,attributeFilter:['class']});new MutationObserver(sync).observe(cube,{attributes:true,attributeFilter:['open']});cube.addEventListener('close',sync);
+ document.addEventListener('focusin',e=>{if(!active()||!paneFor(e.target)||!e.target.matches('input,select,textarea'))return;settledViewport();});
+ window.visualViewport?.addEventListener('resize',settledViewport);window.addEventListener('resize',settledViewport);
+ // Safari's viewport pan must not reposition a second fixed modal on every scroll event.
+})();
+</script>
+<style id="stable-input-panes">
+#editorModal{top:0!important;height:var(--input-pane-height,100svh)!important}
+#editorModal .editor-modal-sheet{max-height:calc(var(--input-pane-height,100svh) - 12px)!important;overflow-anchor:none;scroll-behavior:auto}
+#cubeDialog[open]{top:12px!important;max-height:calc(var(--input-pane-height,100svh) - 24px)!important;overflow-anchor:none;scroll-behavior:auto}
+#foodEditor,#cubeFormRows{overflow-anchor:none}
+#editorModal input,#editorModal textarea,#editorModal select,#cubeDialog input,#cubeDialog select{font-size:16px!important}
+#editorModal .foodrow{scroll-margin:0!important}
+</style>
 </body>
 </html>
