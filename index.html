@@ -1084,7 +1084,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 </div>
 <div class="label">구성 음식</div>
 <div id="foodEditor"></div>
-<div class="editor-cube-panel"><div class="editor-cube-title">🧊 보관 중인 큐브로 준비량 채우기</div><p class="note">큐브를 선택하면 준비량에 중량이 추가돼요. 식단 저장 시 큐브가 예약돼요. 실제 조리한 뒤 사용 완료를 눌러주세요.</p><div id="editorCubeOptions" class="editor-cube-options"></div><div id="editorCubePending" class="editor-cube-pending"></div></div>
+<div class="editor-cube-panel"><div class="editor-cube-title">🧊 보관 중인 큐브로 준비량 채우기</div><p class="note">큐브를 선택하면 준비량에 중량이 추가돼요. 식단 저장 시 큐브가 예약돼요.</p><div id="editorCubeOptions" class="editor-cube-options"></div><div id="editorCubePending" class="editor-cube-pending"></div></div>
 <div class="label">추가재료</div>
 <input id="addedFood" class="editor-input" type="text" placeholder="오늘 처음 추가한 재료">
 <label style="display:block;margin-top:12px;font-size:13px;font-weight:800">실제 섭취량 (g)</label>
@@ -1215,11 +1215,9 @@ function summary(day){const arr=state.days[day].foods.filter(f=>f.name);return a
 function weekSlice(){return Array.from({length:7},(_,i)=>weekStart+i);}
 function renderWeekUsageActions(day){
  const usages=dayCubeUsages(day);if(!usages.length)return '';
- return '<div class="cube-usage-day"><strong>🧊 큐브 사용 현황</strong>'+usages.map(u=>{
- const c=(state.cubes||[]).find(x=>x.id===u.cubeBatchId);
- return '<div class="cube-usage-line"><span>'+esc(u.foodName)+' · '+u.cubeGrams+'g × '+u.quantity+'개 · '+(u.status==='planned'?'준비 예정':'사용 완료')+'</span>'+
- (u.status==='planned'?'<button type="button" data-confirm-usage="'+esc(u.id)+'">✓ 사용 완료</button>':'<button type="button" data-revert-usage="'+esc(u.id)+'">사용 정정</button>')+'</div>';
- }).join('')+'</div>';
+ return '<div class="cube-usage-day"><strong>🧊 큐브 사용 현황</strong>'+usages.map(u=>
+ '<div class="cube-usage-line"><span>'+esc(u.foodName)+' · '+u.cubeGrams+'g × '+u.quantity+'개 · '+(u.status==='planned'?'준비 예정':'사용 완료')+'</span></div>'
+ ).join('')+'</div>';
 }
 async function setUsageStatus(id,toStatus){
  const next=clone(state),u=(next.cubeUsages||[]).find(x=>x.id===id);if(!u)return;
