@@ -1721,28 +1721,24 @@ $('imageBtn').addEventListener('click',()=>{
 let deferredInstallPrompt=null;
 const installCard=$('installCard'), installBtn=$('installBtn'), installGuide=$('installGuide');
 const isStandalone=window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
-const ua=navigator.userAgent||'', isiOS=/iPhone|iPad|iPod/i.test(ua), isAndroid=/Android/i.test(ua);
+const ua=navigator.userAgent||'', isiOS=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1), isAndroid=/Android/i.test(ua), isSamsung=/SamsungBrowser\//i.test(ua), isChromeAndroid=isAndroid&&/Chrome\//i.test(ua)&&!isSamsung;
 
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
 if(!isStandalone){
-  installCard.classList.add('show');
-  if(isiOS){
-    installGuide.textContent='Safari의 공유 버튼 → “홈 화면에 추가”를 눌러주세요.';
-    installBtn.textContent='iPhone 설치 방법 보기';
-    installBtn.onclick=()=>alert('Safari의 실제 공유 메뉴(사각형 위로 화살표)를 열고 ‘홈 화면에 추가’를 선택하세요. 항목이 보이지 않으면 공유 메뉴의 목록을 아래로 스크롤하세요. 이 페이지의 공유 버튼으로 설치가 실행되지는 않아요.');
-  }else if(isAndroid){
-    installGuide.textContent='Chrome에서 앱 설치 또는 홈 화면 추가를 사용할 수 있어요.';
-    installBtn.textContent='홈 화면에 설치';
-    installBtn.onclick=()=> deferredInstallPrompt ? deferredInstallPrompt.prompt() : alert('Chrome 오른쪽 위 ⋮ 메뉴에서 “앱 설치” 또는 “홈 화면에 추가”를 선택해 주세요.');
-  }else{
-    installBtn.onclick=()=> deferredInstallPrompt ? deferredInstallPrompt.prompt() : alert('브라우저 메뉴에서 “앱 설치” 또는 “홈 화면에 추가”를 선택해 주세요.');
-  }
+ installCard.classList.add('show');installBtn.textContent='홈 화면 추가 안내';
+ let installMessage;
+ if(isiOS){installMessage='Safari의 공유 메뉴 → 홈 화면에 추가 → 추가. 다른 브라우저라면 Safari에서 열어주세요.';}
+ else if(isSamsung){installMessage='Samsung Internet의 메뉴(≡) → 현재 페이지 추가 → 홈 화면. 버전에 따라 홈 화면에 추가로 표시돼요.';}
+ else if(isChromeAndroid){installMessage='Chrome의 메뉴(⋮) → 홈 화면에 추가 또는 앱 설치.';}
+ else{installMessage='브라우저 메뉴에서 홈 화면에 추가 또는 앱 설치를 찾아주세요.';}
+ installGuide.textContent=installMessage;
+ installBtn.onclick=()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();return;}installGuide.textContent=installMessage;installGuide.scrollIntoView({block:'nearest'});};
 }
 window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();deferredInstallPrompt=e;
-  if(!isStandalone){installCard.classList.add('show');installBtn.textContent='홈 화면에 설치';}
+ e.preventDefault();deferredInstallPrompt=e;
+ if(!isStandalone){installCard.classList.add('show');installBtn.textContent='홈 화면에 설치';}
 });
 window.addEventListener('appinstalled',()=>{installCard.classList.remove('show');deferredInstallPrompt=null;});
 
@@ -2197,7 +2193,22 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 .bottom-backup-wrap>.bamsongi-context-banner{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box!important}
 </style>
 <script>
-(function(){const button=document.getElementById('sharePlannerBtn');button.onclick=async()=>{const url=location.href;try{if(navigator.share){await navigator.share({title:'밤송이맘 이유식 플래너',url});return;}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(url);}else{const field=document.createElement('textarea');field.value=url;field.style.cssText='position:fixed;opacity:0';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();if(!copied)throw new Error('copy');}document.getElementById('status').textContent='플래너 주소를 복사했어요.';}catch(e){if(e.name==='AbortError')return;window.prompt('아래 플래너 주소를 복사해 주세요.',url);}};})();
+(function(){
+ const button=document.getElementById('sharePlannerBtn');
+ button.onclick=async()=>{
+  const url=location.href,status=document.getElementById('status');
+  if(typeof navigator.share==='function'){
+   try{await navigator.share({title:'밤송이맘 이유식 플래너',url});}
+   catch(e){if(e.name!=='AbortError')status.textContent='공유를 열지 못했어요. 브라우저 공유 메뉴를 이용해 주세요.';}
+   return;
+  }
+  try{
+   if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(url);
+   else{const field=document.createElement('textarea');field.value=url;field.style.cssText='position:fixed;opacity:0';document.body.appendChild(field);field.select();const copied=document.execCommand('copy');field.remove();if(!copied)throw new Error('copy');}
+   status.textContent='주소를 복사했어요.';
+  }catch(e){window.prompt('주소를 복사해 주세요.',url);}
+ };
+})();
 </script><style id="v262-targeted-ux">
 #emojiPicker{z-index:20000!important;width:min(300px,calc(100vw - 24px))!important;max-height:calc(var(--usable-height,100dvh) - 24px);overflow-y:auto;overscroll-behavior:contain;padding:10px;border-radius:18px}
 #emojiPicker .emoji-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
