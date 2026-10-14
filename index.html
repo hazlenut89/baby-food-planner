@@ -1741,8 +1741,9 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')){
 function showInstallGuide(){
  if(isStandalone)return;
  const dialog=$('installGuideDialog'),steps=$('installGuideSteps');steps.replaceChildren();
- const items=isiOS?['Safari의 공유 아이콘(사각형 위로 화살표)을 누르세요.','홈 화면에 추가를 선택하세요.','추가를 누르면 홈 화면에 밤송이 아이콘이 생겨요.']:isSamsung?['Samsung Internet의 브라우저 메뉴를 누르세요.','홈 화면에 추가를 선택하세요. 현재 페이지 추가 안에 있을 수 있어요.','안내에 따라 추가를 완료하세요.']:isChromeAndroid?['Chrome의 브라우저 메뉴(⋮)를 누르세요.','홈 화면에 추가 또는 앱 설치를 선택하세요.','안내에 따라 추가를 완료하세요.']:['브라우저 메뉴를 열어주세요.','홈 화면에 추가 또는 앱 설치를 찾아 선택하세요.'];
- for(const text of items){const item=document.createElement('li');item.textContent=text;steps.appendChild(item);}
+ const items=isiOS?['Safari 공유 버튼 누르기','홈 화면에 추가를 선택하세요.','추가를 누르면 홈 화면에 밤송이 아이콘이 생겨요.']:isSamsung?['Samsung Internet의 브라우저 메뉴를 누르세요.','홈 화면에 추가를 선택하세요. 현재 페이지 추가 안에 있을 수 있어요.','안내에 따라 추가를 완료하세요.']:isChromeAndroid?['Chrome의 브라우저 메뉴(⋮)를 누르세요.','홈 화면에 추가 또는 앱 설치를 선택하세요.','안내에 따라 추가를 완료하세요.']:['브라우저 메뉴를 열어주세요.','홈 화면에 추가 또는 앱 설치를 찾아 선택하세요.'];
+ const iconPaths={share:'<path d="M12 15V3m-4 4 4-4 4 4M7 10H4v11h16V10h-3"/>',home:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8m-4-4h8"/>',check:'<path d="m5 12 4 4L19 6"/>',dots:'<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
+ for(const [index,text] of items.entries()){const item=document.createElement('li'),icon=document.createElement('span'),label=document.createElement('span');icon.className='install-step-icon';icon.setAttribute('aria-hidden','true');const kind=index===0?(isiOS?'share':isChromeAndroid?'dots':'menu'):index===1?'home':'check';icon.innerHTML='<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">'+iconPaths[kind]+'</svg>';label.className='install-step-text';label.textContent=text;item.append(icon,label);steps.appendChild(item);}
  $('installGuideTitle').textContent=isiOS?'iPhone 홈 화면에 추가':isSamsung?'Samsung Internet 홈 화면에 추가':isChromeAndroid?'Chrome 홈 화면에 추가':'홈 화면에 추가';
  $('installGuideBrowserNote').hidden=!isiOS;
  if(!dialog.open)dialog.showModal();
@@ -2244,5 +2245,12 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
 .cube-form-grid input,.cube-form-grid select{height:46px!important;padding:9px!important}.cube-form-grid input::-webkit-date-and-time-value{text-align:left}
 .cube-stock{display:flex;flex-direction:column;gap:3px;align-items:flex-start}.cube-stock-phrase{white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important}
 .editor-cube-options .cube-picker-empty{grid-column:1/-1;min-width:0}.editor-cube-option{min-width:0;word-break:keep-all!important;overflow-wrap:break-word!important}
-</style></body>
+</style><style id="install-step-explanatory-icons">
+#installGuideSteps li:before{display:none}
+.install-step-icon{display:flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:#eaf4fb;color:#4c7b96;pointer-events:none;user-select:none}
+#installGuideSteps li:nth-child(2) .install-step-icon{background:#f2ebfc;color:#8a70ad}
+#installGuideSteps li:nth-child(3) .install-step-icon{background:#eff6e3;color:#66864c}
+.install-step-text{min-width:0;align-self:center}
+</style>
+</body>
 </html>
