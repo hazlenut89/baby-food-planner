@@ -2251,7 +2251,7 @@ body.editor-open .bamsongi-success,body.editor-open .cube-toast{display:none!imp
  function enter(id){
   if(stack.some(x=>x.id===id))return;
   const home=homes.get(id),origin={id,x:scrollX,y:scrollY};
-  if(!stack.length){hidden=[...document.body.children].filter(el=>el!==page&&!['SCRIPT','STYLE'].includes(el.tagName)).map(el=>({el,hidden:el.hidden}));for(const x of hidden)x.el.hidden=true;}
+  if(!stack.length){hidden=[...document.body.children].filter(el=>el!==page&&!['SCRIPT','STYLE','DIALOG'].includes(el.tagName)).map(el=>({el,hidden:el.hidden}));for(const x of hidden)x.el.hidden=true;}
   const previous=stack.at(-1);if(previous)homes.get(previous.id).form.remove();
   stack.push(origin);page.replaceChildren(home.form);page.hidden=false;
   home.form.classList.add('editor-page-form');
