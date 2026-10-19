@@ -1032,7 +1032,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 <button id="imageBtn" aria-label="🖼️ 이유식 식단 캘린더뷰 이미지 저장" title="🖼️ 이유식 식단 캘린더뷰 이미지 저장" class="outline" type="button">🖼️ 이미지 저장</button>
 </div>
 
-<div class="v2-nav"><button id="todayBtn" type="button">오늘</button><button id="openJump" type="button">날짜 이동</button><span id="currentLocation" aria-live="polite"></span></div>
+
 
 <section class="notice storage-summary"><p><strong>이 브라우저에 저장돼요.</strong> 중요한 기록은 데이터 백업으로 보관해 주세요.</p><details id="storageGuide"><summary>저장 및 사용 안내 보기</summary><p>브라우저 데이터를 삭제하거나 비공개 모드·저장 공간 제한이 있는 환경에서는 기록이 사라질 수 있어요. 다른 브라우저나 주소로 옮길 때는 데이터 백업·복원을 이용해 주세요.</p><p>백업 및 복원 메뉴에서 모든 날짜의 식단, 아기 정보, 메모, 식재료 맵을 보관할 수 있어요. 기록 합치기는 현재 기록을 유지하고, 전체 복원은 백업·최종 확인 후 교체해요.</p><p>이미지는 현재 보고 있는 31일의 이유식 식단 캘린더를 저장하며, 날짜별 메모와 📝 표시는 이미지에 포함되지 않아요.</p></details></section>
 <div id="status" class="status" aria-live="polite">날짜를 누르면 그날 식단을 입력할 수 있어요.</div>
@@ -1044,6 +1044,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 </div>
 
 <section id="weekPanel" class="weekpanel active card" style="padding:15px" role="tabpanel" aria-labelledby="weekTab" tabindex="0">
+<div id="calendarNavigation" class="v2-nav" role="group" aria-label="식단표 날짜 이동"><button id="todayBtn" type="button">오늘</button><button id="openJump" type="button">날짜 이동</button></div>
   <div class="weeknav">
     <button id="prevWeek" type="button" aria-label="이전 주">‹</button>
     <div class="weektitle"><span class="bamsongi-tiny-star" aria-hidden="true">✦</span><strong id="weekRange">180–186일</strong><span id="weekDateRange">6개월 초기이유식</span></div>
@@ -1149,7 +1150,10 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 @media(max-width:375px){.cube-subtabs button{font-size:12px;padding:6px}.cube-form-grid{gap:7px}.cube-card{padding:12px}}
 
 /* v2.4.4: clear action hierarchy, equal-width manufacturing records */
-.v2-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:8px!important;margin:14px 0 20px!important;align-items:stretch}
+#calendarNavigation[hidden]{display:none!important}
+#calendarNavigation{display:flex!important;justify-content:flex-end;align-items:center;flex-wrap:nowrap;gap:7px!important;width:100%;margin:0 0 10px!important}
+#calendarNavigation #todayBtn,#calendarNavigation #openJump{flex:0 0 auto!important;width:80px!important;min-width:0!important;height:32px!important;min-height:32px!important;max-height:32px!important;padding:0 10px!important;margin:0!important;font-size:13px!important;font-weight:600!important;line-height:1.2!important;white-space:nowrap;background:#f5f5f4!important;color:#68615c!important;border:1px solid #e7e4e1!important;border-radius:9px!important;box-shadow:none!important}
+
 .v2-nav #todayBtn,.v2-nav #openJump,.v2-nav #currentLocation{width:100%!important;min-width:0!important;min-height:52px!important;box-sizing:border-box!important;margin:0!important;padding:10px 6px!important;display:flex!important;justify-content:center;align-items:center;text-align:center;white-space:nowrap;font-size:clamp(13px,3.3vw,19px)!important;border-radius:14px!important}
 .v2-nav #currentLocation{font-weight:900!important;background:#fff0f5!important;color:#b82a5c!important;border:2px solid #ec9fb9!important}
 .v2-nav #todayBtn{background:#e84982!important;border:2px solid #cc3169!important;color:#fff!important}
@@ -1314,7 +1318,7 @@ function renderHeader(){
  $('startDateLabel').textContent='출생일을 1일로 계산한 '+rangeStart()+'일째';
  $('monthHint').textContent=viewStart+'–'+rangeEnd()+'일 · 이전·다음 기간으로 계속 기록할 수 있어요.';
  $('periodLabel').textContent=viewStart+'–'+rangeEnd()+'일';$('prevPeriod').disabled=viewStart<=1;
- $('jumpDay').value=selected;$('currentLocation').textContent=selected+'일'+(dayDate(selected)?' · '+shortFmt(dayDate(selected)):'');
+ $('jumpDay').value=selected;
  const s=dayDate(rangeStart()); $('startDate').textContent=s?fmt(s):'생일을 입력해 주세요';
 }
 function renderCalendar(){
@@ -1685,6 +1689,8 @@ $('seedBtn').addEventListener('click',seedAll);
 const viewTabs=[['weekTab','weekPanel'],['allTab','monthPanel'],['ingredientTab','preferencePanel']];
 function selectView(tabId){
  const chosen=viewTabs.find(([id])=>id===tabId);if(!chosen)return;
+ const navigation=$('calendarNavigation');navigation.hidden=tabId==='ingredientTab';
+ if(tabId!=='ingredientTab')$(tabId==='allTab'?'monthPanel':'weekPanel').prepend(navigation);
  for(const [id,panelId] of viewTabs){const active=id===tabId;$(id).classList.toggle('active',active);$(id).setAttribute('aria-selected',String(active));$(id).tabIndex=active?0:-1;$(panelId).hidden=!active;}
  weekPanel.classList.toggle('active',tabId==='weekTab');monthPanel.classList.toggle('hidden',tabId!=='allTab');
  if(tabId==='weekTab')renderWeek(selected);else if(tabId==='allTab')renderCalendar();else {renderPreferences();renderCubes();}
