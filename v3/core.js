@@ -141,6 +141,7 @@ async function saveMeal(day,mealId,record,picks=[],memo='',remove=false){
  if(remove&&index<0)throw Error('삭제할 끼니가 없어요.');
  if(index<0&&ms.length>=3)throw Error('하루 최대 세 끼까지 기록할 수 있어요.');
  if(!record||!Array.isArray(record.foods)||record.foods.some(f=>!f.name?.trim()||!Number.isFinite(Number(f.g))||Number(f.g)<0))throw Error('식재료명과 중량을 확인해 주세요.');
+ if(!remove&&record.slot&&ms.some(m=>m.id!==mealId&&m.slot===record.slot))throw Error('이미 기록된 끼니예요. 다른 끼니를 선택해 주세요.');
  if(record.actualIntake!==''&&(!Number.isFinite(Number(record.actualIntake))||Number(record.actualIntake)<0))throw Error('섭취량을 확인해 주세요.');
  const old=scopeUsages(next,day,mealId),key=u=>JSON.stringify([u.cubeBatchId,ingredientKey(u.foodName)]),requested=new Map();
  const names=new Set(record.foods.map(f=>ingredientKey(f.name)));
@@ -175,7 +176,7 @@ async function reset(){return transaction(next=>{Object.assign(next,{days:{},cub
 async function load(){const stored=await getStored(KEY);persistedFingerprint=JSON.stringify(stored);let fallback;try{fallback=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){if(!stored)throw e;}state=validateV3(normalize(stored||fallback||state));storageReady=true;return clone(state);}
 function intakeMetrics(ms){const plan=ms.reduce((n,m)=>n+(m.foods||[]).reduce((a,f)=>a+Number(f.g||0),0),0),recorded=ms.filter(m=>m.actualIntake!==''&&m.actualIntake!=null),actual=recorded.reduce((n,m)=>n+Number(m.actualIntake),0);return {plan,actual,recorded:recorded.length,complete:ms.length>0&&recorded.length===ms.length,rate:ms.length>0&&recorded.length===ms.length&&plan>0?actual/plan*100:null};}
 function firstFoods(s=state){const first={};const put=(name,day,meal)=>{if(!Number.isSafeInteger(day)||day<1)return;const key=ingredientKey(name);if(!first[key]||day<first[key].day)first[key]={day,mealId:meal,name};};
- for(const [day,d] of Object.entries(s.days).sort((a,b)=>Number(a[0])-Number(b[0])))for(const m of mealsOf(d))if(m.actualIntake!==''&&m.actualIntake!=null&&Number(m.actualIntake)>0)for(const f of m.foods)if(Number(f.g)>0)put(f.name,Number(day),m.id);
+ for(const [day,d] of Object.entries(s.days).sort((a,b)=>Number(a[0])-Number(b[0])))for(const m of mealsOf(d))if(m.actualIntake!==''&&m.actualIntake!=null&&Number(m.actualIntake)>0)for(const f of m.foods)if(Number(f.g)>0&&!f.productEntry)put(f.name,Number(day),m.id);
  for(const i of s.ingredients||[]){let day=i.firstTriedDay;if(!day&&validISO(i.firstTriedOn)&&validISO(s.birthday))day=Math.round((parseDate(i.firstTriedOn)-parseDate(s.birthday))/86400000)+1;if(day)put(i.name,Number(day),null);}return first;
 }
 function templateRows(options){const {stage,count,startDay,length=60,offset=1}=options;if(!['early','middle'].includes(stage)||!Number.isSafeInteger(startDay)||startDay<1||!Number.isSafeInteger(length)||length<1||!Number.isSafeInteger(offset)||offset<1)throw Error('식단 단계·시작일·기간을 확인해 주세요.');
@@ -192,7 +193,7 @@ async function applyTemplate(options){const rows=templateRows(options),mode=opti
  for(const u of old){const c=next.cubes.find(c=>c.id===u.cubeBatchId);if(!c||c.remainingQty+u.quantity>c.initialQty)throw Error('큐브 복구 수량을 확인해 주세요.');c.remainingQty+=u.quantity;logChange(next,c.id,u.quantity,'template-replace',day,u.mealId||original[0]?.id);}
  const oldIds=new Set(old.map(u=>u.id));next.cubeUsages=next.cubeUsages.filter(u=>!oldIds.has(u.id));ms=ms.filter(m=>!incomingSlots.has(m.slot));
  }
- for(const m of row.meals){if(ms.some(x=>x.slot===m.slot))continue;ms.push({...emptyMeal(uid('meal')),slot:m.slot,foods:clone(m.foods),template:{stage:options.stage,day:row.day,introduction:row.introduction||'',allergyNote:row.allergyNote||'',note:row.note||''}});}
+ for(const m of row.meals){if(ms.some(x=>x.slot===m.slot))continue;ms.push({...emptyMeal(uid('meal')),slot:m.slot,foods:clone(m.foods),template:{plannedNew:clone(m.plannedNew||[]),stage:options.stage,day:row.day,introduction:row.introduction||'',allergyNote:row.allergyNote||'',note:row.note||''}});}
  ms.sort((a,b)=>a.slot-b.slot);if(!ms.length)continue;const first=ms[0];next.days[day]={...prior,meals:ms,v3Multi:!!prior.v3Multi||ms.length>1,foods:clone(first.foods),actualIntake:first.actualIntake??'',added:first.added||'',allergy:!!first.allergy};
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}
