@@ -1,0 +1,17 @@
+[
+  {
+    "name": "UI 선택만 쓰기·이전 UI pageshow 교정·replace 전환·동일 UI history 유지 (모의 navigation)",
+    "status": "PASS",
+    "environment": "JSDOM + fake-indexeddb (not a device/layout test)"
+  },
+  {
+    "name": "양방향 소진·삭제 동기화, 활성 보관함 제외·제조 이력 보존",
+    "status": "PASS",
+    "environment": "JSDOM + fake-indexeddb (not a device/layout test)"
+  },
+  {
+    "name": "그래프 동일 행 높이·날짜 nowrap, 오늘 점 제거 (CSS 정적 확인)",
+    "status": "PASS",
+    "environment": "JSDOM + fake-indexeddb (not a device/layout test)"
+  }
+]
