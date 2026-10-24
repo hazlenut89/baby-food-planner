@@ -1002,6 +1002,13 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 #cubeSubPanel .cube-storage-notice[hidden]{display:none}#cubeSubPanel .cube-storage-notice{margin:10px 0;padding:12px;border:1px solid #eed4b7;border-radius:12px;background:#fff4e8;color:#875a32;font-size:13px;line-height:1.6;word-break:keep-all}#cubeSubPanel .cube-storage-notice small{display:block;margin-top:5px;font-size:11px}#cubeStorageReviewLink{display:inline-block;margin-left:8px;color:inherit;text-decoration:underline}
 #cubeSubPanel .cube-remove-batch{display:inline-flex;align-items:center;justify-content:center;flex:none;width:34px;min-width:34px;min-height:34px;padding:6px;color:#9b6670}#cubeSubPanel .cube-batch-review{margin-top:10px;padding:10px;border-radius:11px;background:#fff4e8;color:#875a32;font-size:12px;line-height:1.6;word-break:keep-all}#cubeSubPanel .cube-review-badge{display:inline-block;padding:2px 7px;border-radius:8px;background:#fbe2c5;font-weight:700}#cubeSubPanel .cube-batch-review p{margin:6px 0}#cubeSubPanel .cube-discard-batch{min-height:34px;padding:5px 10px;font-size:12px;background:#fffaf4;color:#875a32;border:1px solid #e7c8a4}
 </style>
+
+<!-- Vercel Web Analytics -->
+<script>
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 </head>
 <body>
 <main>
@@ -1038,7 +1045,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 
 
 
-<section class="notice storage-summary"><p><strong>이 브라우저에 저장돼요.</strong> 중요한 기록은 데이터 백업으로 보관해 주세요.</p><details id="storageGuide"><summary>저장 및 사용 안내 보기</summary><p>브라우저 데이터를 삭제하거나 비공개 모드·저장 공간 제한이 있는 환경에서는 기록이 사라질 수 있어요. 다른 브라우저나 주소로 옮길 때는 데이터 백업·복원을 이용해 주세요.</p><p>백업 및 복원 메뉴에서 모든 날짜의 식단, 아기 정보, 메모, 식재료 맵을 보관할 수 있어요. 기록 합치기는 현재 기록을 유지하고, 전체 복원은 백업·최종 확인 후 교체해요.</p><p>이미지는 현재 보고 있는 31일의 이유식 식단 캘린더를 저장하며, 날짜별 메모와 📝 표시는 이미지에 포함되지 않아요.</p></details></section>
+<section class="notice storage-summary"><p><strong>이 브라우저에 저장돼요.</strong> 중요한 기록은 데이터 백업으로 보관해 주세요.</p><details id="storageGuide"><summary>저장 및 사용 안내 보기</summary><p>브라우저 데이터를 삭제하거나 비공개 모드·저장 공간 제한이 있는 환경에서는 기록이 사라질 수 있어요. 다른 브라우저나 주소로 옮길 때는 데이터 백업·복원을 이용해 주세요.</p><p>백업 및 복원 메뉴에서 모든 날��의 식단, 아기 정보, 메모, 식재료 맵을 보관할 수 있어요. 기록 합치기는 현재 기록을 유지하고, 전체 복원은 백업·최종 확인 후 교체해요.</p><p>이미지는 현재 보고 있는 31일의 이유식 식단 캘린더를 저장하며, 날짜별 메모와 📝 표시는 이미지에 포함되지 않아요.</p></details></section>
 <div id="status" class="status" aria-live="polite">날짜를 누르면 그날 식단을 입력할 수 있어요.</div>
 
 <div class="viewtabs" role="tablist" aria-label="식단표와 식재료 보기">
@@ -1194,7 +1201,7 @@ function esc(value){
    .replace(/"/g,'&quot;')
    .replace(/'/g,'&#39;');
 }
-const SEED={"foods": {"180": [["🍚", "쌀미음", 10]], "181": [["🍚", "쌀미음", 20]], "182": [["🍚", "쌀", 20], ["🥩", "소고기", 10]], "183": [["🍚", "쌀", 20], ["🥩", "소고기", 10]], "184": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "185": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "186": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "187": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "188": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "189": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "190": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "191": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "192": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "193": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "194": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "195": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "196": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "197": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "198": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "199": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "200": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "201": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "202": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "오이", 5]], "203": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "오이", 5]], "204": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "205": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "206": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "207": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "208": [["🌾", "곡류", 30], ["🥚", "완숙계란", 5], ["🥒", "애호박", 5]], "209": [["🌾", "곡류", 30], ["🥚", "완숙계란", 10], ["🥦", "브로콜리", 5]], "210": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5], ["🥕", "당근", 5]]}, "added": {"180": "시작", "181": "적응", "182": "🥩 소고기 10g", "183": "🥩 소고기 10g", "184": "🌾 오트밀 20g", "185": "🌾 오트밀 20g", "186": "🥒 애호박 10g", "187": "🥒 애호박 10g", "188": "🥬 청경채 5g", "189": "🥬 청경채 5g", "190": "🥦 브로콜리 10g", "191": "🥦 브로콜리 10g", "192": "🥬 양배추 10g", "193": "🥬 양배추 10g", "194": "🥬 시금치 5g", "195": "🥬 시금치 5g", "196": "🥕 당근 10g", "197": "🥕 당근 10g", "198": "🎃 단호박 10g", "199": "🎃 단호박 10g", "200": "🥔 감자 10g", "201": "🥔 감자 10g", "202": "🥒 오이 5g", "203": "🥒 오이 5g", "204": "🥬 배추 10g", "205": "🥬 배추 10g", "206": "🍠 고구마 10g", "207": "🍠 고구마 10g", "208": "🥚 완숙계란 5g", "209": "🥚 완숙계란 10g", "210": "조합"}};
+const SEED={"foods": {"180": [["🍚", "쌀미음", 10]], "181": [["🍚", "쌀미음", 20]], "182": [["����", "쌀", 20], ["🥩", "소고기", 10]], "183": [["🍚", "쌀", 20], ["🥩", "소고기", 10]], "184": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "185": [["🌾", "쌀+오트밀", 30], ["🥩", "소고기", 10]], "186": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "187": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "애호박", 10]], "188": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "189": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "청경채", 5]], "190": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "191": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥦", "브로콜리", 10]], "192": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "193": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "양배추", 10]], "194": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "195": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5]], "196": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "197": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥕", "당근", 10]], "198": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "199": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🎃", "단호박", 10]], "200": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "201": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥔", "감자", 10]], "202": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "오이", 5]], "203": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥒", "오이", 5]], "204": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "205": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "배추", 10]], "206": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "207": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🍠", "고구마", 10]], "208": [["🌾", "곡류", 30], ["🥚", "완숙계란", 5], ["🥒", "애호박", 5]], "209": [["🌾", "곡류", 30], ["🥚", "완숙계란", 10], ["🥦", "브로콜리", 5]], "210": [["🌾", "곡류", 30], ["🥩", "소고기", 10], ["🥬", "시금치", 5], ["🥕", "당근", 5]]}, "added": {"180": "시작", "181": "적응", "182": "🥩 소고기 10g", "183": "🥩 소고기 10g", "184": "🌾 오트밀 20g", "185": "🌾 오트밀 20g", "186": "🥒 애호박 10g", "187": "🥒 애호박 10g", "188": "🥬 청경채 5g", "189": "🥬 청경채 5g", "190": "🥦 브로콜리 10g", "191": "🥦 브로콜리 10g", "192": "🥬 양배추 10g", "193": "🥬 양배추 10g", "194": "🥬 시금치 5g", "195": "🥬 시금치 5g", "196": "🥕 당근 10g", "197": "🥕 당근 10g", "198": "🎃 단호박 10g", "199": "🎃 단호박 10g", "200": "🥔 감자 10g", "201": "🥔 감자 10g", "202": "🥒 오이 5g", "203": "🥒 오이 5g", "204": "🥬 배추 10g", "205": "🥬 배추 10g", "206": "🍠 고구마 10g", "207": "🍠 고구마 10g", "208": "🥚 완숙계란 5g", "209": "🥚 완숙계란 10g", "210": "조합"}};
 let days=Array.from({length:31},(_,i)=>180+i);
 let selected=180;
 let viewStart=180, storageReady=false;
@@ -1498,7 +1505,7 @@ async function saveEditor(){
  // A saved selection consumes stock immediately. Old links are never recharged.
  const allPrior=dayCubeUsages(day),originalNames=new Set((state.days[day]?.foods||[]).map(f=>ingredientKey(f.name))),prior=allPrior.filter(u=>originalNames.has(ingredientKey(u.foodName))),managedIds=new Set(prior.map(u=>u.id)),requested=new Map(),keyOf=u=>JSON.stringify([u.cubeBatchId,ingredientKey(u.foodName)]);
  for(const p of editorCubePending){const key=JSON.stringify([p.id,ingredientKey(p.name)]),r=requested.get(key)||{id:p.id,name:p.name,qty:0};r.qty++;requested.set(key,r);}
- for(const u of allPrior)if(!managedIds.has(u.id)&&requested.has(keyOf(u)))throw new Error('이전 식사와의 큐브 연결이 불명확해요. 기존 기록을 확인해 주세요. 재고는 변경하지 않았어요.');
+ for(const u of allPrior)if(!managedIds.has(u.id)&&requested.has(keyOf(u)))throw new Error('이전 식사와의 큐브 연결이 불명확해요. 기존 기록을 확인해 주세요. 재고는 변경��지 않았어요.');
  const savedCounts=new Map();for(const u of prior){const key=keyOf(u);savedCounts.set(key,(savedCounts.get(key)||0)+u.quantity);}
  // Refund only quantities explicitly recorded as deducted in the existing ledger.
  const confirmed=new Map();for(const u of prior)if(u.status==='used'){const key=keyOf(u);confirmed.set(key,(confirmed.get(key)||0)+u.quantity);}
@@ -1855,7 +1862,7 @@ function renderPreferences(){
  const legacy=$('legacyPreferences');legacy.replaceChildren();const names=new Set(Object.keys(state.preferences||{}));
  Object.values(state.days).forEach(d=>mealRecords(d).forEach(m=>(m.foods||[]).forEach(f=>{if(f.name?.trim())names.add(f.name.trim());})));
  for(const name of [...names].sort((a,b)=>a.localeCompare(b,'ko'))){const row=document.createElement('div');row.className='legacy-row';const label=document.createElement('span');label.textContent=name+' · '+(Object.hasOwn(state.preferences||{},name)?prefLabels[state.preferences[name]]:'선호도 미기록');const b=document.createElement('button');b.type='button';b.textContent='재료로 등록';b.className='outline';b.onclick=()=>openIngredient(null,name);row.append(label,b);legacy.appendChild(row);}
- if(!names.size)legacy.textContent='이전 음식명 기록이 없어요.';
+ if(!names.size)legacy.textContent='이전 음식명 ���록이 없어요.';
 }
 ['ingredientSearch','preferenceFilter','allergyFilter','archiveFilter'].forEach(id=>$(id).addEventListener(id==='ingredientSearch'?'input':'change',renderPreferences));
 $('clearIngredientFilters').onclick=resetMapFilters;
@@ -1975,7 +1982,7 @@ $('resetBackup').onclick=async()=>{await saveQueue.catch(()=>{});downloadJSON(st
 $('resetAck').onchange=()=>{$('confirmReset').disabled=!$('resetAck').checked;};
 $('confirmReset').onclick=async()=>{
  if(destructiveBusy||!storageReady||!$('resetAck').checked||resetBackedUp!==JSON.stringify(state))return;
- if(!confirm('정말 식단표를 초기화할까요? 아기 정보는 유지하고 식단·메모·선호도·식재료 맵을 비웁니다. 다운로드한 백업으로 전체 복원할 수 있습니다.'))return;
+ if(!confirm('정말 식단표를 초기화할까요? 아기 정보는 유지하고 식단·메모·선호도·식재료 맵을 비웁���다. 다운로드한 백업으로 전체 복원할 수 있습니다.'))return;
  destructiveBusy=true;$('confirmReset').disabled=true;
  try{await saveQueue;const next={...clone(state),days:{},preferences:{},ingredients:[],cubes:[],cubeUsages:[]};await commitState(next,'before-reset');viewStart=rangeStart();selected=viewStart;rebuildDays();refresh();$('modal').classList.remove('open');$('status').textContent='백업과 최종 확인 후 초기화했어요. 기존 기록은 백업으로 복원할 수 있어요.';}
  catch(err){$('status').textContent=err.message;}finally{destructiveBusy=false;$('confirmReset').disabled=!$('resetAck').checked;}
