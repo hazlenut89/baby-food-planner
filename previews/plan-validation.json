@@ -1,0 +1,22 @@
+{
+  "2": {
+    "days": 60,
+    "weights": "PASS",
+    "introductions": "PASS",
+    "firstMeal": "PASS",
+    "initialNewDuplicates": "PASS",
+    "beforeIntroduction": [],
+    "duplicateVegetableDays": [],
+    "fishServings": 9
+  },
+  "3": {
+    "days": 60,
+    "weights": "PASS",
+    "introductions": "PASS",
+    "firstMeal": "PASS",
+    "initialNewDuplicates": "PASS",
+    "beforeIntroduction": [],
+    "duplicateVegetableDays": [],
+    "fishServings": 9
+  }
+}

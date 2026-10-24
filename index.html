@@ -1788,7 +1788,7 @@ const isStandalone=window.matchMedia('(display-mode: standalone)').matches || wi
 const ua=navigator.userAgent||'', isiOS=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1), isAndroid=/Android/i.test(ua), isSamsung=/SamsungBrowser\//i.test(ua), isChromeAndroid=isAndroid&&/Chrome\//i.test(ua)&&!isSamsung;
 
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}));
 }
 function showInstallGuide(){
  if(isStandalone)return;
@@ -2014,9 +2014,9 @@ function cubeName(c){return (state.ingredients||[]).find(i=>i.id===c.ingredientI
 function cubeIcon(c){return ingredientIcon({name:cubeName(c)});}
 function cubeInCabinet(c){return !c.cabinetRemovedAt&&!c.discardedAt&&c.remainingQty>0;}
 function cubeAgeForNotice(c){return typeof c.madeOn==='string'&&validISO(c.madeOn)?cubeDays(c.madeOn):null;}
-function cubeNeedsReview(c){const age=cubeAgeForNotice(c);return cubeInCabinet(c)&&c.storage==='frozen'&&age!==null&&age>=14;}
+function cubeNeedsReview(c){const age=cubeAgeForNotice(c);return cubeInCabinet(c)&&(c.storage==='refrigerated'||age!==null&&age>=14);}
 async function removeCabinetBatch(id,discard=false){
- if(cubeBusy)return;const current=state.cubes.find(c=>c.id===id);if(!current||!cubeInCabinet(current)||discard&&!cubeNeedsReview(current))return;
+ if(cubeBusy)return;const current=state.cubes.find(c=>c.id===id);if(!current||current.cabinetRemovedAt||current.discardedAt||discard&&!cubeNeedsReview(current))return;
  const message=discard?'남은 큐브 '+current.remainingQty+'개를 폐기 처리할까요? 폐기 처리하면 보관함에서 사라지며, 과거 식단 기록은 유지됩니다.':'이 큐브를 보관함에서 삭제할까요? 남은 재고는 보관함에서 제거되며, 과거 식단 기록은 유지됩니다.';
  if(!confirm(message))return;
  cubeBusy=true;try{const next=clone(state),batch=next.cubes.find(c=>c.id===id);if(discard){batch.remainingQty=0;batch.discardedAt=new Date().toISOString();}else batch.cabinetRemovedAt=new Date().toISOString();batch.updatedAt=new Date().toISOString();await commitState(next);refresh();showCubeToast(discard?'남은 큐브를 폐기 처리했어요. 제조·식단 기록은 유지돼요.':'보관함에서 삭제했어요. 제조·식단 기록은 유지돼요.');}catch(err){$('status').textContent=err.message;}finally{cubeBusy=false;renderCubes();}
@@ -2047,7 +2047,7 @@ function renderCubes(){
    const detail=document.createElement('button');detail.type='button';detail.className='outline cube-batch-detail';detail.textContent='수정';detail.onclick=()=>openCubeForm(c.id);
    const remove=document.createElement('button');remove.type='button';remove.className='outline cube-remove-batch';remove.setAttribute('aria-label',name+' '+c.grams+'g '+c.madeOn+' 제조 배치 보관함에서 삭제');remove.title='보관함에서 삭제';remove.disabled=cubeBusy;remove.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6"/></svg>';remove.onclick=()=>removeCabinetBatch(c.id);
    controls.append(minus,count,plus,detail,remove);row.appendChild(controls);
-   if(cubeNeedsReview(c)){row.id='cube-review-'+c.id;const notice=document.createElement('div');notice.className='cube-batch-review';const badge=document.createElement('span');badge.className='cube-review-badge';badge.textContent='⚠️ 14일 경과';const text=document.createElement('p');text.textContent='제조 후 14일이 지났어요. 보관 상태를 확인하고 폐기하는 것을 권장해요.';const discard=document.createElement('button');discard.type='button';discard.className='outline cube-discard-batch';discard.textContent='폐기 처리';discard.disabled=cubeBusy;discard.onclick=()=>removeCabinetBatch(c.id,true);notice.append(badge,text,discard);row.appendChild(notice);}
+   if(cubeNeedsReview(c)){row.id='cube-review-'+c.id;const notice=document.createElement('div');notice.className='cube-batch-review';const badge=document.createElement('span');badge.className='cube-review-badge';badge.textContent=c.storage==='refrigerated'?'냉장 보관 확인':'⚠️ 냉동 제조 14일 경과';const text=document.createElement('p');text.textContent=c.storage==='refrigerated'?'냉장 큐브에는 14일 기준을 적용하지 않아요. 제조 시점부터 보관 시간·온도와 재료별 지침을 확인하세요. 이 알림은 섭취 가능 여부를 판정하지 않아요.':'제조한 지 14일이 지났어요. 보관 상태를 확인하고 폐기 여부를 판단해 주세요. 14일은 안전 보관 기한이 아닙니다.';const discard=document.createElement('button');discard.type='button';discard.className='outline cube-discard-batch';discard.textContent='폐기 처리';discard.disabled=cubeBusy;discard.onclick=()=>removeCabinetBatch(c.id,true);notice.append(badge,text,discard);row.appendChild(notice);}
    card.appendChild(row);
   }list.appendChild(card);
  }
@@ -2118,7 +2118,7 @@ async function useCubeForSelectedMeal(cubeId,foodName,dayNumber){if(showV3ReadOn
  }catch(err){$('cubeDetailError').textContent=err.message;}
  finally{cubeBusy=false;}
 }
-function openCubeDetail({name=null,date=null,foodGrams=null}={}){const all=(state.cubes||[]).filter(c=>date?c.madeOn===date:ingredientKey(cubeName(c))===ingredientKey(name||''));all.sort((a,b)=>a.madeOn.localeCompare(b.madeOn));$('cubeDetailTitle').textContent=date?'🧊 '+date+' 제조 기록':'🧊 '+(name||'큐브')+' 상세';const host=$('cubeDetailContent');host.replaceChildren();$('cubeDetailError').textContent='';if(!all.length){host.textContent='해당 큐브 기록이 없어요.';}for(const c of all){const row=document.createElement('div');row.className='cube-detail-batch';const h=document.createElement('strong');h.textContent=cubeIcon(c)+' '+cubeName(c);row.appendChild(h);const meta=document.createElement('p');meta.className='cube-meta';meta.textContent=cubeMeta(c)+' · '+c.grams+'g × '+c.initialQty+'개 제조';row.appendChild(meta);const remaining=document.createElement('div');remaining.className='cube-stock-phrase';remaining.textContent=c.cabinetRemovedAt?'재고에서 삭제됨':c.discardedAt?'폐기됨':'('+c.remainingQty+'개 남음)';row.appendChild(remaining);if(foodGrams>0){const info=document.createElement('p');info.className='cube-use-info';info.textContent='식단 필요량 '+foodGrams+'g · 이 큐브 기준 약 '+(foodGrams/c.grams).toFixed(1)+'개 (실제 사용량 선택)';row.appendChild(info);}const edit=document.createElement('button');edit.type='button';edit.className='outline';edit.textContent='기록 수정';edit.onclick=()=>{$('cubeDetailDialog').close();openCubeForm(c.id);};const remove=document.createElement('button');remove.type='button';remove.className='outline';remove.textContent='보관함에서 삭제';remove.disabled=!cubeInCabinet(c);remove.onclick=async()=>{await removeCabinetBatch(c.id);if(state.cubes.find(x=>x.id===c.id)?.cabinetRemovedAt)$('cubeDetailDialog').close();};if(foodGrams!==null&&name&&cubeInCabinet(c)){
+function openCubeDetail({name=null,date=null,foodGrams=null}={}){const all=(state.cubes||[]).filter(c=>date?c.madeOn===date:ingredientKey(cubeName(c))===ingredientKey(name||''));all.sort((a,b)=>a.madeOn.localeCompare(b.madeOn));$('cubeDetailTitle').textContent=date?'🧊 '+date+' 제조 기록':'🧊 '+(name||'큐브')+' 상세';const host=$('cubeDetailContent');host.replaceChildren();$('cubeDetailError').textContent='';if(!all.length){host.textContent='해당 큐브 기록이 없어요.';}for(const c of all){const row=document.createElement('div');row.className='cube-detail-batch';const h=document.createElement('strong');h.textContent=cubeIcon(c)+' '+cubeName(c);row.appendChild(h);const meta=document.createElement('p');meta.className='cube-meta';meta.textContent=cubeMeta(c)+' · '+c.grams+'g × '+c.initialQty+'개 제조';row.appendChild(meta);const remaining=document.createElement('div');remaining.className='cube-stock-phrase';remaining.textContent=c.cabinetRemovedAt?'재고에서 삭제됨':c.discardedAt?'폐기됨':'('+c.remainingQty+'개 남음)';row.appendChild(remaining);if(foodGrams>0){const info=document.createElement('p');info.className='cube-use-info';info.textContent='식단 필요량 '+foodGrams+'g · 이 큐브 기준 약 '+(foodGrams/c.grams).toFixed(1)+'개 (실제 사용량 선택)';row.appendChild(info);}const edit=document.createElement('button');edit.type='button';edit.className='outline';edit.textContent='기록 수정';edit.onclick=()=>{$('cubeDetailDialog').close();openCubeForm(c.id);};const remove=document.createElement('button');remove.type='button';remove.className='outline';remove.textContent='보관함에서 삭제';remove.disabled=!!(c.cabinetRemovedAt||c.discardedAt);remove.onclick=async()=>{await removeCabinetBatch(c.id);if(state.cubes.find(x=>x.id===c.id)?.cabinetRemovedAt)$('cubeDetailDialog').close();};if(foodGrams!==null&&name&&cubeInCabinet(c)){
  const apply=document.createElement('button');
  apply.type='button';apply.className='cube-apply-to-meal';
  apply.textContent='🧊 식단 업데이트에서 선택하기';
@@ -2390,5 +2390,5 @@ body>[hidden]{display:none!important}
 }
 </style><script src="v3/core.js"></script><script src="v3/icons.js"></script><script src="meal-type.js"></script><script src="legacy-meals.js"></script>
 
-</body>
+<link rel="stylesheet" href="editor-viewport.css"><script src="editor-viewport.js"></script><footer style="padding:20px;text-align:center"><a href="https://blog.naver.com/chestnut-mom/224450629074" target="_blank" rel="noopener noreferrer">밤송이맘 이유식 가이드</a></footer></body>
 </html>
