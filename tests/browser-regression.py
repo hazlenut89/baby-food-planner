@@ -4,7 +4,7 @@ with sync_playwright() as p:
  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
  ctx=b.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
  page=ctx.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto('http://127.0.0.1:8000/v3/');page.wait_for_function('window.PlannerCore')
+ page.goto('http://127.0.0.1:8001/v3/',wait_until='domcontentloaded');page.wait_for_function('window.PlannerCore')
  result=page.evaluate('''async()=>{
  const C=PlannerCore,check=(x,m)=>{if(!x)throw Error(m)},passed=[];await C.load();
  await C.settings({babyName:'회귀검증',birthday:'2026-01-01',startDay:180,stage:'middle',mealsPerDay:2});

@@ -1,19 +1,22 @@
-/* Applied last: shell height already excludes the keyboard. Never subtract it twice. */
-@media(max-width:768px){
-#mobile-editor-page:not([hidden]),#sharedMealDialog[open],#sheet.input-screen[open]{position:fixed!important;inset:auto!important;top:var(--editor-top,0px)!important;left:0!important;transform:none!important;margin:0!important;width:100%!important;max-width:100%!important;height:var(--editor-height,100dvh)!important;min-height:0!important;max-height:var(--editor-height,100dvh)!important;border:0!important;border-radius:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box;z-index:10000}
-#mobile-editor-page .editor-page-form,#sharedMealDialog form,#sheet.input-screen form{display:flex!important;flex-direction:column!important;flex:1 1 auto;height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;margin:0!important}
-#mobile-editor-page .input-content,#sharedMealDialog .shared-content,#sheet.input-screen .sheet-content{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;overflow-anchor:none;scroll-behavior:auto;padding:16px!important}
-#mobile-editor-page .input-header,#sharedMealDialog>header,#sheet.input-screen .sheet-head{flex:0 0 auto!important;padding-top:max(12px,env(safe-area-inset-top))}
-#mobile-editor-page .input-actions,#sharedMealDialog footer,#sheet.input-screen .sheet-foot{position:static!important;flex:0 0 auto!important;margin:0!important;padding:10px 16px max(10px,env(safe-area-inset-bottom))!important}
-#mobile-editor-page.keyboard-visible .input-actions,#sharedMealDialog.keyboard-visible footer,#sheet.input-screen.keyboard-visible .sheet-foot{padding-bottom:10px!important}
-#mobile-editor-page .dialog-actions,#mobile-editor-page .editor-save-bar{margin:0!important}
-#mobile-editor-page input,#mobile-editor-page select,#mobile-editor-page textarea,#sharedMealDialog input,#sharedMealDialog select,#sharedMealDialog textarea,#sheet input,#sheet select,#sheet textarea{font-size:16px!important;box-sizing:border-box;min-width:0;max-width:100%}
-input[type=date]{min-height:44px;max-width:100%;min-width:0;box-sizing:border-box;display:block}
-input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:1.2em}
-}
-/* Shared controls retain keyboard focus and wrap on narrow screens. */
+/* Mobile editing uses normal document flow; no viewport or keyboard height calculations. */
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #9b7c46;outline-offset:3px}
 button:disabled{opacity:.48;cursor:not-allowed}
-.date-picker-fields{list-style:none;min-width:0}.date-picker-fields>*{min-width:0}.date-picker-fields::before,.date-picker-fields::after{content:none}
-#v3Switch{position:static!important;display:inline-flex!important;align-items:center;min-height:44px;max-width:100%;white-space:normal}
-@media(max-width:768px){.header-actions{display:flex;align-items:center;flex-wrap:wrap}.sheet-head .eyebrow:empty{display:none}.sheet-actions button,.dialog-actions button{min-height:44px;min-width:0}}
+body>[hidden]{display:none!important}
+@media(max-width:768px){
+body.edit-route-open,body.sheet-open,body.shared-meal-open,body.editor-open{overflow:visible!important;position:static!important;height:auto!important}
+.mobile-edit-route{display:block;width:100%;background:var(--bg,#fffcf5)}
+.mobile-edit-route #sheet,.mobile-edit-route #sharedMealDialog{display:block;position:static;inset:auto;transform:none;margin:0;width:100%;max-width:none;height:auto;max-height:none;min-height:0;border:0;border-radius:0;padding:0;overflow:visible;box-shadow:none}
+.mobile-edit-route #sheet form,.mobile-edit-route #sharedMealDialog form{display:block;height:auto;max-height:none;overflow:visible}
+.mobile-edit-route .sheet-content,.mobile-edit-route .shared-content{display:block;height:auto;max-height:none;overflow:visible;padding:16px}
+.mobile-edit-route .sheet-head,.mobile-edit-route .sheet-foot,.mobile-edit-route header,.mobile-edit-route footer{position:static;inset:auto;margin:0;padding:16px;background:var(--bg,#fffcf5)}
+.mobile-edit-route .sheet-actions{position:static;display:flex;gap:12px}
+.mobile-edit-route .sheet-actions button{min-height:44px;flex:1}
+.mobile-edit-route input,.mobile-edit-route select,.mobile-edit-route textarea,.editor-page input,.editor-page select,.editor-page textarea{font-size:16px;min-width:0;max-width:100%;box-sizing:border-box}
+.two-fields,.settings-form .two-fields,.cube-form-grid,.ingredient-choice-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px}
+.two-fields>*,.settings-form label,.cube-form-card label{min-width:0;max-width:100%}
+input[type=date]{display:block;width:100%;min-width:0;max-width:100%;min-height:46px;box-sizing:border-box}
+input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:1.2em}
+.editor-page{min-height:0}
+}
+.legacy-topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1200px;margin:auto;padding:12px 16px}.legacy-topbar>span{min-width:0}.legacy-topbar .ui-switch{flex:none;min-height:44px}.topbar{display:flex;align-items:center;justify-content:space-between}.header-actions{display:flex;align-items:center;flex-shrink:0}#moreButton{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
+@media(max-width:768px){.legacy-topbar{gap:8px;font-size:12px}.legacy-topbar .ui-switch{font-size:11px}.mobile-brand{flex:1;min-width:0}.header-actions{margin-left:auto}.mobile-edit-route input:focus,.mobile-edit-route select:focus,.mobile-edit-route textarea:focus{outline:2px solid #9b7c46;box-shadow:none;background-color:#fffdf9}}
