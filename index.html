@@ -1730,8 +1730,9 @@ viewTabs.forEach(([id],index)=>{
 });
 $('prevWeek').addEventListener('click',()=>goToDay(Math.max(1,weekStart-7)));
 $('nextWeek').addEventListener('click',()=>goToDay(weekStart+7));
-$('imageBtn').addEventListener('click',()=>{
+$('imageBtn').addEventListener('click',async()=>{
  renderCalendar();
+ const exportIcons=await PlannerFoodIcons.preload(days.flatMap(day=>mealRecords(state.days[day]).flatMap(m=>m.foods.map(f=>f.name))));
  const c=document.createElement('canvas');c.width=1400;c.height=1900;const x=c.getContext('2d');
  x.fillStyle='#fffaf1';x.fillRect(0,0,c.width,c.height);
  x.fillStyle='#2d2925';x.font='bold 56px sans-serif';x.fillText((state.babyName?state.babyName+'의 ':'')+'이유식 식단표',70,90);
@@ -1748,7 +1749,7 @@ $('imageBtn').addEventListener('click',()=>{
   const imageDate=dayDate(day);const made=imageDate?(state.cubes||[]).filter(c=>c.madeOn===imageDate.toISOString().slice(0,10)):[];
   if(made.length){const kinds=new Set(made.map(c=>c.ingredientId||ingredientKey(c.name))).size;x.font='bold 15px sans-serif';x.fillStyle='#287e9b';x.fillText('🧊 제조 '+kinds+'종',px+105,py+32);}
 
-  x.fillStyle='#5e5852';x.font='18px sans-serif';(state.days[day].meals?.length>1?state.days[day].meals.map((m,i)=>{const ns=[...new Set(m.foods.map(f=>f.name))];return (m.type==='snack'?'간식':(m.slot||i+1)+'끼')+' · '+(ns[0]||'기록 없음')+(ns.length>1?' +'+(ns.length-1):'')+' · '+m.foods.reduce((n,f)=>n+Number(f.g||0),0)+'g';}):state.days[day].foods.slice(0,4).map(f=>(f.icon||'')+f.name+' '+(f.g||0)+'g')).forEach((text,i)=>x.fillText(text,px+15,py+64+i*25));
+  x.fillStyle='#5e5852';x.font='18px sans-serif';(state.days[day].meals?.length>1?state.days[day].meals.map((m,i)=>{const ns=[...new Set(m.foods.map(f=>f.name))];return (m.type==='snack'?'간식':(m.slot||i+1)+'끼')+' · '+(ns[0]||'기록 없음')+(ns.length>1?' +'+(ns.length-1):'')+' · '+m.foods.reduce((n,f)=>n+Number(f.g||0),0)+'g';}):state.days[day].foods.slice(0,4).map(f=>f.name+' '+(f.g||0)+'g')).forEach((text,i)=>{const name=state.days[day].meals?.length>1?state.days[day].meals[i]?.foods[0]?.name:state.days[day].foods[i]?.name;const icon=exportIcons.get(name);if(icon)x.drawImage(icon,px+12,py+44+i*25,24,24);x.fillText(text,px+42,py+64+i*25,cellW-54);});
   x.fillStyle='#557052';x.font='bold 17px sans-serif';
   const mealRows=mealRecords(state.days[day]);const intake=mealRows.every(m=>m.actualIntake!==''&&m.actualIntake!=null)?mealRows.reduce((n,m)=>n+Number(m.actualIntake),0):'';
   x.fillText('준비 '+total(day)+'g'+(intake!==''&&intake!=null?' · 섭취 '+Number(intake)+'g':''),px+15,py+170);

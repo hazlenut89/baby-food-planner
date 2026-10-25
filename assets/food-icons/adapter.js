@@ -6,7 +6,10 @@
  function url(name){const canonical=aliases[key(name)]||key(name);return new URL((files[canonical]||'default')+'.svg',base).href;}
  function create(name,size=32){if(![24,32,48].includes(size))size=32;const img=document.createElement('img');img.src=url(name);img.width=size;img.height=size;img.alt=String(name??'식재료');img.decoding='async';img.className='food-illustration';img.style.cssText='display:inline-block;vertical-align:middle;object-fit:contain;flex-shrink:0';img.addEventListener('error',()=>{const fallback=new URL('default.svg',base).href;if(img.src!==fallback)img.src=fallback;},{once:true});return img;}
  function html(name,size=32){return create(name,size).outerHTML;}
- window.PlannerFoodIcons=Object.freeze({url,create,html,names:Object.freeze(Object.keys(files))});
+ const imageCache=new Map();
+ async function load(name){const src=url(name);if(!imageCache.has(src))imageCache.set(src,new Promise(resolve=>{const image=new Image();let done=false;const finish=value=>{if(done)return;done=true;clearTimeout(timer);resolve(value);};const timer=setTimeout(()=>finish(null),5000);image.onload=()=>finish(image);image.onerror=()=>finish(null);image.src=src;}));const image=await imageCache.get(src);if(image)return image;const fallback=url(null);return src===fallback?null:load(null);}
+ async function preload(names){const pairs=await Promise.all([...new Set(names)].map(async name=>[name,await load(name)]));return new Map(pairs);}
+ window.PlannerFoodIcons=Object.freeze({url,create,html,preload,names:Object.freeze(Object.keys(files))});
 })();
 /* Decorative food previews follow typed names without modifying stored values. */
 (()=>{const selector='input.food-name,input.fname,input.cube-name,#ingredientName,input[name="name"],#sharedFoods input[name="name"]';
