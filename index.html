@@ -997,6 +997,7 @@ function trackPlannerEvent(name,params){try{gtag('event',name,params||{});}catch
 </script>
 <style id="integrated-v2-features">
 .baby-profile{margin:16px 0;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden}.baby-profile>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;cursor:pointer;min-height:44px;box-sizing:border-box}.baby-profile>summary span:first-child{min-width:0;overflow-wrap:anywhere}.profile-toggle-label{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:86px;padding:0 12px;box-sizing:border-box;flex:none;border:1px solid #d2dfb8;border-radius:24px;background:#eaf2db;color:#456139;font-size:13px;font-weight:750;white-space:nowrap}.profile-toggle-icon{flex:none}.baby-profile>summary::-webkit-details-marker{display:none}.baby-profile>summary:focus-visible{outline:3px solid #9b7c46;outline-offset:-3px}.baby-profile .profile-when-open{display:none}.baby-profile[open] .profile-when-open{display:inline}.baby-profile[open] .profile-when-closed{display:none}.baby-profile[open] .profile-toggle-label{background:#fbe9ef;border-color:#efc4d3;color:#ad4267}.baby-profile>.setup{margin:0;border:0;border-radius:0}
+.baby-profile>summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}#babyProfileSummary{display:contents}.profile-name{grid-column:1;grid-row:1;font-size:20px;font-weight:750;overflow-wrap:anywhere}.profile-birth{grid-column:1/-1;grid-row:2;font-size:13px;white-space:nowrap}.baby-profile .profile-toggle-label{grid-column:2;grid-row:1}
 .intake-rate{margin:10px 0 14px;font-size:13px;line-height:1.6}.intake-amounts{color:var(--muted)}.intake-track{height:8px;overflow:hidden;border-radius:8px;background:#f8e7ec;margin-top:5px}.intake-track>span{display:block;height:100%;max-width:100%;background:#e889a6;border-radius:inherit}.new-food-badge{grid-column:1/-1;justify-self:start;display:inline-block;padding:2px 7px;border-radius:9px;background:#c94b72;color:white;font-size:10px;font-weight:750;line-height:1.5;white-space:nowrap}
 </style>
 <style id="cube-storage-ux">
@@ -1239,7 +1240,9 @@ function renderEditorManufacture(){const host=$('editorManufactureRecords');if(!
 const PROFILE_COLLAPSED_KEY='bamsongi.profileCollapsed.v1';
 function updateProfileSummary(){
  const name=state.babyName?.trim()||'아기 프로필',birth=state.birthday?fmt(parseDate(state.birthday)):'생년월일 미입력';
- $('babyProfileSummary').textContent=name+' · '+birth+(state.birthday?' · 생후 '+selected+'일':'');
+ const title=document.createElement('strong'),info=document.createElement('span');
+ title.className='profile-name';title.textContent=name;info.className='profile-birth';info.textContent=birth+(state.birthday?' · 생후 '+selected+'일':'');
+ $('babyProfileSummary').replaceChildren(title,info);
 }
 (function(){const panel=$('babyProfile');try{panel.open=localStorage.getItem(PROFILE_COLLAPSED_KEY)!=='true';}catch(e){}
  panel.addEventListener('toggle',()=>{try{localStorage.setItem(PROFILE_COLLAPSED_KEY,String(!panel.open));}catch(e){}});
