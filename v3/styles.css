@@ -34,3 +34,5 @@
 /* A viewport-height sticky sidebar is pushed upward by the page footer. */
 @media(min-width:768px){.sidebar{position:fixed;left:max(0px,calc((100vw - 1680px)/2));top:0;bottom:0;width:210px;height:100dvh;background:var(--bg);z-index:50;overflow-y:auto}.workspace{grid-column:2}.summary-panel{grid-column:3}}
 @media(min-width:768px) and (max-width:1199px){.sidebar{width:180px}}
+
+.stage-transitions fieldset{margin-top:12px}.stage-transitions .note{line-height:1.6;margin-top:8px}@media(max-width:767px){.stage-transitions .two-fields{grid-template-columns:minmax(0,1fr)}}

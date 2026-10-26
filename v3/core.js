@@ -246,5 +246,5 @@ async function applyTemplate(options){const rows=templateRows(options),mode=opti
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}
 
-global.PlannerCore={foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
+global.PlannerCore={foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,stageBoundary,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
 })(window);
