@@ -143,7 +143,7 @@ async function saveMeal(day,mealId,record,picks=[],memo=undefined,remove=false){
  if(!record||!Array.isArray(record.foods)||record.foods.some(f=>!f.name?.trim()||!Number.isFinite(Number(f.g))||Number(f.g)<0))throw Error('식재료명과 중량을 확인해 주세요.');
  if(!remove&&record.slot&&ms.some(m=>m.id!==mealId&&m.slot===record.slot))throw Error('이미 기록된 끼니예요. 다른 끼니를 선택해 주세요.');
  if(record.actualIntake!==''&&(!Number.isFinite(Number(record.actualIntake))||Number(record.actualIntake)<0))throw Error('섭취량을 확인해 주세요.');
- if(!remove&&record.type==='snack'&&index<0&&!['middle','late'].includes(next.v3Settings?.stage))throw Error('중기부터 간식을 선택적으로 추가할 수 있어요.');
+ if(!remove&&record.type==='snack'&&index<0&&!['middle','late'].includes(stageForDay(next,day)))throw Error('중기부터 간식을 선택적으로 추가할 수 있어요.');
  const old=scopeUsages(next,day,mealId),key=u=>JSON.stringify([u.cubeBatchId,ingredientKey(u.foodName)]),requested=new Map();
  const names=new Set(record.foods.map(f=>ingredientKey(f.name)));
  if(!remove)for(const p of picks){if(!Number.isSafeInteger(p.quantity)||p.quantity<1)throw Error('큐브 수량을 확인해 주세요.');if(!names.has(ingredientKey(p.name)))throw Error('선택한 큐브의 식재료가 식단에 없어요.');const k=JSON.stringify([p.batchId,ingredientKey(p.name)]),r=requested.get(k)||{id:p.batchId,name:p.name,qty:0};r.qty+=p.quantity;requested.set(k,r);}
@@ -179,7 +179,36 @@ async function adjustCube(id,delta){return transaction(next=>{const c=next.cubes
 async function removeCube(id,discard){return transaction(next=>{const c=next.cubes.find(c=>c.id===id);if(!c||c.cabinetRemovedAt||c.discardedAt)throw Error('이미 보관함에서 제외된 큐브예요.');if(discard){if(!warning(c))throw Error('폐기 안내 대상이 아니에요.');logChange(next,id,-c.remainingQty,'discard');c.remainingQty=0;c.discardedAt=new Date().toISOString();}else c.cabinetRemovedAt=new Date().toISOString();c.updatedAt=new Date().toISOString();});}
 async function saveIngredient(value){return transaction(next=>{const name=value.name.trim();if(!name)throw Error('식재료명을 입력해 주세요.');if(next.ingredients.some(i=>i.id!==value.id&&!i.archivedAt&&ingredientKey(i.name)===ingredientKey(name)))throw Error('이미 등록한 재료예요.');const prior=next.ingredients.find(i=>i.id===value.id),item={...prior,...value,name,id:prior?.id||uid('ingredient')};if(prior)Object.assign(prior,item);else next.ingredients.push(item);});}
 async function archiveIngredient(id,restore=false){return transaction(next=>{const i=next.ingredients.find(i=>i.id===id);if(!i)throw Error('재료를 찾지 못했어요.');if(restore){if(next.ingredients.some(x=>x.id!==id&&!x.archivedAt&&ingredientKey(x.name)===ingredientKey(i.name)))throw Error('같은 이름의 재료가 있어요.');delete i.archivedAt;}else i.archivedAt=new Date().toISOString();});}
-async function settings(value){return transaction(next=>{if(value.birthday&&!validISO(value.birthday))throw Error('생년월일을 확인해 주세요.');if(!['early','middle','late'].includes(value.stage)||![1,2,3].includes(value.mealsPerDay))throw Error('단계와 식사 횟수를 확인해 주세요.');next.babyName=value.babyName.trim();next.birthday=value.birthday;next.startDay=value.startDay;next.v3Settings={...next.v3Settings,stage:value.stage,mealsPerDay:value.mealsPerDay};});}
+function stageBoundary(data,months){
+ if(!validISO(data.birthday))return '';
+ const birth=parseDate(data.birthday),first=new Date(Date.UTC(birth.getUTCFullYear(),birth.getUTCMonth()+months,1)),last=new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();
+ first.setUTCDate(birth.getUTCDate()<=last?birth.getUTCDate():last+1);return first.toISOString().slice(0,10);
+}
+function stageForDay(data,day){
+ if(Number(day)<data.startDay)return 'before';if(!validISO(data.birthday))return 'unknown';
+ const date=parseDate(data.birthday);date.setUTCDate(date.getUTCDate()+Number(day)-1);const selected=date.toISOString().slice(0,10),transitions=data.v3Settings?.stageTransitions||{};
+ const middle=transitions.middle||stageBoundary(data,7),late=transitions.late||stageBoundary(data,10);
+ return selected>=late?'late':selected>=middle?'middle':'early';
+}
+async function settings(value){return transaction(next=>{
+ if(value.birthday&&!validISO(value.birthday))throw Error('생년월일을 확인해 주세요.');
+ if(!Number.isSafeInteger(value.startDay)||value.startDay<1)throw Error('시작 일수를 확인해 주세요.');
+ next.babyName=value.babyName.trim();next.birthday=value.birthday;next.startDay=value.startDay;
+ // Keep legacy stage/count values for compatibility; they no longer drive dated views.
+ next.v3Settings={...next.v3Settings};
+ if(value.stage!=null){if(!['early','middle','late'].includes(value.stage))throw Error('단계를 확인해 주세요.');next.v3Settings.stage=value.stage;}
+ if(value.mealsPerDay!=null){if(![1,2,3].includes(value.mealsPerDay))throw Error('식사 횟수를 확인해 주세요.');next.v3Settings.mealsPerDay=value.mealsPerDay;}
+ const transitions=value.stageTransitions??next.v3Settings.stageTransitions;
+ if(transitions){
+  for(const key of ['middle','late'])if(transitions[key]&&(!next.birthday||!validISO(transitions[key])))throw Error('생년월일과 전환일을 확인해 주세요.');
+  if(next.birthday){const start=parseDate(next.birthday);start.setUTCDate(start.getUTCDate()+next.startDay-1);const startISO=start.toISOString().slice(0,10);
+   if(['middle','late'].some(k=>transitions[k]&&transitions[k]<startISO))throw Error('전환일은 이유식 시작일 이후로 설정해 주세요.');
+   const middle=transitions.middle||stageBoundary(next,7),late=transitions.late||stageBoundary(next,10);
+   if((transitions.middle||transitions.late)&&late<=middle)throw Error('후기 시작일은 중기 시작일보다 뒤여야 해요.');
+  }
+  next.v3Settings.stageTransitions={middle:transitions.middle||'',late:transitions.late||''};
+ }
+});}
 let backupMinute='',backupSequence=0;
 function backupBundle(value=state,now=new Date()){
  const kst=new Date(now.getTime()+9*3600000).toISOString(),stamp=kst.slice(0,10)+'_'+kst.slice(11,16).replace(':','');
@@ -217,5 +246,5 @@ async function applyTemplate(options){const rows=templateRows(options),mode=opti
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}
 
-global.PlannerCore={foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
+global.PlannerCore={foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
 })(window);
