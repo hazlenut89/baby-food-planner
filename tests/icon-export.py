@@ -6,6 +6,7 @@ with sync_playwright() as p:
  page.evaluate('''async()=>{const C=PlannerCore;await C.load();await C.settings({babyName:'이미지 검증',birthday:'2026-01-01',startDay:180,stage:'middle',mealsPerDay:2});await C.saveMeal(180,'meal-1',{slot:1,foods:[{name:'브로콜리',g:10},{name:'쌀',g:20},{name:'처음보는재료',g:5}],actualIntake:30});}''')
  page.goto('http://127.0.0.1:8001/v3/?day=180',wait_until='domcontentloaded')
  counts=page.evaluate('''async()=>{let count=0;const original=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){count++;return original.apply(this,args)};const C=PlannerCore,canvas=document.createElement('canvas');for(const mode of ['day','week','month']){await PlannerCalendarImage.draw(canvas,{days:[180],state:C.snapshot(),mode,title:'검증',dateLabel:d=>d+'일',mealsOf:C.mealsOf,metrics:C.intakeMetrics});if(!canvas.toDataURL('image/png').startsWith('data:image/png'))throw Error('PNG failed');}CanvasRenderingContext2D.prototype.drawImage=original;return count;}''');assert counts==9,counts
+ page.locator('[data-action=export]').click()
  with page.expect_download() as d:page.locator('[data-action=export-day]').click()
  d.value.save_as('/tmp/planner-v3-export.png');assert Path('/tmp/planner-v3-export.png').stat().st_size>1000
  page.evaluate("PlannerUI.switchTo('legacy',180)");page.wait_for_url('**/?day=180');page.wait_for_timeout(200)
