@@ -134,7 +134,7 @@ async function transaction(fn,reason){if(busy)throw Error('저장 중이에요. 
 function logChange(s,id,delta,reason,day,mealId){if(!delta)return;s.cubeChanges=s.cubeChanges||[];s.cubeChanges.push({id:uid('change'),cubeBatchId:id,delta,reason,mealDay:day??null,mealId:mealId??null,createdAt:new Date().toISOString()});}
 function scopeUsages(s,day,mealId){const ms=mealsOf(s.days[day]),first=ms[0]?.id||'meal-1';return s.cubeUsages.filter(u=>u.mealDay===Number(day)&&(u.mealId?u.mealId===mealId:mealId===first));}
 function selections(day,mealId){return scopeUsages(state,day,mealId).map(u=>({batchId:u.cubeBatchId,name:u.foodName,quantity:u.quantity}));}
-async function saveMeal(day,mealId,record,picks=[],memo='',remove=false){
+async function saveMeal(day,mealId,record,picks=[],memo=undefined,remove=false){
  if(!Number.isSafeInteger(day)||day<1)throw Error('날짜를 확인해 주세요.');
  return transaction(next=>{
  const prior=next.days[day]||{foods:[],actualIntake:'',added:'',allergy:false},ms=mealsOf(prior);let index=ms.findIndex(m=>m.id===mealId);
@@ -161,7 +161,7 @@ async function saveMeal(day,mealId,record,picks=[],memo='',remove=false){
  if(remove)ms.splice(index,1);else{const value={...(index>=0?ms[index]:emptyMeal(mealId)),...clone(record),id:mealId,slot:record.slot||(index>=0?ms[index].slot:[1,2,3].find(n=>!ms.some(m=>m.slot===n)))};if(index>=0)ms[index]=value;else ms.push(value);}
  if(!remove)registerMealIngredients(next,day,record);
  if(!ms.length)ms.push({...emptyMeal('meal-1'),slot:1});ms.sort((a,b)=>a.slot-b.slot);
- next.days[day]={...prior,meals:ms,memo,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(ms[0].foods),actualIntake:ms[0].actualIntake??'',added:ms[0].added||'',allergy:!!ms[0].allergy};
+ next.days[day]={...prior,meals:ms,memo:memo===undefined?(prior.memo||''):memo,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(ms[0].foods),actualIntake:ms[0].actualIntake??'',added:ms[0].added||'',allergy:!!ms[0].allergy};
  });
 }
 function registerMealIngredients(s,day,record){
@@ -198,15 +198,15 @@ function templateRows(options){const {stage,count,startDay,length=60,offset=1}=o
 }
 function templatePreview(options){const rows=templateRows(options);return rows.map(r=>({...r,existing:mealsOf(state.days[r.targetDay]).filter(m=>m.foods.length).map(m=>m.slot)}));}
 async function applyTemplate(options){const rows=templateRows(options),mode=options.mode;if(!['empty','range','replace'].includes(mode))throw Error('적용 방식을 확인해 주세요.');return transaction(next=>{
- for(const row of rows){const day=row.targetDay,prior=next.days[day]||{},original=mealsOf(prior);if(mode==='empty'&&(original.some(m=>m.foods.length||m.actualIntake!==''&&m.actualIntake!=null||m.allergy||m.added)||prior.memo))continue;
- let ms=original.filter(m=>m.foods.length||m.actualIntake!==''||m.allergy||m.added);const incomingSlots=new Set(row.meals.map(m=>m.slot));
+ for(const row of rows){const day=row.targetDay,prior=next.days[day]||{},original=mealsOf(prior);if(mode==='empty'&&(original.some(m=>m.foods.length||m.actualIntake!==''&&m.actualIntake!=null||m.allergy||m.added||m.memo)||prior.memo))continue;
+ let ms=original.filter(m=>m.foods.length||m.actualIntake!==''||m.allergy||m.added||m.memo);const incomingSlots=new Set(row.meals.map(m=>m.slot));
  if(mode==='replace'){
  const ids=new Set(original.filter(m=>incomingSlots.has(m.slot)).map(m=>m.id));const old=next.cubeUsages.filter(u=>u.mealDay===day&&(u.mealId?ids.has(u.mealId):ids.has(original[0]?.id)));
  if(old.some(u=>u.status!=='used'))throw Error('과거 차감 여부가 확인되지 않은 큐브 기록은 교체할 수 없어요.');
  for(const u of old){const c=next.cubes.find(c=>c.id===u.cubeBatchId);if(!c||c.remainingQty+u.quantity>c.initialQty)throw Error('큐브 복구 수량을 확인해 주세요.');c.remainingQty+=u.quantity;logChange(next,c.id,u.quantity,'template-replace',day,u.mealId||original[0]?.id);}
  const oldIds=new Set(old.map(u=>u.id));next.cubeUsages=next.cubeUsages.filter(u=>!oldIds.has(u.id));ms=ms.filter(m=>!incomingSlots.has(m.slot));
  }
- for(const m of row.meals){if(ms.some(x=>x.slot===m.slot))continue;ms.push({...emptyMeal(uid('meal')),slot:m.slot,foods:clone(m.foods),template:{version:global.MiddlePlan?.version,plannedNew:clone(m.plannedNew||[]),stage:options.stage,day:row.day,introduction:row.introduction||'',allergyNote:row.allergyNote||'',note:row.note||''}});}
+ for(const m of row.meals){if(ms.some(x=>x.slot===m.slot))continue;const previous=mode==='replace'?original.find(x=>x.slot===m.slot):null;ms.push({...emptyMeal(uid('meal')),...(previous?{id:previous.id,actualIntake:previous.actualIntake,memo:previous.memo,allergy:previous.allergy}:{}),slot:m.slot,foods:clone(m.foods),template:{version:global.MiddlePlan?.version,plannedNew:clone(m.plannedNew||[]),stage:options.stage,day:row.day,introduction:row.introduction||'',allergyNote:row.allergyNote||'',note:row.note||''}});}
  ms.sort((a,b)=>a.slot-b.slot);if(!ms.length)continue;const first=ms[0];next.days[day]={...prior,meals:ms,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(first.foods),actualIntake:first.actualIntake??'',added:first.added||'',allergy:!!first.allergy};
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}

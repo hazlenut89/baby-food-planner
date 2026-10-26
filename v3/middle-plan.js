@@ -1,7 +1,7 @@
 window.MiddlePlan={
-  "source": "밤송이맘_중기60일_영양알레르기_전수검수_수정본.xlsx",
-  "version": "middle-reviewed-2026-10",
-  "sha256": "fa224a1d7b0c1a5f3cd57ae9ce9d1648989e6c16c005c95f563a8551976cc9cf",
+  "source": "밤송이맘_중기60일_2일연속식단_신규재료유지.xlsx",
+  "version": "middle-two-day-2026-10-26",
+  "sha256": "f1c5649036e879b4ce01d6216ea124574c12125736da77b2554c73369da4a94c",
   "plans": {
     "2": [
       {
@@ -68,6 +68,29 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
+                "name": "쌀오트밀죽",
+                "g": 65.0
+              },
+              {
+                "name": "닭고기",
+                "g": 12.0
+              },
+              {
+                "name": "양배추",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 10.0
+              }
+            ],
+            "plan": 99,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
                 "name": "오트밀죽",
                 "g": 65.0
               },
@@ -86,35 +109,12 @@ window.MiddlePlan={
             ],
             "plan": 99,
             "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "쌀오트밀죽",
-                "g": 65.0
-              },
-              {
-                "name": "닭고기",
-                "g": 12.0
-              },
-              {
-                "name": "브로콜리",
-                "g": 12.0
-              },
-              {
-                "name": "애호박",
-                "g": 10.0
-              }
-            ],
-            "plan": 99,
-            "plannedNew": []
           }
         ],
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 3,
@@ -184,7 +184,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -192,11 +192,15 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
-                "g": 12.0
+                "name": "애호박",
+                "g": 11.0
               },
               {
-                "name": "청경채",
+                "name": "밀가루(익힌 밀 함유 재료)",
+                "g": 1.0
+              },
+              {
+                "name": "양배추",
                 "g": 10.0
               }
             ],
@@ -207,7 +211,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -215,7 +219,7 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "양배추",
+                "name": "청경채",
                 "g": 12.0
               },
               {
@@ -230,7 +234,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 5,
@@ -300,7 +304,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
@@ -308,11 +312,15 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "청경채",
-                "g": 12.0
+                "name": "애호박",
+                "g": 11.0
               },
               {
-                "name": "양배추",
+                "name": "땅콩버터(무가당·매끈한 제품)",
+                "g": 1.0
+              },
+              {
+                "name": "당근",
                 "g": 10.0
               }
             ],
@@ -323,7 +331,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
@@ -331,11 +339,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "감자",
+                "name": "단호박",
                 "g": 12.0
               },
               {
-                "name": "애호박",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -346,7 +354,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 7,
@@ -412,6 +420,29 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
+                "name": "쌀오트밀죽",
+                "g": 65.0
+              },
+              {
+                "name": "두부",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 12.0
+              },
+              {
+                "name": "애호박",
+                "g": 10.0
+              }
+            ],
+            "plan": 99,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
                 "name": "오트밀죽",
                 "g": 65.0
               },
@@ -424,30 +455,7 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
-                "g": 10.0
-              }
-            ],
-            "plan": 99,
-            "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "쌀오트밀죽",
-                "g": 65.0
-              },
-              {
-                "name": "두부",
-                "g": 12.0
-              },
-              {
                 "name": "청경채",
-                "g": 12.0
-              },
-              {
-                "name": "감자",
                 "g": 10.0
               }
             ],
@@ -458,7 +466,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 9,
@@ -524,7 +532,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -532,11 +540,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
+                "name": "양파",
                 "g": 12.0
               },
               {
-                "name": "양배추",
+                "name": "감자",
                 "g": 10.0
               }
             ],
@@ -547,19 +555,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
                 "g": 12.0
               },
               {
-                "name": "고구마",
+                "name": "청경채",
                 "g": 12.0
               },
               {
-                "name": "당근",
+                "name": "단호박",
                 "g": 10.0
               }
             ],
@@ -570,7 +578,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 11,
@@ -636,7 +644,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
@@ -644,11 +652,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 12.0
               },
               {
-                "name": "감자",
+                "name": "청경채",
                 "g": 10.0
               }
             ],
@@ -659,19 +667,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
                 "g": 12.0
               },
               {
                 "name": "고구마",
-                "g": 12.0
-              },
-              {
-                "name": "콜리플라워",
                 "g": 10.0
               }
             ],
@@ -682,7 +690,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 13,
@@ -748,19 +756,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "소고기",
-                "g": 12.0
-              },
-              {
-                "name": "브로콜리",
+                "name": "달걀",
                 "g": 12.0
               },
               {
                 "name": "케일",
+                "g": 12.0
+              },
+              {
+                "name": "콜리플라워",
                 "g": 10.0
               }
             ],
@@ -771,11 +779,11 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "달걀",
+                "name": "소고기",
                 "g": 12.0
               },
               {
@@ -794,7 +802,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 15,
@@ -858,7 +866,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -866,11 +874,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "양파",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -881,7 +889,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -889,11 +897,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "브로콜리",
                 "g": 13.0
               }
             ],
@@ -904,7 +912,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 17,
@@ -970,19 +978,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "케일",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -993,19 +1001,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "달걀",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "애호박",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양파",
                 "g": 13.0
               }
             ],
@@ -1016,7 +1024,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 19,
@@ -1082,19 +1090,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "대구",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "무",
                 "g": 15.0
               },
               {
-                "name": "케일",
+                "name": "감자",
                 "g": 13.0
               }
             ],
@@ -1105,19 +1113,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "당근",
                 "g": 13.0
               }
             ],
@@ -1128,7 +1136,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 21,
@@ -1192,7 +1200,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -1200,11 +1208,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "애호박",
                 "g": 15.0
               },
               {
-                "name": "단호박",
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -1215,19 +1223,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -1238,7 +1246,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 23,
@@ -1302,19 +1310,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "닭고기",
-                "g": 15.0
-              },
-              {
-                "name": "양파",
+                "name": "소고기",
                 "g": 15.0
               },
               {
                 "name": "배추",
+                "g": 15.0
+              },
+              {
+                "name": "감자",
                 "g": 13.0
               }
             ],
@@ -1325,19 +1333,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "케일",
+                "name": "당근",
                 "g": 13.0
               }
             ],
@@ -1348,7 +1356,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 25,
@@ -1414,19 +1422,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -1437,19 +1445,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "청경채",
                 "g": 13.0
               }
             ],
@@ -1460,7 +1468,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 27,
@@ -1526,30 +1534,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
-                "g": 70.0
-              },
-              {
-                "name": "소고기",
-                "g": 15.0
-              },
-              {
-                "name": "양배추",
-                "g": 15.0
-              },
-              {
-                "name": "콜리플라워",
-                "g": 13.0
-              }
-            ],
-            "plan": 113,
-            "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -1561,7 +1546,30 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "배추",
+                "g": 13.0
+              }
+            ],
+            "plan": 113,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
+                "name": "쌀죽",
+                "g": 70.0
+              },
+              {
+                "name": "소고기",
+                "g": 15.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 15.0
+              },
+              {
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -1572,7 +1580,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 29,
@@ -1638,7 +1646,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
@@ -1646,11 +1654,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "토마토",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "케일",
                 "g": 15.0
               }
             ],
@@ -1661,19 +1669,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "청경채",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "오이",
                 "g": 15.0
               }
             ],
@@ -1684,7 +1692,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 31,
@@ -1748,19 +1756,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "무",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "배추",
                 "g": 15.0
               }
             ],
@@ -1771,15 +1779,15 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "브로콜리",
                 "g": 15.0
               },
               {
@@ -1794,7 +1802,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 33,
@@ -1860,19 +1868,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "대구",
+                "name": "돼지고기",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "오이",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "청경채",
                 "g": 15.0
               }
             ],
@@ -1883,7 +1891,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -1891,11 +1899,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "감자",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "고구마",
                 "g": 15.0
               }
             ],
@@ -1906,7 +1914,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 35,
@@ -1972,7 +1980,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
@@ -1980,11 +1988,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "아욱",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -1995,19 +2003,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양배추",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "양파",
                 "g": 15.0
               }
             ],
@@ -2018,7 +2026,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 37,
@@ -2082,19 +2090,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "시금치",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "당근",
                 "g": 15.0
               }
             ],
@@ -2105,19 +2113,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "돼지고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "감자",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "고구마",
                 "g": 15.0
               }
             ],
@@ -2128,7 +2136,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 39,
@@ -2194,7 +2202,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -2202,11 +2210,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "비트",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -2217,19 +2225,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "비트",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -2240,7 +2248,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 41,
@@ -2306,19 +2314,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "퀴노아쌀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "퀴노아",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "토마토",
                 "g": 15.0
               }
             ],
@@ -2329,19 +2337,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "시금치",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "가지",
                 "g": 15.0
               }
             ],
@@ -2352,7 +2360,7 @@ window.MiddlePlan={
         "total": 230,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 43,
@@ -2418,7 +2426,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
@@ -2426,11 +2434,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "완두콩",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "비트",
                 "g": 15.0
               }
             ],
@@ -2441,19 +2449,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "완두콩",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -2464,7 +2472,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 45,
@@ -2530,19 +2538,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "양배추",
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "배",
                 "g": 15.0
               }
             ],
@@ -2553,19 +2561,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양파",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "오이",
                 "g": 15.0
               }
             ],
@@ -2576,7 +2584,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 47,
@@ -2642,19 +2650,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "버섯",
                 "g": 15.0
               },
               {
-                "name": "비트",
+                "name": "무",
                 "g": 15.0
               }
             ],
@@ -2665,19 +2673,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "아욱",
+                "name": "배추",
                 "g": 15.0
               },
               {
-                "name": "배",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -2688,7 +2696,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 49,
@@ -2754,7 +2762,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
@@ -2762,11 +2770,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "완두콩",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "사과",
                 "g": 15.0
               }
             ],
@@ -2777,19 +2785,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "양배추",
                 "g": 15.0
               }
             ],
@@ -2800,7 +2808,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 51,
@@ -2866,19 +2874,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "연어",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "새송이버섯",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "감자",
                 "g": 15.0
               }
             ],
@@ -2889,19 +2897,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "당근",
                 "g": 15.0
               }
             ],
@@ -2912,7 +2920,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 53,
@@ -2978,19 +2986,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "병아리콩",
                 "g": 15.0
               },
               {
-                "name": "사과",
+                "name": "버섯",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -3001,19 +3009,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "배",
+                "name": "비트",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "아욱",
                 "g": 15.0
               }
             ],
@@ -3024,7 +3032,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 55,
@@ -3090,19 +3098,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "파프리카",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "완두콩",
                 "g": 15.0
               }
             ],
@@ -3113,19 +3121,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "새송이버섯",
+                "name": "가지",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -3136,7 +3144,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 57,
@@ -3202,7 +3210,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
@@ -3210,11 +3218,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "미나리",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "배추",
                 "g": 15.0
               }
             ],
@@ -3225,19 +3233,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "버섯",
+                "name": "토마토",
                 "g": 15.0
               }
             ],
@@ -3248,7 +3256,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 59,
@@ -3314,19 +3322,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "렌틸콩",
                 "g": 15.0
               },
               {
-                "name": "파프리카",
+                "name": "브로콜리",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "비트",
                 "g": 15.0
               }
             ],
@@ -3337,19 +3345,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "미나리",
                 "g": 15.0
               }
             ],
@@ -3360,7 +3368,7 @@ window.MiddlePlan={
         "total": 240,
         "allergyNote": "",
         "note": "기존 섭취 재료로 대체 가능; 새 알레르기 식품은 처음부터 표의 전량 제공 금지; 매일 소고기 최소 1끼",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       }
     ],
     "3": [
@@ -3428,6 +3436,29 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
+                "name": "쌀오트밀죽",
+                "g": 65.0
+              },
+              {
+                "name": "닭고기",
+                "g": 12.0
+              },
+              {
+                "name": "양배추",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 10.0
+              }
+            ],
+            "plan": 99,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
                 "name": "오트밀죽",
                 "g": 65.0
               },
@@ -3446,35 +3477,12 @@ window.MiddlePlan={
             ],
             "plan": 99,
             "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "쌀오트밀죽",
-                "g": 65.0
-              },
-              {
-                "name": "닭고기",
-                "g": 12.0
-              },
-              {
-                "name": "브로콜리",
-                "g": 12.0
-              },
-              {
-                "name": "애호박",
-                "g": 10.0
-              }
-            ],
-            "plan": 99,
-            "plannedNew": []
           }
         ],
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 3,
@@ -3544,7 +3552,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -3552,11 +3560,15 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
-                "g": 12.0
+                "name": "애호박",
+                "g": 11.0
               },
               {
-                "name": "청경채",
+                "name": "밀가루(익힌 밀 함유 재료)",
+                "g": 1.0
+              },
+              {
+                "name": "양배추",
                 "g": 10.0
               }
             ],
@@ -3567,7 +3579,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -3575,7 +3587,7 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "양배추",
+                "name": "청경채",
                 "g": 12.0
               },
               {
@@ -3590,7 +3602,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 5,
@@ -3660,7 +3672,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
@@ -3668,11 +3680,15 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "청경채",
-                "g": 12.0
+                "name": "애호박",
+                "g": 11.0
               },
               {
-                "name": "양배추",
+                "name": "땅콩버터(무가당·매끈한 제품)",
+                "g": 1.0
+              },
+              {
+                "name": "당근",
                 "g": 10.0
               }
             ],
@@ -3683,7 +3699,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
@@ -3691,11 +3707,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "감자",
+                "name": "단호박",
                 "g": 12.0
               },
               {
-                "name": "애호박",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -3706,7 +3722,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 7,
@@ -3772,6 +3788,29 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
+                "name": "쌀오트밀죽",
+                "g": 65.0
+              },
+              {
+                "name": "두부",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 12.0
+              },
+              {
+                "name": "애호박",
+                "g": 10.0
+              }
+            ],
+            "plan": 99,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
                 "name": "오트밀죽",
                 "g": 65.0
               },
@@ -3784,30 +3823,7 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
-                "g": 10.0
-              }
-            ],
-            "plan": 99,
-            "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "쌀오트밀죽",
-                "g": 65.0
-              },
-              {
-                "name": "두부",
-                "g": 12.0
-              },
-              {
                 "name": "청경채",
-                "g": 12.0
-              },
-              {
-                "name": "감자",
                 "g": 10.0
               }
             ],
@@ -3818,7 +3834,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 9,
@@ -3884,7 +3900,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
@@ -3892,11 +3908,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "브로콜리",
+                "name": "양파",
                 "g": 12.0
               },
               {
-                "name": "양배추",
+                "name": "감자",
                 "g": 10.0
               }
             ],
@@ -3907,19 +3923,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 65.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
                 "g": 12.0
               },
               {
-                "name": "고구마",
+                "name": "청경채",
                 "g": 12.0
               },
               {
-                "name": "당근",
+                "name": "단호박",
                 "g": 10.0
               }
             ],
@@ -3930,7 +3946,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 11,
@@ -3996,7 +4012,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
@@ -4004,11 +4020,11 @@ window.MiddlePlan={
                 "g": 12.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 12.0
               },
               {
-                "name": "감자",
+                "name": "청경채",
                 "g": 10.0
               }
             ],
@@ -4019,19 +4035,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
+                "g": 12.0
+              },
+              {
+                "name": "브로콜리",
                 "g": 12.0
               },
               {
                 "name": "고구마",
-                "g": 12.0
-              },
-              {
-                "name": "콜리플라워",
                 "g": 10.0
               }
             ],
@@ -4042,7 +4058,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 13,
@@ -4108,19 +4124,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "소고기",
-                "g": 12.0
-              },
-              {
-                "name": "브로콜리",
+                "name": "달걀",
                 "g": 12.0
               },
               {
                 "name": "케일",
+                "g": 12.0
+              },
+              {
+                "name": "콜리플라워",
                 "g": 10.0
               }
             ],
@@ -4131,11 +4147,11 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 65.0
               },
               {
-                "name": "달걀",
+                "name": "소고기",
                 "g": 12.0
               },
               {
@@ -4154,7 +4170,7 @@ window.MiddlePlan={
         "total": 198,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 15,
@@ -4218,7 +4234,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -4226,11 +4242,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "양파",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -4241,7 +4257,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -4249,11 +4265,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "브로콜리",
                 "g": 13.0
               }
             ],
@@ -4264,7 +4280,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 17,
@@ -4330,19 +4346,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "케일",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -4353,19 +4369,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "달걀",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "애호박",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양파",
                 "g": 13.0
               }
             ],
@@ -4376,7 +4392,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 19,
@@ -4442,19 +4458,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "대구",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "무",
                 "g": 15.0
               },
               {
-                "name": "케일",
+                "name": "감자",
                 "g": 13.0
               }
             ],
@@ -4465,19 +4481,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "당근",
                 "g": 13.0
               }
             ],
@@ -4488,7 +4504,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 21,
@@ -4552,7 +4568,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -4560,11 +4576,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "애호박",
                 "g": 15.0
               },
               {
-                "name": "단호박",
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -4575,19 +4591,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -4598,7 +4614,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 23,
@@ -4662,19 +4678,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "닭고기",
-                "g": 15.0
-              },
-              {
-                "name": "양파",
+                "name": "소고기",
                 "g": 15.0
               },
               {
                 "name": "배추",
+                "g": 15.0
+              },
+              {
+                "name": "감자",
                 "g": 13.0
               }
             ],
@@ -4685,19 +4701,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "케일",
+                "name": "당근",
                 "g": 13.0
               }
             ],
@@ -4708,7 +4724,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 25,
@@ -4774,19 +4790,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "양배추",
                 "g": 13.0
               }
             ],
@@ -4797,19 +4813,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "청경채",
                 "g": 13.0
               }
             ],
@@ -4820,7 +4836,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 27,
@@ -4886,30 +4902,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
-                "g": 70.0
-              },
-              {
-                "name": "소고기",
-                "g": 15.0
-              },
-              {
-                "name": "양배추",
-                "g": 15.0
-              },
-              {
-                "name": "콜리플라워",
-                "g": 13.0
-              }
-            ],
-            "plan": 113,
-            "plannedNew": []
-          },
-          {
-            "slot": 2,
-            "foods": [
-              {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -4921,7 +4914,30 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "배추",
+                "g": 13.0
+              }
+            ],
+            "plan": 113,
+            "plannedNew": []
+          },
+          {
+            "slot": 2,
+            "foods": [
+              {
+                "name": "쌀죽",
+                "g": 70.0
+              },
+              {
+                "name": "소고기",
+                "g": 15.0
+              },
+              {
+                "name": "브로콜리",
+                "g": 15.0
+              },
+              {
+                "name": "케일",
                 "g": 13.0
               }
             ],
@@ -4932,7 +4948,7 @@ window.MiddlePlan={
         "total": 226,
         "allergyNote": "",
         "note": "2끼 적응 구간; 3끼 미제공",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 29,
@@ -5021,7 +5037,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
@@ -5029,11 +5045,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "토마토",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "케일",
                 "g": 15.0
               }
             ],
@@ -5044,19 +5060,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "청경채",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "오이",
                 "g": 15.0
               }
             ],
@@ -5071,15 +5087,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "배추",
+                "name": "브로콜리",
                 "g": 10.0
               },
               {
-                "name": "케일",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -5090,7 +5106,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 31,
@@ -5177,19 +5193,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "무",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "배추",
                 "g": 15.0
               }
             ],
@@ -5200,15 +5216,15 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "브로콜리",
                 "g": 15.0
               },
               {
@@ -5227,15 +5243,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "청경채",
+                "name": "양파",
                 "g": 10.0
               },
               {
-                "name": "무",
+                "name": "가지",
                 "g": 10.0
               }
             ],
@@ -5246,7 +5262,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 33,
@@ -5335,19 +5351,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "대구",
+                "name": "돼지고기",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "오이",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "청경채",
                 "g": 15.0
               }
             ],
@@ -5358,7 +5374,7 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -5366,11 +5382,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "감자",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "고구마",
                 "g": 15.0
               }
             ],
@@ -5389,11 +5405,11 @@ window.MiddlePlan={
                 "g": 10.0
               },
               {
-                "name": "토마토",
+                "name": "당근",
                 "g": 10.0
               },
               {
-                "name": "오이",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -5404,7 +5420,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 35,
@@ -5493,7 +5509,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
@@ -5501,11 +5517,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "아욱",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -5516,19 +5532,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양배추",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "양파",
                 "g": 15.0
               }
             ],
@@ -5543,15 +5559,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "청경채",
+                "name": "콜리플라워",
                 "g": 10.0
               },
               {
-                "name": "무",
+                "name": "가지",
                 "g": 10.0
               }
             ],
@@ -5562,7 +5578,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 37,
@@ -5649,19 +5665,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "시금치",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "당근",
                 "g": 15.0
               }
             ],
@@ -5672,19 +5688,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "돼지고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "감자",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "고구마",
                 "g": 15.0
               }
             ],
@@ -5699,15 +5715,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "브로콜리",
+                "name": "청경채",
                 "g": 10.0
               },
               {
-                "name": "시금치",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -5718,7 +5734,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 39,
@@ -5807,7 +5823,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
@@ -5815,11 +5831,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "비트",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -5830,19 +5846,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 70.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "비트",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -5857,15 +5873,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양배추",
                 "g": 10.0
               },
               {
-                "name": "시금치",
+                "name": "무",
                 "g": 10.0
               }
             ],
@@ -5876,7 +5892,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 41,
@@ -5965,19 +5981,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "퀴노아쌀죽",
                 "g": 70.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "퀴노아",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "토마토",
                 "g": 15.0
               }
             ],
@@ -5988,19 +6004,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 70.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "시금치",
                 "g": 15.0
               },
               {
-                "name": "브로콜리",
+                "name": "가지",
                 "g": 15.0
               }
             ],
@@ -6015,15 +6031,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "비트",
+                "name": "무",
                 "g": 10.0
               },
               {
-                "name": "아욱",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -6034,7 +6050,7 @@ window.MiddlePlan={
         "total": 315,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 43,
@@ -6123,7 +6139,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
@@ -6131,11 +6147,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "완두콩",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "비트",
                 "g": 15.0
               }
             ],
@@ -6146,19 +6162,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "완두콩",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -6173,15 +6189,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "양배추",
+                "name": "가지",
                 "g": 10.0
               },
               {
-                "name": "비트",
+                "name": "단호박",
                 "g": 10.0
               }
             ],
@@ -6192,7 +6208,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 45,
@@ -6281,19 +6297,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "양배추",
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "배",
                 "g": 15.0
               }
             ],
@@ -6304,19 +6320,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양파",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "오이",
                 "g": 15.0
               }
             ],
@@ -6335,11 +6351,11 @@ window.MiddlePlan={
                 "g": 10.0
               },
               {
-                "name": "무",
+                "name": "가지",
                 "g": 10.0
               },
               {
-                "name": "배",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -6350,7 +6366,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 47,
@@ -6439,19 +6455,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "버섯",
                 "g": 15.0
               },
               {
-                "name": "비트",
+                "name": "무",
                 "g": 15.0
               }
             ],
@@ -6462,19 +6478,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "아욱",
+                "name": "배추",
                 "g": 15.0
               },
               {
-                "name": "배",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -6493,11 +6509,11 @@ window.MiddlePlan={
                 "g": 10.0
               },
               {
-                "name": "완두콩",
+                "name": "청경채",
                 "g": 10.0
               },
               {
-                "name": "버섯",
+                "name": "배",
                 "g": 10.0
               }
             ],
@@ -6508,7 +6524,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 49,
@@ -6597,7 +6613,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
@@ -6605,11 +6621,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "완두콩",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "사과",
                 "g": 15.0
               }
             ],
@@ -6620,19 +6636,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "두부",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "단호박",
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "양배추",
                 "g": 15.0
               }
             ],
@@ -6647,15 +6663,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "콜리플라워",
+                "name": "양파",
                 "g": 10.0
               },
               {
-                "name": "사과",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -6666,7 +6682,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 51,
@@ -6755,19 +6771,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "연어",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "콜리플라워",
+                "name": "새송이버섯",
                 "g": 15.0
               },
               {
-                "name": "토마토",
+                "name": "감자",
                 "g": 15.0
               }
             ],
@@ -6778,19 +6794,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "고구마",
                 "g": 15.0
               },
               {
-                "name": "배추",
+                "name": "당근",
                 "g": 15.0
               }
             ],
@@ -6809,11 +6825,11 @@ window.MiddlePlan={
                 "g": 10.0
               },
               {
-                "name": "버섯",
+                "name": "콜리플라워",
                 "g": 10.0
               },
               {
-                "name": "새송이버섯",
+                "name": "사과",
                 "g": 10.0
               }
             ],
@@ -6824,7 +6840,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 53,
@@ -6913,19 +6929,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "병아리콩",
                 "g": 15.0
               },
               {
-                "name": "사과",
+                "name": "버섯",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "브로콜리",
                 "g": 15.0
               }
             ],
@@ -6936,19 +6952,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "배",
+                "name": "비트",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "아욱",
                 "g": 15.0
               }
             ],
@@ -6963,11 +6979,11 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "완두콩",
+                "name": "애호박",
                 "g": 10.0
               },
               {
@@ -6982,7 +6998,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 55,
@@ -7071,19 +7087,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "양파",
+                "name": "파프리카",
                 "g": 15.0
               },
               {
-                "name": "오이",
+                "name": "완두콩",
                 "g": 15.0
               }
             ],
@@ -7094,19 +7110,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "새송이버섯",
+                "name": "가지",
                 "g": 15.0
               },
               {
-                "name": "무",
+                "name": "시금치",
                 "g": 15.0
               }
             ],
@@ -7121,15 +7137,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "배추",
+                "name": "양파",
                 "g": 10.0
               },
               {
-                "name": "파프리카",
+                "name": "사과",
                 "g": 10.0
               }
             ],
@@ -7140,7 +7156,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음 (생선 끼니는 닭고기로 대체)"
       },
       {
         "day": 57,
@@ -7229,7 +7245,7 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
@@ -7237,11 +7253,11 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "감자",
+                "name": "미나리",
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "배추",
                 "g": 15.0
               }
             ],
@@ -7252,19 +7268,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "오트밀죽",
+                "name": "쌀죽",
                 "g": 75.0
               },
               {
-                "name": "두부",
+                "name": "닭고기",
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               },
               {
-                "name": "버섯",
+                "name": "토마토",
                 "g": 15.0
               }
             ],
@@ -7279,15 +7295,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "닭고기",
+                "name": "두부",
                 "g": 10.0
               },
               {
-                "name": "브로콜리",
+                "name": "버섯",
                 "g": 10.0
               },
               {
-                "name": "미나리",
+                "name": "애호박",
                 "g": 10.0
               }
             ],
@@ -7298,7 +7314,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       },
       {
         "day": 59,
@@ -7387,19 +7403,19 @@ window.MiddlePlan={
             "slot": 1,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "소고기",
+                "name": "렌틸콩",
                 "g": 15.0
               },
               {
-                "name": "파프리카",
+                "name": "브로콜리",
                 "g": 15.0
               },
               {
-                "name": "양배추",
+                "name": "비트",
                 "g": 15.0
               }
             ],
@@ -7410,19 +7426,19 @@ window.MiddlePlan={
             "slot": 2,
             "foods": [
               {
-                "name": "쌀죽",
+                "name": "쌀오트밀죽",
                 "g": 75.0
               },
               {
-                "name": "돼지고기",
+                "name": "소고기",
                 "g": 15.0
               },
               {
-                "name": "청경채",
+                "name": "아욱",
                 "g": 15.0
               },
               {
-                "name": "가지",
+                "name": "미나리",
                 "g": 15.0
               }
             ],
@@ -7437,15 +7453,15 @@ window.MiddlePlan={
                 "g": 55.0
               },
               {
-                "name": "달걀",
+                "name": "닭고기",
                 "g": 10.0
               },
               {
-                "name": "시금치",
+                "name": "파프리카",
                 "g": 10.0
               },
               {
-                "name": "미나리",
+                "name": "새송이버섯",
                 "g": 10.0
               }
             ],
@@ -7456,7 +7472,7 @@ window.MiddlePlan={
         "total": 325,
         "allergyNote": "",
         "note": "3끼 시작 시 1·2끼 양 조정; 총량은 섭취 목표 아님",
-        "introduction": "기존 섭취 재료 활용 · 신규 도입 없음"
+        "introduction": "전날 식단 반복 · 신규 도입 없음"
       }
     ]
   },
@@ -7653,6 +7669,403 @@ window.MiddlePlan={
       [
         "주의",
         "범용 식단 예시이며 아기별 진료·영양평가를 대체하지 않습니다. 영양소 충족량은 정량 검증되지 않았습니다."
+      ]
+    ],
+    "사용안내": [
+      [
+        "밤송이맘 중기 이유식 60일 식단 — 독립 구성 예시",
+        null
+      ],
+      [
+        "사용 목적",
+        "건강한 만삭 영아를 위한 예시. 개별 영양처방·의학적 진료를 대체하지 않습니다."
+      ],
+      [
+        "식사 횟수",
+        "2끼 기본. 3끼는 29일차부터 선택적으로 추가(1~28일에는 미제공). 전환 시기 개인화."
+      ],
+      [
+        "중량 기준",
+        "표의 g은 조리 완료된 먹을 수 있는 상태의 중량(죽은 수분 포함). 건조 곡물 중량 아님."
+      ],
+      [
+        "중량 해석",
+        "권장 섭취 목표나 상한선이 아닌 식단 작성용 시작 예시. 아이 신호에 따라 증감."
+      ],
+      [
+        "조합 검수",
+        "단백질별 어울리는 채소 조합을 사용. 한 끼 중복 채소 및 유사 채소 과다 조합 금지."
+      ],
+      [
+        "재료 도입",
+        "채소 및 곡물도 처음 먹는 재료는 개별 섭취 이력 확인 후 적용. 신규 재료를 자동으로 안전하다고 가정하지 않음."
+      ],
+      [
+        "3끼 확장",
+        "세 번째 끼니를 추가할 때 1·2끼의 양을 아기 상태에 맞춰 조정. 단순 합산 강요 금지."
+      ],
+      [
+        "알레르기",
+        "새 알레르기 식품은 처음부터 표에 적힌 양 전체를 주지 말고 소량·단독으로 안전하게 소개."
+      ],
+      [
+        "안전 조리",
+        "달걀 완숙, 생선 가시 제거·충분히 익힘, 땅콩은 묽게 푼 매끄러운 땅콩버터/분말로 사용(통땅콩 금지)."
+      ],
+      [
+        "기존 섭취",
+        "쌀·오트밀·소고기·달걀과 기본 채소는 초기 이유식에서 문제없이 먹어본 것으로 가정. 미도입 재료는 첫 끼 소량으로 별도 도입하고 해당 날의 신규 재료와 겹치지 않게 조정."
+      ],
+      [
+        "주의",
+        "심한 습진·확인된 음식 알레르기·미숙아·성장 문제 등은 담당 소아청소년과 상담."
+      ],
+      [
+        "수유",
+        "이유식이 모유·분유를 갑자기 대체하지 않도록 주의."
+      ],
+      [
+        "저작권",
+        "도서의 식단표를 전사하지 않고 일반적인 식품군 원칙을 토대로 독립 구성."
+      ],
+      [
+        "기존 섭취 확인",
+        "180~210일 기록에서 확인된 17종(쌀·오트밀·소고기·달걀 및 채소 13종)은 기섭취로 처리. 사용자 확인: 알레르기 반응 없음."
+      ],
+      [
+        "다양화 수정",
+        "애호박·단호박 반복을 줄이고 도입 완료 채소·과일 및 달걀의 재노출을 늘렸습니다."
+      ],
+      [
+        "달걀 안내",
+        "초기 이유식에서 문제없이 도입한 경우에만 달걀 메뉴를 그대로 사용. 미도입 아기는 첫 끼에 별도 소량 도입 후 대체하세요."
+      ],
+      [
+        "새 재료 안내",
+        "첫 끼에 신규 식재료 한 가지를 소량 도입하는 예시이며, 개별 섭취 이력에 따라 조정."
+      ],
+      [
+        "안전",
+        "처음 먹는 알레르기 식품은 소량으로 시작, 기존 알레르기·습진·반응 이력 있으면 의료진과 상의. 생선은 저수은종·완전가열·가시 제거."
+      ],
+      [
+        "생선 제공 빈도",
+        "저수은 생선(대구·연어) 주 2회 이하로 배치(7일 구간 및 연속 7일 기준). 이는 본 식단표의 운영 기준이며 의학적 절대 상한은 아닙니다. 충분히 익히고 가시를 제거하세요."
+      ]
+    ],
+    "신규재료_적용주의": [
+      [
+        "구분",
+        "안내"
+      ],
+      [
+        "표시 의미",
+        "NEW는 초기 이유식 180~210일 식단까지 확인한 뒤, 실제 처음 먹는 재료에만 표시합니다."
+      ],
+      [
+        "기본 재료 가정",
+        "초기 식단 이미지에서 확인: 쌀·오트밀·소고기·애호박·청경채·브로콜리·양배추·단호박·당근·감자·고구마·오이·시금치·배추·달걀. 실제 섭취 여부는 개인 기록으로 최종 확인."
+      ],
+      [
+        "개인별 조정",
+        "기본 재료도 처음이면 해당 메뉴를 그대로 제공하지 말고 도입 순서를 조정하세요."
+      ],
+      [
+        "알레르기 유발 식품",
+        "새 식품은 첫 끼 소량부터 시작하며 한 번 먹고 반응이 없으면 이후 식단에서 계속 제공할 수 있습니다."
+      ],
+      [
+        "관찰일",
+        "짝수일에는 새 재료 도입 없음. 이상반응이 있으면 중단하고 의료진 상담."
+      ],
+      [
+        "횟수 제한",
+        "생선·당근·감자·고구마 각각 주 2~3일 이내 목표(의학적 금지 기준 아님)."
+      ]
+    ],
+    "신규식재료_도입일정": [
+      [
+        "중기 일차",
+        "신규 식재료",
+        "실제 첫 섭취일",
+        "반응(O/X·메모)",
+        "안내"
+      ],
+      [
+        1,
+        "닭고기",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        3,
+        "밀",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        5,
+        "땅콩",
+        null,
+        null,
+        "알레르기 유발 식품: 첫 섭취는 낮 시간에 소량부터. 무가당 매끈한 땅콩버터를 충분히 희석. 통땅콩·덩어리 금지. 중증 습진/달걀 알레르기 등 고위험군은 사전 진료 상담."
+      ],
+      [
+        7,
+        "두부",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        9,
+        "양파",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        11,
+        "콜리플라워",
+        null,
+        null,
+        "초기 이유식 또는 앞선 중기에서 섭취한 식재료 활용"
+      ],
+      [
+        13,
+        "케일",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        15,
+        "기존 섭취 · 신규 도입 없음",
+        null,
+        null,
+        "초기 이유식 또는 앞선 중기에서 섭취한 식재료 활용"
+      ],
+      [
+        17,
+        "대구",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        19,
+        "무",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        21,
+        "기존 섭취 · 신규 도입 없음",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        23,
+        "기존 섭취 · 신규 도입 없음",
+        null,
+        null,
+        "초기 이유식 또는 앞선 중기에서 섭취한 식재료 활용"
+      ],
+      [
+        25,
+        "케일",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        27,
+        "가지",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        29,
+        "토마토",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        31,
+        "기존 섭취 · 신규 도입 없음",
+        null,
+        null,
+        "초기 이유식 또는 앞선 중기에서 섭취한 식재료 활용"
+      ],
+      [
+        33,
+        "돼지고기",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        35,
+        "아욱",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        37,
+        "기존 섭취 · 신규 도입 없음",
+        null,
+        null,
+        "초기 이유식 또는 앞선 중기에서 섭취한 식재료 활용"
+      ],
+      [
+        39,
+        "비트",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        41,
+        "퀴노아",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        43,
+        "완두콩",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        45,
+        "배",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        47,
+        "버섯",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        49,
+        "사과",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        51,
+        "새송이버섯",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        53,
+        "병아리콩",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        55,
+        "파프리카",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        57,
+        "미나리",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ],
+      [
+        59,
+        "렌틸콩",
+        null,
+        null,
+        "첫 끼에 소량 도입 · 다음 날 관찰 · 실제 섭취 여부 확인"
+      ]
+    ],
+    "내일부터_사용전_확인": [
+      [
+        "구분",
+        "검수 결과 및 사용 전 확인"
+      ],
+      [
+        "결론",
+        "식재료 구성·계획 중량 검수만 가능. 열량/철분/아연/칼슘/지방/단백질 영양소 충족 여부는 정량 검증되지 않았음."
+      ],
+      [
+        "왜 정량 검증 불가?",
+        "죽에 들어간 건조 곡물량과 물 비율, 고기 부위, 조리 손실, 실제 섭취량, 모유·분유 섭취량이 없음."
+      ],
+      [
+        "내일 사용",
+        "기존에 안전하게 먹어본 식재료 위주로 1~2끼부터 시작. 낯선 식재료는 개별 확인 후 소량 도입."
+      ],
+      [
+        "중기 시작일",
+        "초기 시작 후 30일이라는 날짜만으로 중기 질감을 강제하지 말고 삼킴/씹기 발달과 실제 섭취 상태를 고려."
+      ],
+      [
+        "중량",
+        "99~120g/끼는 계획 예시. 모두 먹여야 하는 목표나 상한선이 아님."
+      ],
+      [
+        "철분",
+        "소고기 등 철분 공급원을 자주 포함하되, 두부·달걀을 소고기와 동일 철분 공급량으로 계산하지 말 것. 철분 강화 시리얼/수유 등 전체 섭취 고려."
+      ],
+      [
+        "알레르기",
+        "달걀·밀·대두·생선·땅콩·참깨 첫 도입 시 기존 식단을 그대로 적용하지 말고 별도 소량 도입. 이미 먹어본 식품은 반복 제공 계획."
+      ],
+      [
+        "땅콩·참깨",
+        "현 식단에는 각각 1회만 반영되어 있어 지속 노출 계획이 불충분. 잘 희석한 땅콩버터 등 안전한 형태로 의료진 조언에 따라 반복 제공."
+      ],
+      [
+        "소고기 매일",
+        "60일 전 일정에서 1끼 이상 소고기 포함(사용자 요청). 소고기만으로 철분 충족을 보장하지 않음."
+      ],
+      [
+        "조리 안전",
+        "소고기는 완전히 익혀 제공. 질감·크기는 아이의 먹기 능력에 맞추고, 실제 섭취량과 수유 상태 확인."
+      ],
+      [
+        "질감/안전",
+        "덩어리 크기는 발달에 맞게. 질식 위험 식품, 소금·설탕 첨가, 꿀(12개월 미만)은 피하기."
+      ],
+      [
+        "개별 상황",
+        "조산, 성장 부진, 빈혈, 알레르기, 삼킴 문제 등이 있으면 소아청소년과/영양사 개별 상담."
+      ],
+      [
+        "다음 정량 검증 필요 자료",
+        "죽 레시피(건조 곡물 g, 물 ml), 육류/채소 조리 전후 중량, 정확한 어종, 수유 기록, 영양성분 DB."
+      ],
+      [
+        "참고 근거",
+        "AAP HealthyChildren, CDC Infant and Toddler Nutrition, KDCA 국가건강정보포털 이유기 보충식: 개별화·철분·질감·안전 원칙."
+      ],
+      [
+        "표시 주의",
+        "이 파일을 학회 인증 또는 영양 충족 검증 완료 식단으로 소개하지 말 것."
       ]
     ]
   }
