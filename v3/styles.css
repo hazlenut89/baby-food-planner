@@ -31,3 +31,6 @@
 .topbar{position:-webkit-sticky;position:sticky;top:0;z-index:50;background:var(--bg);height:calc(86px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top)}
 .topbar .more-menu{top:calc(100% + 6px);max-height:calc(100dvh - 160px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-y:auto}
 @media(max-width:767px){.topbar{height:auto;padding-top:calc(14px + env(safe-area-inset-top))}}
+/* A viewport-height sticky sidebar is pushed upward by the page footer. */
+@media(min-width:768px){.sidebar{position:fixed;left:max(0px,calc((100vw - 1680px)/2));top:0;bottom:0;width:210px;height:100dvh;background:var(--bg);z-index:50;overflow-y:auto}.workspace{grid-column:2}.summary-panel{grid-column:3}}
+@media(min-width:768px) and (max-width:1199px){.sidebar{width:180px}}
