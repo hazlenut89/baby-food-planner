@@ -29,18 +29,18 @@ function ingredientsPage(){const ings=state.ingredients.filter(i=>!!i.archivedAt
 
 
 
-function transitionAge(birth,date){return birth&&date?Math.round((Date.parse(date+'T00:00:00Z')-Date.parse(birth+'T00:00:00Z'))/86400000):'';}
+function transitionAge(birth,date){return birth&&date?Math.round((Date.parse(date+'T00:00:00Z')-Date.parse(birth+'T00:00:00Z'))/86400000)+1:'';}
 function transitionHint(birth,date,months){const effective=date||C.stageBoundary({birthday:birth},months);return effective?(date?'사용자 지정: ':'자동 기준: ')+effective+' · 생후 '+transitionAge(birth,effective)+'일':'생년월일을 먼저 입력해 주세요.';}
-function transitionFields(key,label,months){const birth=state.birthday,date=state.v3Settings?.stageTransitions?.[key]||'';return `<fieldset><legend>${label} 시작</legend><div class="two-fields"><label>시작일<input name="${key}Start" type="date" value="${esc(date)}"></label><label>생후 일수<input name="${key}Age" type="number" inputmode="numeric" min="0" max="36500" step="1" value="${transitionAge(birth,date)}" ${birth?'':'disabled'}></label></div><p class="note" id="${key}Hint">${transitionHint(birth,date,months)}</p></fieldset>`;}
+function transitionFields(key,label,months){const birth=state.birthday,date=state.v3Settings?.stageTransitions?.[key]||'';return `<fieldset><legend>${label} 시작</legend><div class="two-fields"><label>시작일<input name="${key}Start" type="date" value="${esc(date)}"></label><label>생후 일수<input name="${key}Age" type="number" inputmode="numeric" min="1" max="36500" step="1" value="${transitionAge(birth,date)}" ${birth?'':'disabled'}></label></div><p class="note" id="${key}Hint">${transitionHint(birth,date,months)}</p></fieldset>`;}
 function syncTransitions(source){
  const f=$('settingsForm');if(!f)return;const birth=f.elements.birthday.value;
  for(const [key,months] of [['middle',7],['late',10]]){
   const date=f.elements[key+'Start'],age=f.elements[key+'Age'];age.disabled=!birth;
   if(source===age){
    age.setCustomValidity('');const n=Number(age.value);
-   if(age.validity.badInput||age.value!==''&&(!Number.isSafeInteger(n)||n<0||n>36500)){age.setCustomValidity('생후 일수는 0~36500 사이 정수로 입력해 주세요.');}
+   if(age.validity.badInput||age.value!==''&&(!Number.isSafeInteger(n)||n<1||n>36500)){age.setCustomValidity('생후 일수는 1~36500 사이 정수로 입력해 주세요.');}
    else if(!age.value)date.value='';
-   else if(birth){const d=new Date(birth+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);date.value=d.toISOString().slice(0,10);}
+   else if(birth){const d=new Date(birth+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n-1);date.value=d.toISOString().slice(0,10);}
   }else if(source===date||source===f.elements.birthday){age.value=transitionAge(birth,date.value);age.setCustomValidity('');}
   $(key+'Hint').textContent=transitionHint(birth,date.value,months);
  }
