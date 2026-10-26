@@ -4,7 +4,7 @@ with sync_playwright() as p:
  for width in [320,375,390,430]:
   for route in ['/','/v3/']:
    ctx=b.new_context(viewport={'width':width,'height':700},is_mobile=True);page=ctx.new_page();page.goto('http://127.0.0.1:8001'+route,wait_until='domcontentloaded')
-   if route=='/':page.evaluate('openSharedMeals(180)');page.locator('[data-edit=new]').click();root='#sharedMealDialog';field='#sharedActual'
+   if route=='/':page.wait_for_selector('#weekDetail .weeksummary');page.evaluate('openSharedMeals(180)');page.locator('[data-edit=new]').click();root='#sharedMealDialog';field='#sharedActual'
    else:page.locator('[data-action=add]').click();page.locator('[data-action=new-meal]').click();root='#sheet';field='#mealActual'
    assert page.locator(root).evaluate('(e)=>getComputedStyle(e).position')=='static'
    assert page.locator(root).evaluate('(e)=>!e.matches(":modal")')
