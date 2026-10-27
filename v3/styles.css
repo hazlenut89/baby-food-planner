@@ -36,3 +36,6 @@
 @media(min-width:768px) and (max-width:1199px){.sidebar{width:180px}}
 
 .stage-transitions fieldset{margin-top:12px}.stage-transitions .note{line-height:1.6;margin-top:8px}@media(max-width:767px){.stage-transitions .two-fields{grid-template-columns:minmax(0,1fr)}}
+
+.meal-card{display:grid;grid-template-columns:40px minmax(0,1fr) auto}.meal-card .food-icons{flex-wrap:wrap}.meal-card .food-icons>*{flex-shrink:0}.meal-card .food-unit{white-space:normal;overflow-wrap:anywhere}.meal-card .meal-right{justify-self:end}
+@media(max-width:375px){.meal-card{grid-template-columns:40px minmax(0,1fr);row-gap:6px}.meal-card .meal-right{grid-column:2}}
