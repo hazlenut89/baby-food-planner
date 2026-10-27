@@ -39,3 +39,5 @@
 
 .meal-card{display:grid;grid-template-columns:40px minmax(0,1fr) auto}.meal-card .food-icons{flex-wrap:wrap}.meal-card .food-icons>*{flex-shrink:0}.meal-card .food-unit{white-space:normal;overflow-wrap:anywhere}.meal-card .meal-right{justify-self:end}
 @media(max-width:375px){.meal-card{grid-template-columns:40px minmax(0,1fr);row-gap:6px}.meal-card .meal-right{grid-column:2}}
+
+button.chart-column{padding:0;border:0;border-radius:0;background:transparent;color:inherit;line-height:1.5;text-align:center;min-width:0;cursor:pointer;touch-action:manipulation}
