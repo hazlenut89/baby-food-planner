@@ -41,3 +41,5 @@
 @media(max-width:375px){.meal-card{grid-template-columns:40px minmax(0,1fr);row-gap:6px}.meal-card .meal-right{grid-column:2}}
 
 button.chart-column{padding:0;border:0;border-radius:0;background:transparent;color:inherit;line-height:1.5;text-align:center;min-width:0;cursor:pointer;touch-action:manipulation}
+
+.stat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.stat-grid .panel{min-width:0}.stat-grid .metric{overflow-wrap:anywhere;word-break:normal}.stat-grid small{font-size:12px}@media(max-width:767px){.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat-grid .panel{padding:12px}.stat-grid .metric{font-size:24px;line-height:1.35}}
