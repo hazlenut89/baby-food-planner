@@ -76,3 +76,9 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
  .meal-card{min-height:64px;padding:10px 0}.ingredient-card{min-height:100px;padding:10px 6px}
  .stat-grid .panel{padding:10px}.stat-grid .metric{font-size:24px}.stat-grid .metric-status{font-size:18px}
 }
+
+.meal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:6px}.meal-toolbar .mini-actions{margin:0}.meal-toolbar+.date-strip{margin-top:8px}
+.stat-basis{font-size:12px;color:var(--muted);margin:5px 0 12px}
+.cube-warning-summary,.cube-warning{padding:7px 9px;line-height:1.4}.cube-warning-head{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}.cube-warning-head b{flex:1;min-width:130px}.cube-warning-head button{flex:none;min-width:44px;min-height:44px;margin:0;padding:5px 8px}.cube-warning p{margin-top:3px}
+@media(max-width:767px){.meal-toolbar .view-tabs{padding:3px;gap:2px}.meal-toolbar .view-tabs button{padding:6px 10px}.meal-toolbar .mini-actions{gap:4px}.meal-toolbar .mini-actions button{width:auto;padding:6px 9px;min-width:44px}.stat-grid{gap:5px}.stat-grid .panel{padding:8px;min-height:78px}.stat-grid small{font-size:10px;white-space:nowrap}.stat-grid .metric{font-size:16px;white-space:nowrap}.stat-grid .metric-status{font-size:12px;white-space:nowrap}}
+@media(min-width:375px) and (max-width:767px){.stat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
