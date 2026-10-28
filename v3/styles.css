@@ -82,3 +82,11 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
 .cube-warning-summary,.cube-warning{padding:7px 9px;line-height:1.4}.cube-warning-head{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}.cube-warning-head b{flex:1;min-width:130px}.cube-warning-head button{flex:none;min-width:44px;min-height:44px;margin:0;padding:5px 8px}.cube-warning p{margin-top:3px}
 @media(max-width:767px){.meal-toolbar .view-tabs{padding:3px;gap:2px}.meal-toolbar .view-tabs button{padding:6px 10px}.meal-toolbar .mini-actions{gap:4px}.meal-toolbar .mini-actions button{width:auto;padding:6px 9px;min-width:44px}.stat-grid{gap:5px}.stat-grid .panel{padding:8px;min-height:78px}.stat-grid small{font-size:10px;white-space:nowrap}.stat-grid .metric{font-size:16px;white-space:nowrap}.stat-grid .metric-status{font-size:12px;white-space:nowrap}}
 @media(min-width:375px) and (max-width:767px){.stat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+.stat-grid .panel{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.daily-title{display:flex;align-items:center;gap:7px}.daily-title svg{width:19px;height:19px;flex:none}
+.daily-intake{border-bottom:1px solid var(--line);padding-bottom:11px;margin-bottom:11px}
+#main [data-action=extra-meal],#main [data-action=new-snack]{height:44px;min-height:44px;padding:4px 13px;margin:4px 8px 4px 0}
+.cube-warning-summary{margin-bottom:12px}
+.cube-warning-head button{position:relative;isolation:isolate;height:44px;min-height:44px;padding:0 8px;border:0;background:transparent}
+.cube-warning-head button::before{content:"";position:absolute;inset:3px 0;border:1px solid var(--line);border-radius:12px;background:#fff8ef;z-index:-1;pointer-events:none}
