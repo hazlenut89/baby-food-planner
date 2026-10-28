@@ -90,3 +90,36 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
 .cube-warning-summary{margin-bottom:12px}
 .cube-warning-head button{position:relative;isolation:isolate;height:44px;min-height:44px;padding:0 8px;border:0;background:transparent}
 .cube-warning-head button::before{content:"";position:absolute;inset:3px 0;border:1px solid var(--line);border-radius:12px;background:#fff8ef;z-index:-1;pointer-events:none}
+/* Mobile-only density: retain document editors and full-size hit targets. */
+@media(max-width:767px){
+ .workspace{padding-left:16px;padding-right:16px}
+ #settingsForm{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 10px}
+ #settingsForm>.two-fields{display:contents!important}
+ #settingsForm>.stage-transitions,#settingsForm>button{grid-column:1/-1}
+ #settingsForm label{min-width:0;gap:5px;font-size:12px}
+ #settingsForm input{width:100%;min-width:0;max-width:100%;height:44px;min-height:44px;padding:8px 6px;font-size:16px}
+ #sheet:has(#templateStage) .form-stack{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 10px}
+ #sheet:has(#templateStage) .form-stack>*{grid-column:1/-1}
+ #sheet:has(#templateStage) .form-stack>.two-fields{display:contents!important}
+ #sheet:has(#templateStage) .form-stack>label:has(#templateDate),#sheet:has(#templateStage) .form-stack>label:has(#templateDay){grid-column:auto}
+ #sheet:has(#templateStage) label{min-width:0;font-size:12px;gap:5px}
+ #sheet:has(#templateStage) input,#sheet:has(#templateStage) select{height:44px;min-height:44px;width:100%;min-width:0;max-width:100%;padding:8px 6px;font-size:16px}
+ #main .page-heading>.primary{height:44px;min-height:44px;padding:6px 11px;font-size:13px}
+ #main .search{height:44px;padding:8px 10px;margin-bottom:8px}
+ .cube-warning-summary{padding:10px;margin-bottom:12px}.cube-warning{padding:8px 10px}
+ .cube-row{padding:9px 0}.cube-description small{margin-top:1px}.cube-count{font-size:19px}
+ .cube-controls{gap:6px;margin-top:4px}.cube-controls button{padding:4px 8px}.cube-controls svg{width:20px;height:20px}
+ .filters{gap:6px;margin:8px 0;padding-bottom:2px}.filters button{padding:4px 8px}
+ .ingredient-card{min-height:84px;padding:7px 5px}.ingredient-card .food-illustration{width:28px;height:28px}.ingredient-card small{margin-top:2px}
+ .meal-card .food-illustration{width:28px;height:28px}.meal-card .food-icons{gap:3px;margin-bottom:2px}
+ .meal-card{padding:8px 0;column-gap:8px}.daily-intake{padding-bottom:10px;margin-bottom:10px}.section-heading{margin-bottom:8px}
+ .week-date{padding:3px 1px;gap:1px}.meal-toolbar{gap:4px}.meal-toolbar+.date-strip{margin-top:5px;margin-bottom:7px}
+ #main :is(.cube-controls button,.filters button,[data-action=extra-meal],[data-action=new-snack],.mini-actions button,.view-tabs button,[data-action=export],.date-strip>.icon-button){position:relative;isolation:isolate;border-color:transparent;background:transparent;box-shadow:none;min-height:44px}
+ #main :is(.cube-controls button,.filters button,[data-action=extra-meal],[data-action=new-snack],.mini-actions button,.view-tabs button,[data-action=export],.date-strip>.icon-button)::before{content:"";position:absolute;inset:3px 0;z-index:-1;pointer-events:none;background:var(--compact-bg,#fff);border:1px solid var(--compact-border,var(--line));border-radius:inherit}
+ #main .filters button{--compact-bg:#fff}#main .filters button.active{--compact-bg:var(--cream);--compact-border:#e5cb80}
+ #main :is([data-action=extra-meal],[data-action=new-snack]){--compact-bg:#fff2d7;--compact-border:#d8c8a9}
+ #main .mini-actions button{--compact-bg:#f5f3ed;--compact-border:transparent}#main .mini-actions [data-action=today]{--compact-bg:var(--yellow)}
+ #main .view-tabs button{--compact-bg:transparent;--compact-border:transparent}#main .view-tabs button.active{--compact-bg:#fff}
+ #main .date-strip>.icon-button::before{inset:5px}
+}
+@media(max-width:767px){.ingredient-card .food-icon{width:32px;height:32px;margin-bottom:3px}}
