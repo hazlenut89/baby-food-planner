@@ -1,7 +1,7 @@
 window.MiddlePlan={
-  "source": "밤송이맘_중기60일_2일연속식단_신규재료유지.xlsx",
-  "version": "middle-two-day-2026-10-26",
-  "sha256": "f1c5649036e879b4ce01d6216ea124574c12125736da77b2554c73369da4a94c",
+  "source": "밤송이맘_중기60일_당근주3회_추가수정반영.xlsx",
+  "version": "middle-carrot-2026-10-29",
+  "sha256": "52dd34afdb163099dc420e3ccf3aec862be4b61e1d1a69ad82ebfae3a47914b9",
   "plans": {
     "2": [
       {
@@ -259,7 +259,7 @@ window.MiddlePlan={
                 "g": 1.0
               },
               {
-                "name": "당근",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -320,7 +320,7 @@ window.MiddlePlan={
                 "g": 1.0
               },
               {
-                "name": "당근",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -982,7 +982,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
@@ -1070,7 +1070,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 13.0
               }
             ],
@@ -1125,7 +1125,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 13.0
               }
             ],
@@ -1290,7 +1290,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 13.0
               }
             ],
@@ -1345,7 +1345,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 13.0
               }
             ],
@@ -1426,7 +1426,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -1760,7 +1760,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -1848,7 +1848,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -1903,7 +1903,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -2047,7 +2047,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               }
             ],
@@ -2102,7 +2102,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               }
             ],
@@ -2182,7 +2182,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -2237,7 +2237,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -2318,7 +2318,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
@@ -2542,7 +2542,7 @@ window.MiddlePlan={
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -2854,7 +2854,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -2909,7 +2909,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -3102,7 +3102,7 @@ window.MiddlePlan={
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
@@ -3627,7 +3627,7 @@ window.MiddlePlan={
                 "g": 1.0
               },
               {
-                "name": "당근",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -3688,7 +3688,7 @@ window.MiddlePlan={
                 "g": 1.0
               },
               {
-                "name": "당근",
+                "name": "브로콜리",
                 "g": 10.0
               }
             ],
@@ -4350,7 +4350,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
@@ -4438,7 +4438,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 13.0
               }
             ],
@@ -4493,7 +4493,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 13.0
               }
             ],
@@ -4658,7 +4658,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 13.0
               }
             ],
@@ -4713,7 +4713,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 13.0
               }
             ],
@@ -4794,7 +4794,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -5197,7 +5197,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -5308,7 +5308,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -5386,7 +5386,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "고구마",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -5599,7 +5599,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               }
             ],
@@ -5677,7 +5677,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "콜리플라워",
                 "g": 15.0
               }
             ],
@@ -5780,7 +5780,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -5858,7 +5858,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "시금치",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -5985,7 +5985,7 @@ window.MiddlePlan={
                 "g": 70.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
@@ -6301,7 +6301,7 @@ window.MiddlePlan={
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "연어",
                 "g": 15.0
               },
               {
@@ -6728,7 +6728,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -6806,7 +6806,7 @@ window.MiddlePlan={
                 "g": 15.0
               },
               {
-                "name": "당근",
+                "name": "애호박",
                 "g": 15.0
               }
             ],
@@ -7091,7 +7091,7 @@ window.MiddlePlan={
                 "g": 75.0
               },
               {
-                "name": "닭고기",
+                "name": "대구",
                 "g": 15.0
               },
               {
