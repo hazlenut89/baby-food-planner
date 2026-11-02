@@ -131,3 +131,6 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
  .ingredient-card b{max-width:100%;font-size:12px;line-height:15px;overflow-wrap:anywhere}
  .ingredient-card small{max-width:100%;margin:0;font-size:11px;line-height:13px;overflow-wrap:anywhere}
 }
+
+/* Keep the missing-birthdate notice separate from the meal card. */
+.birthdate-notice{padding:10px 12px;margin:12px 0 14px;font-size:13px;line-height:1.45;}

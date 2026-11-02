@@ -1,5 +1,7 @@
 /* Optional product metadata; the supplied product weight is one food entry for legacy totals. */
 window.MealType={
+ displayName(name){const raw=String(name??'');return ['완숙달걀','완숙계란','계란','달걀'].includes(raw.replace(/\s/g,''))?'달걀':raw;},
+ cookingTip(meal){return (meal?.foods||[]).some(f=>String(f.name||'').includes('현미'))?'<small class="brown-rice-tip" style="display:block;font-size:12px;line-height:1.45;margin-top:4px;color:#686257">🌾 현미는 충분히 불려 곱게 갈아 푹 익혀주세요. 처음에는 백미·오트밀과 1:1 이하로 섞어도 좋아요.</small>':'';},
  names(meal){return [...(meal.product?.ingredients||[]).flatMap(n=>String(n).split(',')),...(meal.foods||[]).filter(f=>!f.productEntry).map(f=>f.name)].map(n=>n.trim()).filter(Boolean);},
  reduceCubeFoods(foods,name,grams){let remaining=grams;const matches=foods.filter(f=>f.name.trim()===name.trim()).sort((a,b)=>Number(b.g)-Number(a.g));for(const f of matches){const amount=Math.min(Math.max(0,Number(f.g)||0),remaining);f.g=Math.max(0,(Number(f.g)||0)-amount);remaining-=amount;if(remaining<=0)break;}return foods.filter(f=>!matches.includes(f)||Number(f.g)>0);},
  plannedNames(meal,state,day){const C=window.PlannerCore,first=C.firstFoods(state),present=new Set(this.names({...meal,foods:(meal.foods||[]).filter(f=>Number(f.g)>0)}).map(C.foodHistoryKey));return (meal.template?.plannedNew||[]).filter(n=>present.has(C.foodHistoryKey(n))&&!(first[C.foodHistoryKey(n)]?.day<=day));},
