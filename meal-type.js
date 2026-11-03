@@ -1,6 +1,14 @@
 /* Optional product metadata; the supplied product weight is one food entry for legacy totals. */
 window.MealType={
- displayName(name){const raw=String(name??'');return ['완숙달걀','완숙계란','계란','달걀'].includes(raw.replace(/\s/g,''))?'달걀':raw;},
+ displayName(name,grainBase=true){
+  const raw=String(name??''),key=raw.trim().normalize('NFC').replace(/\s/g,'');
+  if(['완숙달걀','완숙계란','계란','달걀'].includes(key))return '달걀';
+  if(!grainBase)return raw;
+  const plain=key.replace(/(?:미음|죽)$/,''),aliases={'쌀':'쌀죽','오트밀':'오트밀죽','쌀오트밀':'쌀·오트밀죽','쌀현미':'쌀·현미죽','쌀보리':'쌀·보리죽','현미오트밀':'현미·오트밀죽'};
+  if(aliases[plain])return aliases[plain];
+  const parts=plain.split(/[·+]/);
+  return parts.length>1&&parts.every(n=>['쌀','오트밀','현미','보리','퀴노아'].includes(n))?parts.join('·')+'죽':raw;
+ },
  cookingTip(meal){return (meal?.foods||[]).some(f=>String(f.name||'').includes('현미'))?'<small class="brown-rice-tip" style="display:block;font-size:12px;line-height:1.45;margin-top:4px;color:#686257">🌾 현미는 충분히 불려 곱게 갈아 푹 익혀주세요. 처음에는 백미·오트밀과 1:1 이하로 섞어도 좋아요.</small>':'';},
  names(meal){return [...(meal.product?.ingredients||[]).flatMap(n=>String(n).split(',')),...(meal.foods||[]).filter(f=>!f.productEntry).map(f=>f.name)].map(n=>n.trim()).filter(Boolean);},
  reduceCubeFoods(foods,name,grams){let remaining=grams;const matches=foods.filter(f=>f.name.trim()===name.trim()).sort((a,b)=>Number(b.g)-Number(a.g));for(const f of matches){const amount=Math.min(Math.max(0,Number(f.g)||0),remaining);f.g=Math.max(0,(Number(f.g)||0)-amount);remaining-=amount;if(remaining<=0)break;}return foods.filter(f=>!matches.includes(f)||Number(f.g)>0);},
