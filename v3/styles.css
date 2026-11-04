@@ -139,3 +139,33 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
 .commercial-confirm::backdrop{background:#0006}.commercial-confirm p{line-height:1.6;margin:0 0 16px}.commercial-confirm>div{display:grid;gap:8px}.commercial-confirm button{min-height:44px;white-space:normal}
 .analysis-tabs{margin-bottom:16px}.ingredient-analysis{display:grid;gap:12px}.ingredient-analysis>.note{margin:0}.ingredient-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.ingredient-summary .panel{margin:0;padding:12px;min-width:0}.ingredient-summary strong{display:block;font-size:18px;overflow-wrap:anywhere}.ingredient-summary small{font-size:12px}.ingredient-filters{display:flex;flex-wrap:wrap;gap:6px}.ingredient-filters button{min-height:44px;padding:6px 10px;font-size:13px}.ingredient-filters [aria-pressed=true]{background:#fff2c5}.ingredient-bars{margin:0;padding:12px}.ingredient-bar{display:block;width:100%;min-height:60px;background:transparent;border:0;padding:8px;text-align:left}.ingredient-bar>span:first-child{display:flex;align-items:center;gap:6px;min-width:0}.ingredient-bar b{overflow-wrap:anywhere;min-width:0}.ingredient-bar small{margin-left:auto;flex-shrink:0}.ingredient-bar .track{display:block;margin-top:6px}.ingredient-bar .track>span{display:block;height:100%;background:#f4cd65}.ingredient-detail{margin:0;overflow-wrap:anywhere}.ingredient-detail li{margin:6px 0}.ingredient-trend{width:100%;height:auto;max-height:160px;display:block}.ingredient-trend-labels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));text-align:center}
 @media(max-width:430px){.ingredient-summary .panel{padding:8px}.ingredient-summary strong{font-size:15px}.ingredient-summary small{font-size:11px}.ingredient-analysis .date-title strong{font-size:14px}.analysis-tabs button{min-height:44px}.ingredient-bars{padding:8px}}
+/* Compact ingredient analysis only; calendar and intake calculations are unchanged. */
+.ingredient-week-controls{display:contents}
+@media(max-width:767px){
+ .page-heading:has(+.ingredient-analysis){margin-bottom:10px}
+ .ingredient-analysis{gap:10px}
+ .ingredient-week-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px}
+ .ingredient-week-controls>[data-istats=today]{grid-column:2;grid-row:1;justify-self:end;width:auto;min-height:32px;height:32px;padding:4px 10px;font-size:12px}
+ .ingredient-week-controls>.date-strip{grid-column:1/-1;grid-row:2;margin:0;gap:6px}
+ .ingredient-week-controls .date-strip>button{width:36px;min-width:36px;height:36px;min-height:36px;padding:4px}
+ .ingredient-week-controls .date-title{min-width:0}
+ .ingredient-week-controls .date-title strong{font-size:14px;line-height:1.35}
+ .ingredient-week-controls .date-title small{font-size:11px}
+ .ingredient-analysis>.note{font-size:12px;line-height:1.4}
+ .ingredient-summary{gap:8px;align-items:stretch}
+ .ingredient-summary .panel{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;min-height:78px;padding:8px;margin:0;border-radius:14px;text-align:left}
+ .ingredient-summary small{font-size:11px;line-height:1.35}
+ .ingredient-summary strong{font-size:18px;line-height:1.25;font-weight:700;max-width:100%;overflow-wrap:anywhere}
+ .ingredient-filters{gap:4px 6px}
+ .ingredient-filters button{min-height:36px;padding:5px 8px;font-size:12px}
+ .ingredient-analysis>.view-tabs{justify-self:start;width:max-content;max-width:100%;margin:0;padding:2px;min-height:0}
+ #main .ingredient-analysis>.view-tabs button{min-height:34px;height:34px;padding:5px 12px;font-size:13px}
+ .ingredient-analysis>.ingredient-bars{display:grid;gap:4px;padding:14px 15px;margin:0}
+ .ingredient-analysis .ingredient-bar{min-height:44px;padding:5px 0;border-radius:8px}
+ .ingredient-analysis .ingredient-bar>span:first-child{display:flex;gap:6px;min-height:22px}
+ .ingredient-analysis .ingredient-bar img{width:22px!important;height:22px!important;flex:0 0 22px;object-fit:contain}
+ .ingredient-analysis .ingredient-bar b{font-size:14px;line-height:1.4;font-weight:600;word-break:keep-all;overflow-wrap:anywhere}
+ .ingredient-analysis .ingredient-bar small{font-size:12px;line-height:1.4;white-space:nowrap}
+ .ingredient-analysis .ingredient-bar .track{height:6px;margin:6px 0 0;border-radius:6px}
+ .ingredient-analysis .ingredient-bar .track>span{border-radius:inherit}
+}
