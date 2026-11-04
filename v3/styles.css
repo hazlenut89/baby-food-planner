@@ -171,7 +171,7 @@ button.chart-column{padding:0;border:0;border-radius:0;background:transparent;co
 }
 
 /* V3 Modern Warm Minimal: presentation only. */
-:root{--yellow:#f4cb67;--cream:#fff5d9;--bg:#f8f9fa;--ink:#252525;--muted:#858585;--line:#ecedef;--white:#fff;--radius:16px;--sage:#a8b99b;--charcoal:#292524;font-family:-apple-system,BlinkMacSystemFont,Pretendard,'Apple SD Gothic Neo',sans-serif}
+:root{--yellow:#f4cb67;--cream:#fff5d9;--bg:#fffcf5;--ink:#252525;--muted:#858585;--line:#ecedef;--white:#fff;--radius:16px;--sage:#a8b99b;--charcoal:#292524;font-family:-apple-system,BlinkMacSystemFont,Pretendard,'Apple SD Gothic Neo',sans-serif}
 body{font-variant-numeric:tabular-nums}
 h1,.page-heading h1{font-size:20px;font-weight:700;letter-spacing:-.5px}h2{font-size:16px;font-weight:600}h3{font-size:15px;font-weight:600}
 .panel{border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:none;background:var(--white)}
@@ -192,3 +192,36 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
 .ingredient-summary .panel{border-radius:16px;box-shadow:none}.ingredient-analysis .ingredient-bar img{width:26px!important;height:26px!important;flex:0 0 26px;background:var(--bg);border-radius:50%;object-fit:contain}.ingredient-analysis .ingredient-bar .track{height:6px;background:#f0f2ef}.ingredient-analysis .ingredient-bar .track>span{background:var(--sage)}.ingredient-analysis .ingredient-bar[aria-expanded=true] .track>span{background:var(--yellow)}
 .ingredient-analysis>.ingredient-bars{gap:10px}.ingredient-analysis .ingredient-bar b{font-size:14px;font-weight:600}.ingredient-summary strong{font-size:20px}.stat-grid .panel{border-radius:16px}.bar-space{background:#f3f4f5}.ingredient-card{border-color:var(--line);border-radius:16px;box-shadow:none}.settings-actions{gap:12px}.settings-actions button{min-height:44px}.topbar{background:var(--bg)}.bottom-nav{background:#fff;border-color:var(--line)}.bottom-nav button.active{background:var(--cream)}
 @media(max-width:767px){.topbar{margin-bottom:16px}.ingredient-summary strong{font-size:18px}.ingredient-analysis>.ingredient-bars{padding:14px 16px;gap:10px}.ingredient-week-controls>[data-istats=today]{position:relative}.ingredient-week-controls>[data-istats=today]::after{content:'';position:absolute;inset:-6px 0}.ingredient-week-controls .date-strip>button{min-height:44px;height:44px;min-width:44px;width:44px}.ingredient-filters button{min-height:44px}.settings-actions{gap:8px}.bottom-nav svg{width:22px;height:22px}.stat-grid .metric{font-size:20px}.stat-grid .panel{padding:10px 6px}.sheet-content .food-row input{padding-left:8px;padding-right:8px}}
+
+/* Mobile density follow-up; controls retain their existing hit areas. */
+@media(max-width:767px){
+ .topbar{padding-bottom:8px;margin-bottom:12px;row-gap:2px}
+ .mobile-brand strong{font-size:14px;line-height:1.3}.profile-line{font-size:11px;line-height:1.4}
+ .bottom-nav button{font-size:10px;gap:2px}.bottom-nav svg{width:21px;height:21px}
+ .page-heading{margin-bottom:12px}.page-heading h1{font-size:19px}h2{font-size:15px}h3{font-size:14px}
+ .panel{padding:12px;margin-bottom:12px}.section-heading{margin-bottom:8px}.note{font-size:11px}
+ .date-strip{margin:8px 0;gap:6px}.date-title strong{font-size:15px}.date-title small{font-size:11px}
+ .meal-card{padding:10px 0;column-gap:6px;row-gap:4px;min-height:0}
+ .meal-card .food-icons{gap:3px;margin-bottom:2px}.meal-card .food-icons img{width:22px!important;height:22px!important;object-fit:contain}
+ .meal-card .food-names{font-size:13px;font-weight:400;line-height:1.4}.meal-card .meal-right{font-size:11px}.meal-card .meal-right b{font-size:13px;line-height:1.4}
+ .meal-card .new-badge{font-size:10px;padding:1px 4px}.daily-intake strong{font-size:19px}
+ .cube-row{padding:12px 0}.cube-row-top{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:6px;align-items:center}
+ .cube-row-top>.food-icon,.cube-row-top>img{width:24px!important;height:24px!important;object-fit:contain}.cube-row-top>.food-icon img{width:24px;height:24px}
+ .cube-description h3,.cube-description strong{font-size:14px;line-height:1.4}.cube-description small{display:block;font-size:11px;line-height:1.4;margin-top:2px}
+ .cube-count{font-size:19px;line-height:1.3}.cube-count small{font-size:11px}
+ .cube-controls{gap:6px;margin-top:4px}.cube-controls button{height:44px;min-height:44px;padding:4px 9px}
+ #main .cube-controls button::before{inset:5px 0}.cube-controls .trash{margin-left:auto}
+ .stat-grid{gap:6px}.stat-grid .panel{padding:10px 6px;min-height:70px}.stat-grid .metric{font-size:18px;line-height:1.3}.stat-grid small{font-size:11px}
+ .vertical-chart{height:210px;margin:12px 0 8px}.chart-column,.chart-column strong{font-size:10px}.chart-column small{font-size:10px}
+ .ingredient-analysis{gap:8px}.ingredient-week-controls .date-title strong{font-size:13px}.ingredient-analysis>.note{font-size:11px}
+ .ingredient-summary{gap:6px}.ingredient-summary .panel{min-height:70px;padding:8px;gap:3px}.ingredient-summary strong{font-size:17px}.ingredient-summary small{font-size:11px}
+ .ingredient-filters{gap:4px;padding:0}.ingredient-filters button{position:relative;isolation:isolate;border:0;background:transparent;min-height:44px;padding:5px 10px;font-size:11px}
+ .ingredient-filters button::before{content:'';position:absolute;inset:5px 0;border:1px solid var(--line);border-radius:inherit;background:white;z-index:-1;pointer-events:none}
+ .ingredient-filters button[aria-pressed=true]{background:transparent}.ingredient-filters button[aria-pressed=true]::before{background:var(--cream);border-color:var(--yellow)}
+ .ingredient-metric summary{padding:11px 8px;min-height:44px;font-size:12px}
+ .ingredient-analysis>.ingredient-bars{padding:12px 14px;gap:4px}.ingredient-analysis .ingredient-bar{padding:4px 0;min-height:44px}
+ .ingredient-analysis .ingredient-bar img{width:22px!important;height:22px!important;flex-basis:22px}.ingredient-analysis .ingredient-bar b{font-size:13px}.ingredient-analysis .ingredient-bar small{font-size:12px}.ingredient-analysis .ingredient-bar .track{height:5px;margin-top:4px}
+ .ingredients-grid{gap:8px}.ingredient-card{padding:6px 4px;min-height:76px}.ingredient-card .food-icon{margin-bottom:2px}.ingredient-card img{width:26px!important;height:26px!important;object-fit:contain}.ingredient-card strong{font-size:13px;line-height:1.3}.ingredient-card small{font-size:11px;line-height:1.3;margin-top:2px}
+ .filters{gap:6px}.filters button{padding:4px 9px;font-size:12px}.search{height:44px;min-height:44px;margin-top:10px;margin-bottom:10px}
+ .sheet input,.sheet select,.settings-form input{font-size:16px}
+}
