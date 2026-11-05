@@ -243,3 +243,14 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
  .ingredient-analysis>.page-heading{margin-bottom:0}.ingredient-week-controls{display:block}.ingredient-week-controls>.date-strip{margin:0}
  .ingredient-analysis>.ingredient-bars{padding-top:4px}.ingredient-list-heading{margin-bottom:0}
 }
+
+/* Residual mobile alignment: compact visuals, unchanged 44px hit targets. */
+.ingredient-week-summary{padding:12px;border-radius:12px;background:var(--cream);font-size:13px;line-height:1.5}.ingredient-week-summary h2{font-size:13px;margin-bottom:4px}.ingredient-method{padding:10px 12px;border-radius:12px;background:#f3f2ee;color:#777}
+@media(max-width:767px){
+ .page-heading>[data-action=new-cube],.page-heading>[data-action=new-ingredient]{position:relative;isolation:isolate;height:44px;min-height:44px;padding:4px 12px;font-size:13px;font-weight:500;background:transparent;border:0}
+ .page-heading>[data-action=new-cube]::before,.page-heading>[data-action=new-ingredient]::before{content:'';position:absolute;inset:4px 0;z-index:-1;background:var(--charcoal);border-radius:12px;pointer-events:none}
+ .cube-row-top{grid-template-columns:26px minmax(0,1fr) auto;gap:2px 6px}.cube-description{display:contents}.cube-description h3{grid-column:2;grid-row:1;font-size:14px;font-weight:600;overflow-wrap:anywhere}.cube-description small{grid-column:1/-1;grid-row:2;margin:0;font-size:12px}.cube-count{grid-column:3;grid-row:1;font-size:17px;font-weight:700}.cube-count small{font-size:12px;font-weight:400}.cube-row-top>img,.cube-row-top>.food-icon{grid-column:1;grid-row:1}.cube-controls{margin-top:0;gap:6px}.cube-row{padding:10px 0}
+ #main .filters{display:flex;flex-wrap:wrap;overflow:visible;gap:0 4px;margin:8px 0}.filters button{min-width:0;flex:0 0 auto;min-height:44px;font-size:11px;padding:4px 6px;white-space:nowrap}#main .filters button::before{inset:5px 0}
+ .ingredients-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;align-items:stretch}.ingredient-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:74px;padding:8px 4px}.ingredient-card>.food-icon{margin:0;width:26px;height:26px}.ingredient-card>b{font-size:12px;font-weight:600;line-height:1.3;max-width:100%;overflow-wrap:anywhere}.ingredient-card small{font-size:11px;line-height:1.3;margin:0;max-width:100%}
+}
+@media(max-width:767px){.ingredient-card img{width:24px!important;height:24px!important}.ingredient-card>.food-icon{width:24px;height:24px}.ingredient-card>b,.ingredient-card small{line-height:1.2}}
