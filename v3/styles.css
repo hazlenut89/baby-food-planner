@@ -254,3 +254,29 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
  .ingredients-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;align-items:stretch}.ingredient-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:74px;padding:8px 4px}.ingredient-card>.food-icon{margin:0;width:26px;height:26px}.ingredient-card>b{font-size:12px;font-weight:600;line-height:1.3;max-width:100%;overflow-wrap:anywhere}.ingredient-card small{font-size:11px;line-height:1.3;margin:0;max-width:100%}
 }
 @media(max-width:767px){.ingredient-card img{width:24px!important;height:24px!important}.ingredient-card>.food-icon{width:24px;height:24px}.ingredient-card>b,.ingredient-card small{line-height:1.2}}
+
+/* Date navigation and analysis typography; V3 only. */
+.week-grid{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.week-date{min-width:0;min-height:54px;padding:4px 1px;gap:1px;font-variant-numeric:tabular-nums}
+.week-date strong{font-size:16px;line-height:1.3}.week-date small{font-size:11px;line-height:1.3}
+.stat-grid .panel,.ingredient-summary .panel{min-height:76px;height:auto;justify-content:center;gap:4px}
+.stat-grid small,.ingredient-summary small{font-size:12px;font-weight:500;line-height:1.4}
+.stat-grid .metric,.ingredient-summary strong{font-size:18px;font-weight:600;line-height:1.4;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat-grid .metric.metric-status{font-size:14px;font-weight:600}
+.ingredient-summary .panel:last-child strong{font-size:16px}
+.ingredient-analysis .ingredient-bar b,.ingredient-analysis .ingredient-bar small{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.chart-column strong{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.chart-column small{font-size:11px;font-variant-numeric:tabular-nums}
+.meal-copy{min-width:0}.copy-date-entry{display:flex;align-items:center;gap:8px}.copy-date-entry input{min-width:0;flex:1}.copy-date-entry button{flex:none}
+.copy-dates{display:flex;flex-wrap:wrap;gap:6px}.copy-dates button{font-size:12px;overflow-wrap:anywhere;max-width:100%}
+.copy-meal,.copy-target{padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;overflow-wrap:anywhere}
+.copy-meal p{font-size:13px;line-height:1.6;margin:4px 0}.copy-target label{margin-top:6px}.copy-target select{width:100%;min-width:0}
+@media(max-width:767px){
+ .meal-toolbar,.mini-actions{flex-wrap:wrap}.meal-toolbar .mini-actions{gap:4px}.meal-toolbar .mini-actions button{padding-left:7px;padding-right:7px;font-size:12px}
+ .stat-grid small,.ingredient-summary small{font-size:11px}.stat-grid .metric,.ingredient-summary strong{font-size:17px}
+ .ingredient-summary .panel:last-child strong{font-size:15px}.chart-column strong{font-size:11px}.chart-column small{font-size:10px}
+ .copy-date-entry{gap:6px}.copy-date-entry button{font-size:12px;padding:8px}
+}
+@media(max-width:430px){.week-grid{gap:2px}.week-date{padding-left:0;padding-right:0}.week-date strong{font-size:15px;white-space:nowrap}}
+.chart-column{grid-template-rows:32px minmax(0,1fr) 20px 20px}
+.chart-column>strong{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;align-self:center}

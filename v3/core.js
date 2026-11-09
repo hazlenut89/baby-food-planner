@@ -164,6 +164,67 @@ async function saveMeal(day,mealId,record,picks=[],memo=undefined,remove=false){
  next.days[day]={...prior,meals:ms,memo:memo===undefined?(prior.memo||''):memo,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(ms[0].foods),actualIntake:ms[0].actualIntake??'',added:ms[0].added||'',allergy:!!ms[0].allergy};
  });
 }
+// Copy only planned meal fields. Consumption, reactions and inventory history stay at their original dates.
+function copyPlan(meal,slot){
+ const value={...emptyMeal(uid('meal')),slot,foods:meal.foods.map(f=>{const food={name:f.name,g:f.g};for(const k of ['icon','productEntry'])if(f[k]!=null)food[k]=clone(f[k]);return food;})};
+ if(meal.kind)value.kind=meal.kind;
+ if(meal.type)value.type=meal.type;
+ if(meal.product){value.product={};for(const k of ['brand','name','grams','ingredients'])if(meal.product[k]!=null)value.product[k]=clone(meal.product[k]);}
+ return value;
+}
+function copyProtection(s,day,meal){
+ if(!meal)return '';
+ if(meal.actualIntake!==''&&meal.actualIntake!=null||meal.allergy||meal.memo||meal.completed||meal.intakeHistory?.length)return '섭취·반응·메모 기록이 있어 교체할 수 없어요.';
+ if(scopeUsages(s,day,meal.id).length||(s.cubeChanges||[]).some(u=>u.mealDay===day&&(!u.mealId||u.mealId===meal.id)))return '큐브 사용 이력이 있어 교체할 수 없어요.';
+ return '';
+}
+function prepareMealCopy(s,options){
+ const {sourceDay,mealId,targets}=options;
+ if(!Number.isSafeInteger(sourceDay)||sourceDay<1||!Array.isArray(targets)||!targets.length)throw Error('원본과 대상 날짜를 확인해 주세요.');
+ const source=mealsOf(s.days[sourceDay]).filter(m=>mealId==='all'||m.id===mealId).filter(m=>m.foods.length);
+ if(!source.length)throw Error('복사할 식단이 없어요.');
+ const rows=[],keys=new Set();
+ for(const t of targets){
+  if(!Number.isSafeInteger(t.day)||t.day<1||t.day===sourceDay)throw Error('원본과 다른 대상 날짜를 선택해 주세요.');
+  for(const m of source){
+   const slot=mealId==='all'?m.slot:t.slot;
+   if(!(m.type==='snack'?Number.isSafeInteger(slot)&&slot>=4:[1,2,3].includes(slot)))throw Error('대상 끼니를 확인해 주세요.');
+   const key=t.day+':'+slot;if(keys.has(key))throw Error('대상 날짜·끼니가 중복돼요.');keys.add(key);
+   const existing=mealsOf(s.days[t.day]).find(x=>x.slot===slot);
+   const currentMeals=mealsOf(s.days[t.day]);
+   const legacyOwner=currentMeals[0]?.slot>slot&&s.cubeUsages.some(u=>u.mealDay===t.day&&!u.mealId);
+   const reason=copyProtection(s,t.day,existing)||(legacyOwner?'기존 큐브 이력의 끼니 연결을 보호하려면 다른 끼니를 선택해 주세요.':'');
+   const stageBlocked=m.type==='snack'&&!['middle','late'].includes(stageForDay(s,t.day));
+   rows.push({key,day:t.day,slot,sourceId:m.id,status:reason||stageBlocked?'protected':existing&&hasRecord(existing)?'conflict':'empty',reason:reason||(stageBlocked?'이 날짜에는 간식을 추가할 수 없어요.':''),existing});
+  }
+ }
+ // Reconfirm against the exact data reviewed; also prevents stale in-tab previews.
+ const token=JSON.stringify({source,rows,birthday:s.birthday,cubeUsages:s.cubeUsages,cubeChanges:s.cubeChanges});
+ return {token,rows,source};
+}
+function previewMealCopy(options){return prepareMealCopy(state,options);}
+async function copyMeals(options,review,choices){
+ return transaction(next=>{
+  const current=prepareMealCopy(next,options);
+  if(current.token!==review)throw Error('식단이나 이력이 변경됐어요. 복사 내용을 다시 확인해 주세요.');
+  const chosen=current.rows.filter(r=>choices[r.key]==='copy'||choices[r.key]==='replace');
+  if(!chosen.length)throw Error('복사할 대상 끼니를 하나 이상 선택해 주세요.');
+  for(const r of chosen){
+   if(r.status==='protected')throw Error(r.reason);
+   if(r.status==='conflict'&&choices[r.key]!=='replace')throw Error('기존 식단 교체 여부를 선택해 주세요.');
+   const prior=next.days[r.day]||{foods:[],actualIntake:'',added:'',allergy:false};
+   const ms=mealsOf(prior),index=ms.findIndex(m=>m.slot===r.slot);
+   const value=copyPlan(current.source.find(m=>m.id===r.sourceId),r.slot);
+   // Keep legacy unscoped cube owners stable if an earlier meal is inserted.
+   const first=ms[0]?.id;
+   if(first&&(next.cubeUsages||[]).some(u=>u.mealDay===r.day&&!u.mealId)&&ms[0].slot>r.slot)throw Error('이 날짜의 기존 큐브 이력을 보호하려면 다른 끼니를 선택해 주세요.');
+   if(index<0)ms.push(value);else ms[index]=value;
+   ms.sort((a,b)=>a.slot-b.slot);const lead=ms[0];
+   next.days[r.day]={...prior,meals:ms,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(lead.foods),actualIntake:lead.actualIntake??'',added:lead.added||'',allergy:!!lead.allergy};
+  }
+ },'before-meal-copy');
+}
+
 function registerMealIngredients(s,day,record){
  for(const f of record.foods){if(f.productEntry||!f.name?.trim())continue;
  const key=foodHistoryKey(f.name);let ing=s.ingredients.find(i=>foodHistoryKey(i.name)===key);
@@ -246,5 +307,5 @@ async function applyTemplate(options){const rows=templateRows(options),mode=opti
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}
 
-global.PlannerCore={foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,stageBoundary,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
+global.PlannerCore={previewMealCopy,copyMeals,foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,stageBoundary,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
 })(window);
