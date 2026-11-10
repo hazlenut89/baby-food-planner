@@ -280,3 +280,20 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
 @media(max-width:430px){.week-grid{gap:2px}.week-date{padding-left:0;padding-right:0}.week-date strong{font-size:15px;white-space:nowrap}}
 .chart-column{grid-template-rows:32px minmax(0,1fr) 20px 20px}
 .chart-column>strong{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;align-self:center}
+
+/* Copy is an action on the selected day's card, separate from date navigation. */
+.daily-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 8px}
+.daily-heading .daily-title{min-width:0;overflow-wrap:anywhere}.daily-heading>small{grid-column:1;font-size:11px}
+.daily-heading .meal-copy-launch{grid-column:2;grid-row:1/3;display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:7px 10px;font-size:12px;font-weight:500;background:var(--cream);border-radius:10px}
+.copy-preview>summary{font-size:14px;font-weight:600;cursor:pointer}.copy-preview ul{list-style:none;margin:8px 0;padding:0}.copy-preview li{display:flex;justify-content:space-between;gap:10px;font-size:13px;line-height:1.7;overflow-wrap:anywhere}.copy-preview li b{flex:none;font-weight:500}
+.copy-target-input{display:grid;grid-template-columns:minmax(0,1fr) 82px 32px;align-items:end;gap:6px;margin-bottom:10px}.copy-target-input label{min-width:0;font-size:12px}.copy-target-input input,.copy-target-input select{width:100%;min-width:0}.copy-target-input .copy-remove{min-height:44px;padding:0;width:32px;position:relative}.copy-remove::after{content:'';position:absolute;inset:0 -6px}
+.copy-target-input:has(label[hidden]){grid-template-columns:minmax(0,1fr) 32px}.copy-sheet .sheet-head{justify-content:flex-start;gap:10px}.copy-sheet .sheet-head>div{order:2}.copy-sheet #closeSheet{order:1;margin:0}.copy-sheet #sheetSubtitle:empty{display:none}
+.ingredient-week-summary .summary-frequent-label{font-size:12px;margin-top:5px}.ingredient-week-summary .summary-frequent{display:flex;align-items:center;gap:6px;min-width:0;overflow-wrap:anywhere}.summary-frequent img{width:24px;height:24px;object-fit:contain;flex:none}
+@media(max-width:768px){
+ .mobile-edit-route #sheet.copy-sheet{min-height:100dvh;background:var(--bg)}
+ .mobile-edit-route #sheet.copy-sheet .sheet-head{padding-top:calc(12px + env(safe-area-inset-top))}
+ .mobile-edit-route #sheet.copy-sheet .sheet-foot{position:sticky;bottom:0;z-index:5;padding:10px 16px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg)}
+ .mobile-edit-route #sheet.copy-sheet form{min-height:100dvh;display:flex;flex-direction:column}
+ .mobile-edit-route #sheet.copy-sheet .sheet-content{flex:1;padding-bottom:16px}
+ .copy-target-input{grid-template-columns:minmax(0,1fr) 76px 32px}
+}

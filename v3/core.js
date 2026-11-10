@@ -185,7 +185,7 @@ function prepareMealCopy(s,options){
  if(!source.length)throw Error('복사할 식단이 없어요.');
  const rows=[],keys=new Set();
  for(const t of targets){
-  if(!Number.isSafeInteger(t.day)||t.day<1||t.day===sourceDay)throw Error('원본과 다른 대상 날짜를 선택해 주세요.');
+  if(!Number.isSafeInteger(t.day)||t.day<1)throw Error('유효한 대상 날짜를 선택해 주세요.');
   for(const m of source){
    const slot=mealId==='all'?m.slot:t.slot;
    if(!(m.type==='snack'?Number.isSafeInteger(slot)&&slot>=4:[1,2,3].includes(slot)))throw Error('대상 끼니를 확인해 주세요.');
@@ -193,7 +193,7 @@ function prepareMealCopy(s,options){
    const existing=mealsOf(s.days[t.day]).find(x=>x.slot===slot);
    const currentMeals=mealsOf(s.days[t.day]);
    const legacyOwner=currentMeals[0]?.slot>slot&&s.cubeUsages.some(u=>u.mealDay===t.day&&!u.mealId);
-   const reason=copyProtection(s,t.day,existing)||(legacyOwner?'기존 큐브 이력의 끼니 연결을 보호하려면 다른 끼니를 선택해 주세요.':'');
+   const reason=(t.day===sourceDay&&slot===m.slot?'원본과 같은 날짜·같은 끼니에는 복사할 수 없어요.':'')||copyProtection(s,t.day,existing)||(legacyOwner?'기존 큐브 이력의 끼니 연결을 보호하려면 다른 끼니를 선택해 주세요.':'');
    const stageBlocked=m.type==='snack'&&!['middle','late'].includes(stageForDay(s,t.day));
    rows.push({key,day:t.day,slot,sourceId:m.id,status:reason||stageBlocked?'protected':existing&&hasRecord(existing)?'conflict':'empty',reason:reason||(stageBlocked?'이 날짜에는 간식을 추가할 수 없어요.':''),existing});
   }
