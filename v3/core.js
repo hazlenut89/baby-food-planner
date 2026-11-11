@@ -130,7 +130,7 @@ function validateV3(s){
  return s;
 }
 let busy=false;
-async function transaction(fn,reason){if(busy)throw Error('저장 중이에요. 잠시 후 다시 시도해 주세요.');busy=true;try{const next=clone(state);await fn(next);validateV3(normalize(next));validateRestoreInventory(next);await commitState(next,reason);return clone(state);}finally{busy=false;}}
+async function transaction(fn,reason){if(busy)throw Error('저장 중이에요. 잠시 후 다시 시도해 주세요.');busy=true;try{const next=clone(state);await fn(next);reconcileMealIngredients(next);validateV3(normalize(next));validateRestoreInventory(next);await commitState(next,reason);return clone(state);}finally{busy=false;}}
 function logChange(s,id,delta,reason,day,mealId){if(!delta)return;s.cubeChanges=s.cubeChanges||[];s.cubeChanges.push({id:uid('change'),cubeBatchId:id,delta,reason,mealDay:day??null,mealId:mealId??null,createdAt:new Date().toISOString()});}
 function scopeUsages(s,day,mealId){const ms=mealsOf(s.days[day]),first=ms[0]?.id||'meal-1';return s.cubeUsages.filter(u=>u.mealDay===Number(day)&&(u.mealId?u.mealId===mealId:mealId===first));}
 function selections(day,mealId){return scopeUsages(state,day,mealId).map(u=>({batchId:u.cubeBatchId,name:u.foodName,quantity:u.quantity}));}
@@ -159,7 +159,6 @@ async function saveMeal(day,mealId,record,picks=[],memo=undefined,remove=false){
  // Give legacy, unscoped history an explicit first-meal owner before reordering.
  const first=ms[0]?.id||mealId;for(const u of next.cubeUsages)if(u.mealDay===day&&!u.mealId)u.mealId=first;
  if(remove)ms.splice(index,1);else{const value={...(index>=0?ms[index]:emptyMeal(mealId)),...clone(record),id:mealId,slot:record.slot||(index>=0?ms[index].slot:[1,2,3].find(n=>!ms.some(m=>m.slot===n)))};if(index>=0)ms[index]=value;else ms.push(value);}
- if(!remove)registerMealIngredients(next,day,record);
  if(!ms.length)ms.push({...emptyMeal('meal-1'),slot:1});ms.sort((a,b)=>a.slot-b.slot);
  next.days[day]={...prior,meals:ms,memo:memo===undefined?(prior.memo||''):memo,v3Multi:!!prior.v3Multi||ms.length>1||ms.some(m=>m.type==='snack'),foods:clone(ms[0].foods),actualIntake:ms[0].actualIntake??'',added:ms[0].added||'',allergy:!!ms[0].allergy};
  });
@@ -225,15 +224,43 @@ async function copyMeals(options,review,choices){
  },'before-meal-copy');
 }
 
-function registerMealIngredients(s,day,record){
- for(const f of record.foods){if(f.productEntry||!f.name?.trim())continue;
- const key=foodHistoryKey(f.name);let ing=s.ingredients.find(i=>foodHistoryKey(i.name)===key);
- if(!ing){ing={id:uid('ingredient'),name:f.name.trim(),category:'unknown',preference:'unknown',allergy:'unknown',firstPlannedDay:day};s.ingredients.push(ing);}
- if(!ing.firstPlannedDay)ing.firstPlannedDay=day;
- if(!ing.firstPlannedOn&&s.birthday){const date=parseDate(s.birthday);date.setUTCDate(date.getUTCDate()+ing.firstPlannedDay-1);ing.firstPlannedOn=date.toISOString().slice(0,10);}
- if(!ing.firstTriedDay&&!ing.firstTriedOn)ing.intakeStatus=record.actualIntake===''||record.actualIntake==null?'unknown':Number(record.actualIntake)>0?'recorded':'not-eaten';
- if(Number(record.actualIntake)>0&&Number(f.g)>0){if(!ing.firstTriedDay&&!ing.firstTriedOn){ing.firstTriedDay=day;if(s.birthday){const d=parseDate(s.birthday);d.setUTCDate(d.getUTCDate()+day-1);ing.firstTriedOn=d.toISOString().slice(0,10);}}}
+// Only explicitly saved ingredients: never infer a commercial product's recipe from its name.
+function mealIngredients(meal){
+ const names=[...(meal.foods||[]).filter(f=>!f.productEntry&&Number(f.g)>0).map(f=>f.name),...(Number(meal.product?.grams)>0?(meal.product.ingredients||[]).flatMap(n=>String(n).split(',')):[])];
+ const unique=new Map();for(const name of names){const trimmed=String(name).trim();if(trimmed)unique.set(foodHistoryKey(trimmed),trimmed);}return [...unique.values()];
+}
+function mealFirstFoods(s){const first={};
+ for(const [day,d] of Object.entries(s.days).sort((a,b)=>Number(a[0])-Number(b[0])))for(const m of mealsOf(d).sort((a,b)=>a.slot-b.slot))if(Number(m.actualIntake)>0)for(const name of mealIngredients(m)){
+  const key=foodHistoryKey(name);if(!first[key])first[key]={day:Number(day),mealId:m.id,name};
+ }return first;
+}
+function automaticFirst(i){return i.mealFirstTried&&i.firstTriedDay===i.mealFirstTried.day&&(i.firstTriedOn||'')===i.mealFirstTried.on;}
+function reconcileMealIngredients(s){
+ const first=mealFirstFoods(s);
+ for(const entry of Object.values(first)){
+  let i=s.ingredients.find(i=>foodHistoryKey(i.name)===foodHistoryKey(entry.name));
+  if(!i){i={id:uid('ingredient'),name:entry.name,category:'unknown',preference:'unknown',allergy:'unknown'};s.ingredients.push(i);}
  }
+ for(const i of s.ingredients){
+  const entry=first[foodHistoryKey(i.name)];
+  // Older auto-registration used these fields. Preserve untraceable/manual first-taste dates.
+  const oldAuto=!Object.hasOwn(i,'mealFirstTried')&&i.firstPlannedDay&&i.intakeStatus==='recorded';
+  const managed=automaticFirst(i)||oldAuto||(!i.firstTriedDay&&!i.firstTriedOn);
+  if(!managed){i.mealFirstTried=null;continue;}
+  if(entry){let on='';if(validISO(s.birthday)){const d=parseDate(s.birthday);d.setUTCDate(d.getUTCDate()+entry.day-1);on=d.toISOString().slice(0,10);}
+   i.firstTriedDay=entry.day;i.firstTriedOn=on;i.intakeStatus='recorded';i.mealFirstTried={day:entry.day,on};
+  }else if(automaticFirst(i)||oldAuto){delete i.firstTriedDay;delete i.firstTriedOn;delete i.mealFirstTried;i.intakeStatus='unknown';}
+ }
+}
+function newFoods(s,day,meal){
+ const first=firstFoods(s),planned=[],actual=[];
+ for(const name of mealIngredients(meal)){const entry=first[foodHistoryKey(name)];
+  if(!entry||entry.day>day)planned.push(name);
+  else if(entry.day===day&&entry.mealId===meal.id)actual.push(name);
+  else if(entry.day===day&&entry.mealId&&!(Number(meal.actualIntake)>0)){
+   const owner=mealsOf(s.days[day]).find(m=>m.id===entry.mealId);if(owner&&meal.slot<owner.slot)planned.push(name);
+  }
+ }return {planned,actual};
 }
 async function saveCube(rows,id){return transaction(next=>{const now=new Date().toISOString();for(const row of rows){const name=row.name.trim(),grams=Number(row.grams),qty=Number(row.initialQty);if(!name||!validISO(row.madeOn)||row.madeOn>todayISO()||!['frozen','refrigerated'].includes(row.storage)||!Number.isFinite(grams)||grams<=0||!Number.isSafeInteger(qty)||qty<1)throw Error('식재료명·제조일·중량·수량을 확인해 주세요.');const c=next.cubes.find(c=>c.id===id);const ing=next.ingredients.find(i=>!i.archivedAt&&ingredientKey(i.name)===ingredientKey(name));if(c){const used=c.initialQty-c.remainingQty;if(next.cubeUsages.some(u=>u.cubeBatchId===id)&&grams!==c.grams)throw Error('사용 이력이 있는 큐브 중량은 변경할 수 없어요.');if(qty<used)throw Error('이미 차감한 수량보다 제조 수량이 적어요.');const remaining=row.remainingQty==null?qty-used:Number(row.remainingQty);if(!Number.isSafeInteger(remaining)||remaining<0||remaining>qty)throw Error('남은 수량을 확인해 주세요.');logChange(next,c.id,remaining-c.remainingQty,'batch-edit');Object.assign(c,{name,grams,initialQty:qty,remainingQty:remaining,madeOn:row.madeOn,storage:row.storage,ingredientId:ing?.id||null,updatedAt:now});}else{const c={id:uid('cube'),name,grams,initialQty:qty,remainingQty:qty,madeOn:row.madeOn,storage:row.storage,ingredientId:ing?.id||null,createdAt:now,updatedAt:now};next.cubes.push(c);logChange(next,c.id,qty,'manufacture');}}});}
 async function adjustCube(id,delta){return transaction(next=>{const c=next.cubes.find(c=>c.id===id);if(!c||!active(c))throw Error('보관함의 큐브를 확인해 주세요.');const n=c.remainingQty+delta;if(!Number.isSafeInteger(n)||n<0||n>c.initialQty)throw Error('재고는 0개부터 제조 수량까지 입력할 수 있어요.');c.remainingQty=n;logChange(next,id,delta,'manual');});}
@@ -281,12 +308,14 @@ function inspectBackup(text){return validateV3(parseBackup(text));}
 async function restore(data,mode){const validated=validateV3(parseBackup(JSON.stringify(data)));return transaction(next=>{const existingBatches=new Set(next.cubes.map(c=>c.id));const raw=data.state??data;const restored=mode==='merge'?mergeRecords(next,validated).merged:{...next,...validated};if(mode!=='merge'){for(const key of Object.keys(next))if(!(key in raw)&&!['days','cubes','cubeUsages','ingredients','preferences','cubeChanges'].includes(key))restored[key]=clone(next[key]);if(raw.v3Settings)restored.v3Settings={...next.v3Settings,...raw.v3Settings};}if(mode==='merge'){const ids=new Set((restored.cubeChanges||[]).map(x=>x.id));restored.cubeChanges=[...(restored.cubeChanges||[]),...(validated.cubeChanges||[]).filter(x=>!ids.has(x.id)&&!existingBatches.has(x.cubeBatchId)&&restored.cubes.some(c=>c.id===x.cubeBatchId))];}for(const key of Object.keys(next))delete next[key];Object.assign(next,restored);},'before-'+mode+'-restore');}
 async function seed(){return transaction(next=>{for(let i=0;i<31;i++){const d=next.startDay+i;if(hasRecord(next.days[d]))continue;next.days[d]={foods:(SEED.foods[180+i]||[]).map(f=>({icon:f[0],name:f[1],g:f[2]})),added:SEED.added[180+i]||'',actualIntake:'',allergy:false};}});}
 async function reset(){return transaction(next=>{Object.assign(next,{days:{},cubes:[],cubeUsages:[],ingredients:[],preferences:{},cubeChanges:[]});},'before-reset');}
-async function load(){const stored=await getStored(KEY);persistedFingerprint=JSON.stringify(stored);let fallback;try{fallback=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){if(!stored)throw e;}state=validateV3(normalize(stored||fallback||state));storageReady=true;return clone(state);}
+async function load(){const stored=await getStored(KEY);persistedFingerprint=JSON.stringify(stored);let fallback;try{fallback=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){if(!stored)throw e;}state=validateV3(normalize(stored||fallback||state));reconcileMealIngredients(state);storageReady=true;return clone(state);}
 function intakeMetrics(ms){const plan=ms.reduce((n,m)=>n+(m.foods||[]).reduce((a,f)=>a+Number(f.g||0),0),0),recorded=ms.filter(m=>m.actualIntake!==''&&m.actualIntake!=null),actual=recorded.reduce((n,m)=>n+Number(m.actualIntake),0);return {plan,actual,recorded:recorded.length,complete:ms.length>0&&recorded.length===ms.length,rate:ms.length>0&&recorded.length===ms.length&&plan>0?actual/plan*100:null};}
-function foodHistoryKey(name){const raw=ingredientKey(name).replace(/\s/g,'');const n=raw==='쇠고기'?'소고기':raw;return n.includes("밀가루")?"밀":n.includes("땅콩")?"땅콩":["완숙계란","완숙달걀","계란"].includes(n)?"달걀":n;}
-function firstFoods(s=state){const first={};const put=(name,day,meal)=>{if(!Number.isSafeInteger(day)||day<1)return;const key=foodHistoryKey(name);if(!first[key]||day<first[key].day)first[key]={day,mealId:meal,name};};
- for(const [day,d] of Object.entries(s.days).sort((a,b)=>Number(a[0])-Number(b[0])))for(const m of mealsOf(d))if(m.actualIntake!==''&&m.actualIntake!=null&&Number(m.actualIntake)>0)for(const f of m.foods)if(Number(f.g)>0&&!f.productEntry)put(f.name,Number(day),m.id);
- for(const i of s.ingredients||[]){let day=i.firstTriedDay;if(!day&&validISO(i.firstTriedOn)&&validISO(s.birthday))day=Math.round((parseDate(i.firstTriedOn)-parseDate(s.birthday))/86400000)+1;if(day)put(i.name,Number(day),null);}return first;
+function foodHistoryKey(name){const raw=ingredientKey(name).replace(/\s/g,'');const n=({'쇠고기':'소고기','쌀죽':'쌀','쌀미음':'쌀','오트밀죽':'오트밀','배퓌레':'배','배(퓌레)':'배','사과퓌레':'사과','적양배추':'적채'})[raw]||raw;return n.includes("밀가루")?"밀":n.includes("땅콩")?"땅콩":["완숙계란","완숙달걀","계란"].includes(n)?"달걀":n;}
+function firstFoods(s=state){const first=mealFirstFoods(s);
+ for(const i of s.ingredients||[]){if(automaticFirst(i)||(!Object.hasOwn(i,'mealFirstTried')&&i.firstPlannedDay&&i.intakeStatus==='recorded'))continue;
+ let day=i.firstTriedDay;if(!day&&validISO(i.firstTriedOn)&&validISO(s.birthday))day=Math.round((parseDate(i.firstTriedOn)-parseDate(s.birthday))/86400000)+1;
+ const key=foodHistoryKey(i.name);if(Number.isSafeInteger(Number(day))&&Number(day)>0&&(!first[key]||Number(day)<=first[key].day))first[key]={day:Number(day),mealId:null,name:i.name};
+ }return first;
 }
 function templateRows(options){const {stage,count,startDay,length=60,offset=1}=options;if(!['early','middle'].includes(stage)||!Number.isSafeInteger(startDay)||startDay<1||!Number.isSafeInteger(length)||length<1||!Number.isSafeInteger(offset)||offset<1)throw Error('식단 단계·시작일·기간을 확인해 주세요.');
  if(stage==='middle'&&![2,3].includes(count))throw Error('중기 1끼는 직접 구성해 주세요. 기존 식단은 유지돼요.');
@@ -307,5 +336,5 @@ async function applyTemplate(options){const rows=templateRows(options),mode=opti
  }next.v3Settings={...next.v3Settings,stage:options.stage,mealsPerDay:options.stage==='early'?1:options.count,middleStartDay:options.stage==='middle'?options.startDay:next.v3Settings?.middleStartDay};
  },mode==='replace'?'before-template-replace':'before-template-add');}
 
-global.PlannerCore={previewMealCopy,copyMeals,foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,stageBoundary,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
+global.PlannerCore={mealIngredients,newFoods,previewMealCopy,copyMeals,foodHistoryKey,intakeMetrics,firstFoods,templatePreview,applyTemplate,load,snapshot:()=>clone(state),saveMeal,mealsOf,selections,saveCube,adjustCube,removeCube,saveIngredient,archiveIngredient,settings,stageForDay,stageBoundary,backup,backupBundle,inspectBackup,restore,seed,reset,active,age,warning,todayISO,validISO,protectedDay,newId:uid};
 })(window);
