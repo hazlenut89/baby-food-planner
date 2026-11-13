@@ -39,14 +39,18 @@ with sync_playwright() as p:
  const analysis=PlannerIngredientStats.collect(C.snapshot(),day=>{let d=new Date('2026-03-26T12:00:00');d.setDate(d.getDate()+day-1);return d;},d=>d.toISOString().slice(0,10));check(analysis.records.some(r=>r.names.includes('새송이버섯')),'analysis includes eaten product');check(!analysis.records.some(r=>r.names.includes('배')),'analysis excludes unrecorded snack');
  return 'PASS all 6 ingredient paths, unrecorded/0g, first taste save, backdated edit/delete, manual history, deduplication, no recipe guessing, inventory preservation and backup';
  }'''))
+ page.evaluate("async()=>{const C=PlannerCore,m=C.mealsOf(C.snapshot().days[230]).find(m=>m.id==='home');await C.saveMeal(230,m.id,{...m,foods:[...m.foods,{name:'배추',g:2},{name:'비타민채',g:2}]});}")
  page.reload();page.wait_for_selector('.week-date')
- assert 'NEW · 도입 예정 배' in page.locator('[data-meal="product-snack"]').inner_text()
- assert 'NEW · 최초 섭취 새송이버섯' in page.locator('[data-meal="commercial"]').inner_text()
+ assert page.locator('[data-meal="home"] .new-badge').all_text_contents()==['NEW']
+ assert page.locator('[data-meal="product-snack"] .new-badge').all_text_contents()==['NEW']
+ assert page.locator('[data-meal="commercial"] .new-badge').all_text_contents()==['NEW']
  for width in [320,375,390,430]:
   page.set_viewport_size({'width':width,'height':844});assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  page.locator('#legacyLink').click();page.wait_for_url('**/?day=230');page.wait_for_timeout(300)
  assert '새송이버섯' in page.locator('#weekDetail').inner_text()
  assert 'NEW' in page.locator('#weekDetail').inner_text()
+ assert page.locator('#weekDetail .legacy-meal-group').evaluate_all('(es)=>es.every(e=>e.querySelectorAll(".new-food-badge").length<=1)')
+ assert all(t=='NEW' for t in page.locator('#weekDetail .new-food-badge').all_text_contents())
  assert not errors,errors
  print('PASS V3 meal/snack NEW rendering, 4 mobile widths, V1 shared record rendering')
  b.close()
