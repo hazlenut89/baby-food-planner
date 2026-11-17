@@ -237,9 +237,10 @@ function mealFirstFoods(s){const first={};
 function automaticFirst(i){return i.mealFirstTried&&i.firstTriedDay===i.mealFirstTried.day&&(i.firstTriedOn||'')===i.mealFirstTried.on;}
 function reconcileMealIngredients(s){
  const first=mealFirstFoods(s);
- for(const entry of Object.values(first)){
-  let i=s.ingredients.find(i=>foodHistoryKey(i.name)===foodHistoryKey(entry.name));
-  if(!i){i={id:uid('ingredient'),name:entry.name,category:'unknown',preference:'unknown',allergy:'unknown'};s.ingredients.push(i);}
+ // Register planned ingredients without creating consumption history or changing existing metadata.
+ for(const d of Object.values(s.days))for(const meal of mealsOf(d))for(const name of mealIngredients(meal)){
+  if(!s.ingredients.some(i=>foodHistoryKey(i.name)===foodHistoryKey(name)))
+   s.ingredients.push({id:uid('ingredient'),name,category:'unknown',preference:'unknown',allergy:'unknown'});
  }
  for(const i of s.ingredients){
   const entry=first[foodHistoryKey(i.name)];

@@ -13,6 +13,7 @@ with sync_playwright() as p:
  const commercial=(name,slot=1,type='meal',actualIntake='')=>({slot,type,kind:'commercial',product:{brand:'확인 브랜드',name:'한우새송이버섯죽',grams:150,ingredients:[name]},foods:[{name:'시판 한우새송이버섯죽',g:150,productEntry:true}],actualIntake});
  for(const [id,m] of [['home',home('가지')],['commercial',commercial('새송이버섯',2)],['snack',home('사과',4,'snack')],['product-snack',commercial('배',5,'snack')]])await C.saveMeal(230,id,m);
  let s=C.snapshot();for(const [id,name] of [['home','가지'],['commercial','새송이버섯'],['snack','사과'],['product-snack','배']])check(C.newFoods(s,230,C.mealsOf(s.days[230]).find(m=>m.id===id)).planned.includes(name),id+' planned badge');
+ for(const name of ['가지','새송이버섯','사과','배'])check(s.ingredients.some(i=>i.name===name&&!i.firstTriedDay),'planned registration '+name);
  check(!C.firstFoods(s)[C.foodHistoryKey('배')],'unrecorded taste');check(!s.ingredients.find(i=>i.name==='배').firstTriedDay,'registered != tasted');
  const topped=commercial('새송이버섯');topped.product.ingredients.push('새송이버섯');topped.foods.push({name:'새송이버섯',g:1},{name:'청경채',g:2});await C.saveMeal(231,'topping',topped);eq(C.mealIngredients(topped),['새송이버섯','청경채'],'deduplicate toppings/product');
  const unknown=commercial('');unknown.product.ingredients=[];await C.saveMeal(232,'unknown',unknown);eq(C.newFoods(C.snapshot(),232,C.mealsOf(C.snapshot().days[232])[0]).planned,[],'never infer recipe');
@@ -41,16 +42,16 @@ with sync_playwright() as p:
  }'''))
  page.evaluate("async()=>{const C=PlannerCore,m=C.mealsOf(C.snapshot().days[230]).find(m=>m.id==='home');await C.saveMeal(230,m.id,{...m,foods:[...m.foods,{name:'배추',g:2},{name:'비타민채',g:2}]});}")
  page.reload();page.wait_for_selector('.week-date')
- assert page.locator('[data-meal="home"] .new-badge').all_text_contents()==['NEW']
- assert page.locator('[data-meal="product-snack"] .new-badge').all_text_contents()==['NEW']
- assert page.locator('[data-meal="commercial"] .new-badge').all_text_contents()==['NEW']
+ assert page.locator('[data-meal="home"] .new-badge').all_text_contents()==['NEW · 가지, 배추, 비타민채']
+ assert page.locator('[data-meal="product-snack"] .new-badge').all_text_contents()==['NEW · 배']
+ assert page.locator('[data-meal="commercial"] .new-badge').all_text_contents()==['NEW · 새송이버섯']
  for width in [320,375,390,430]:
   page.set_viewport_size({'width':width,'height':844});assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  page.locator('#legacyLink').click();page.wait_for_url('**/?day=230');page.wait_for_timeout(300)
  assert '새송이버섯' in page.locator('#weekDetail').inner_text()
  assert 'NEW' in page.locator('#weekDetail').inner_text()
  assert page.locator('#weekDetail .legacy-meal-group').evaluate_all('(es)=>es.every(e=>e.querySelectorAll(".new-food-badge").length<=1)')
- assert all(t=='NEW' for t in page.locator('#weekDetail .new-food-badge').all_text_contents())
+ assert all(t.startswith('NEW · ') for t in page.locator('#weekDetail .new-food-badge').all_text_contents())
  assert not errors,errors
  print('PASS V3 meal/snack NEW rendering, 4 mobile widths, V1 shared record rendering')
  b.close()

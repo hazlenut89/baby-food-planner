@@ -299,4 +299,21 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
 }
 
 /* Compact, one-per-meal NEW label; introduction status remains in data. */
-.food-names .new-badge{display:block;width:max-content;max-width:100%;padding:1px 4px;line-height:1.3;white-space:nowrap}
+.food-names .new-badge{display:block;width:max-content;max-width:100%;padding:1px 4px;line-height:1.3;white-space:normal;overflow-wrap:anywhere}
+
+/* Commercial editor only: keep the existing mobile route and input behavior. */
+@media(max-width:768px){
+ #sheet:has([data-product-fields]:not([hidden])) .form-stack,
+ #sheet:has([data-product-fields]:not([hidden])) .meal-type-fields,
+ #sheet:has([data-product-fields]:not([hidden])) [data-product-fields]{gap:10px}
+ #sheet:has([data-product-fields]:not([hidden])) label{gap:4px;min-width:0}
+ #sheet:has([data-product-fields]:not([hidden])) input:not([type=checkbox]):not([type=radio]),
+ #sheet:has([data-product-fields]:not([hidden])) select{height:44px;min-height:44px;padding:8px;min-width:0}
+ #sheet:has([data-product-fields]:not([hidden])) .food-row{grid-template-columns:minmax(0,1fr) 82px 44px;gap:6px;margin-bottom:8px;align-items:center}
+ #sheet:has([data-product-fields]:not([hidden])) .food-row button,
+ #sheet:has([data-product-fields]:not([hidden])) [data-action=add-food]{height:44px;min-height:44px;padding:6px 10px}
+ #sheet:has([data-product-fields]:not([hidden])) .section-heading{margin-bottom:8px;gap:8px}
+ #sheet:has([data-product-fields]:not([hidden])) .cube-picks{gap:8px}
+ #sheet:has([data-product-fields]:not([hidden])) .cube-pick{padding:8px;gap:6px}
+ #sheet:has([data-product-fields]:not([hidden])) .cube-pick button{min-height:44px;min-width:44px;padding:6px}
+}
