@@ -306,6 +306,18 @@ input,select,textarea{font-size:16px;min-height:44px;padding:10px 14px;border-co
  #sheet:has([data-product-fields]:not([hidden])) .form-stack,
  #sheet:has([data-product-fields]:not([hidden])) .meal-type-fields,
  #sheet:has([data-product-fields]:not([hidden])) [data-product-fields]{gap:10px}
+ /* Flatten only the visual product group so type and brand share the first row. */
+ #sheet .meal-type-fields:has([data-product-fields]:not([hidden])){grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
+ #sheet .meal-type-fields [data-product-fields]:not([hidden]){display:contents}
+ #sheet .meal-type-fields:has([data-product-fields]:not([hidden]))>label{grid-column:1/5;grid-row:1}
+ #sheet .meal-type-fields label:has([data-brand]){grid-column:5/-1;grid-row:1}
+ #sheet .meal-type-fields label:has([data-product-name]){grid-column:1/7;grid-row:2}
+ #sheet .meal-type-fields label:has([data-product-grams]){grid-column:7/-1;grid-row:2}
+ #sheet .meal-type-fields label:has([data-product-ingredients]){grid-column:1/-1;grid-row:3}
+ #sheet .meal-type-fields [data-other-brand-label]{grid-column:1/-1;grid-row:4}
+ #sheet .meal-type-fields [data-other-brand-label][hidden]{display:none}
+ #sheet .meal-type-fields label{align-content:start}
+ #sheet .meal-type-fields select{width:100%;max-width:100%}
  #sheet:has([data-product-fields]:not([hidden])) label{gap:4px;min-width:0}
  #sheet:has([data-product-fields]:not([hidden])) input:not([type=checkbox]):not([type=radio]),
  #sheet:has([data-product-fields]:not([hidden])) select{height:44px;min-height:44px;padding:8px;min-width:0}
