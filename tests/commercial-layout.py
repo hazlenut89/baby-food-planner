@@ -30,11 +30,18 @@ with sync_playwright() as p:
  page.locator('#saveSheet').click();page.wait_for_selector('[data-meal=qa]')
  assert page.evaluate('PlannerCore.snapshot().cubes[0].remainingQty')==2
  page.locator('[data-meal=qa]').first.click()
- assert foods.evaluate('(e)=>e.open') and cubes.evaluate('(e)=>e.open')
+ assert not foods.evaluate('(e)=>e.open') and not cubes.evaluate('(e)=>e.open')
  assert page.locator('#draftTotal').inner_text()=='165g'
  # Cancel leaves saved quantities untouched.
+ cubes.locator('summary').click()
  page.on('dialog',lambda d:d.accept())
  page.locator('[data-pick][data-delta="1"]').click()
+ assert cubes.locator('summary').inner_text()=='보관 중인 큐브 · 1개 선택'
+ assert '총 2개 사용' in cubes.locator('summary').get_attribute('title')
+ for w in [320,375,390,430]:
+  page.set_viewport_size({'width':w,'height':844})
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+ page.screenshot(path='/tmp/accordion-open.png',full_page=True)
  page.locator('#cancelSheet').click()
  assert page.evaluate('PlannerCore.snapshot().cubes[0].remainingQty')==2
  page.locator('[data-meal=qa]').first.click()
@@ -42,11 +49,11 @@ with sync_playwright() as p:
  page.locator('[data-meal-type]').select_option('homemade')
  page.locator('.commercial-confirm [data-choice=keep]').click()
  assert foods.evaluate('(e)=>e.open') and foods.locator('summary').is_hidden()
- assert cubes.evaluate('(e)=>e.open') and cubes.locator('summary').is_hidden()
+ assert not cubes.evaluate('(e)=>e.open') and cubes.locator('summary').is_visible()
  page.locator('[data-meal-type]').select_option('commercial')
  assert page.locator('.commercial-confirm [data-choice=delete]').is_disabled()
  page.locator('.commercial-confirm [data-choice=keep]').click()
- assert foods.evaluate('(e)=>e.open') and cubes.evaluate('(e)=>e.open')
+ assert not foods.evaluate('(e)=>e.open') and not cubes.evaluate('(e)=>e.open')
  assert page.locator('#draftTotal').inner_text()=='165g'
  page.locator('#cancelSheet').click()
  assert page.evaluate('JSON.stringify(PlannerCore.snapshot())')==before
@@ -54,6 +61,14 @@ with sync_playwright() as p:
  page.reload();page.locator('[data-meal=qa]').first.click()
  cubes.locator('summary').click()
  assert '사용할 수 있는 큐브가 없어요.' in cubes.inner_text()
+ # Invalid additional ingredient must reveal its editor rather than remain hidden.
+ foods.locator('summary').click()
+ page.locator('.food-grams').first.fill('')
+ foods.locator('summary').click()
+ page.locator('#saveSheet').click()
+ assert foods.evaluate('(e)=>e.open')
+ assert page.locator('#sheetError').inner_text()
+ print('PASS incomplete extras reveal on save, cube type count distinct from quantity')
  print('PASS homemade/commercial transitions, linked cube protection, no-cube empty state')
- print('PASS equal columns at 4 widths, collapsed defaults, retained inputs/picks, saved auto-open, totals, stock and cancellation')
+ print('PASS equal columns at 4 widths, collapsed defaults, retained inputs/picks, saved collapsed defaults, totals, stock and cancellation')
  b.close()
