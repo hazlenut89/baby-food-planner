@@ -68,7 +68,7 @@ function editMeal(id,day=selected,slot=null){if($('sheet').open){if(dirty&&!conf
 function mountMealType(){MealType.mount($('sheet'));PlannerCommercial.mount($('sheet'),{meal:mealDraft,hasFoods:()=>{syncFoods();return mealDraft.foods.some(f=>f.name.trim()||String(f.g)!=='');},hasCubeLinks:()=>C.selections(selected,mealDraft.id).length>0,onDelete:()=>{mealDraft.foods=[];mealDraft.picks=[];$('foodRows').replaceChildren();renderPicks();},onChange:()=>{dirty=true;draftTotal();}});}
 function updateMealSections(){
  const commercial=$('sheet').querySelector('[data-meal-type]')?.value==='commercial';
- for(const [id,label,count] of [['foodRows','추가 식재료',mealDraft.foods.filter(f=>f.name.trim()&&Number.isFinite(Number(f.g))&&Number(f.g)>0).length],['cubePicks','보관 중인 큐브',new Set(mealDraft.picks.filter(p=>p.quantity>0).map(p=>C.foodHistoryKey(p.name))).size]]){
+ for(const [id,label,count] of [['foodRows',commercial?'추가 식재료':'식재료 구성',mealDraft.foods.filter(f=>f.name.trim()&&Number.isFinite(Number(f.g))&&Number(f.g)>0).length],['cubePicks','보관 중인 큐브',new Set(mealDraft.picks.filter(p=>p.quantity>0).map(p=>C.foodHistoryKey(p.name))).size]]){
   const content=$(id).parentElement;let section=content.parentElement;
   if(!section.classList.contains('meal-extra-section')){
    section=document.createElement('details');section.className='meal-extra-section';
@@ -79,7 +79,10 @@ function updateMealSections(){
   summary.textContent=label+(count?' · '+count+'개'+(cube?' 선택':''):'');
   if(cube)summary.title='선택한 큐브 식재료 종류 수 · 총 '+mealDraft.picks.reduce((n,p)=>n+p.quantity,0)+'개 사용';
   section.dataset.accordion='true';
-  if(section.dataset.commercial!==String(commercial))section.open=false;
+  if(section.dataset.commercial!==String(commercial)){
+   section.open=!commercial&&!cube;
+   if(!commercial&&!cube&&!mealDraft.foods.length){const row={rowId:C.newId('row'),name:'',g:''};mealDraft.foods.push(row);$('foodRows').innerHTML=foodRow(row);}
+  }
   section.dataset.commercial=String(commercial);
  }
 }

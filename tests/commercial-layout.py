@@ -59,7 +59,11 @@ with sync_playwright() as p:
  before=page.evaluate('JSON.stringify(PlannerCore.snapshot())')
  page.locator('[data-meal-type]').select_option('homemade')
  page.locator('.commercial-confirm [data-choice=keep]').click()
- assert not foods.evaluate('(e)=>e.open') and foods.locator('summary').is_visible()
+ assert foods.evaluate('(e)=>e.open') and foods.locator('summary').is_visible()
+ assert foods.locator('summary').inner_text().startswith('식재료 구성')
+ values=page.locator('#foodRows input').evaluate_all('(es)=>es.map(e=>e.value)')
+ foods.locator('summary').click();foods.locator('summary').click()
+ assert values==page.locator('#foodRows input').evaluate_all('(es)=>es.map(e=>e.value)')
  assert not cubes.evaluate('(e)=>e.open') and cubes.locator('summary').is_visible()
  page.locator('[data-meal-type]').select_option('commercial')
  assert page.locator('.commercial-confirm [data-choice=delete]').is_disabled()
@@ -80,6 +84,18 @@ with sync_playwright() as p:
  page.locator('#saveSheet').click()
  assert foods.evaluate('(e)=>e.open')
  assert page.locator('#sheetError').inner_text()
+ # An empty homemade editor shows one draft row without writing an ingredient.
+ page.locator('#cancelSheet').click()
+ page.evaluate("async()=>{const C=PlannerCore;await C.saveMeal(237,'qa',{slot:1,kind:'homemade',foods:[],actualIntake:''})}")
+ page.reload()
+ before=page.evaluate('JSON.stringify(PlannerCore.snapshot())')
+ page.locator('[data-meal=qa]').first.click()
+ assert foods.evaluate('(e)=>e.open') and not cubes.evaluate('(e)=>e.open')
+ assert page.locator('.food-name').count()==1 and page.locator('.food-name').input_value()==''
+ assert foods.locator('summary').inner_text()=='식재료 구성'
+ foods.locator('summary').click();foods.locator('summary').click()
+ assert page.evaluate('JSON.stringify(PlannerCore.snapshot())')==before
+ print('PASS empty homemade draft row, no automatic writes, homemade label/default and retained values')
  print('PASS incomplete extras reveal on save, cube type count distinct from quantity')
  print('PASS homemade/commercial transitions, linked cube protection, no-cube empty state')
  print('PASS equal columns at 4 widths, collapsed defaults, retained inputs/picks, saved collapsed defaults, totals, stock and cancellation')
