@@ -39,8 +39,8 @@ with sync_playwright() as p:
  page.evaluate('''async()=>{const C=PlannerCore,o={sourceDay:227,mealId:C.mealsOf(C.snapshot().days[227])[0].id,targets:[{day:227,slot:2}]};let r=C.previewMealCopy(o);await C.copyMeals(o,r.token,{'227:2':'copy'});if(C.mealsOf(C.snapshot().days[227]).length!==2)throw Error('same day copy');o.targets[0].slot=1;if(C.previewMealCopy(o).rows[0].status!=='protected')throw Error('self copy');}''')
  page.click('[data-action="copy-meal"]')
  assert page.locator('#copyReview').count()==0
- page.fill('#copySourceDate','2026-12-01');assert page.locator('#saveSheet').is_disabled();assert '등록된 식단이 없어요' in page.locator('#copySource').inner_text()
- page.fill('#copySourceDate','2026-10-31');page.select_option('#copyScope','product')
+ assert page.locator('#copySourceDate').get_attribute('readonly') is not None
+ page.select_option('#copyScope','product')
  page.locator('[data-copy-date]').fill('2026-11-20');page.locator('[data-copy-slot]').select_option('1')
  page.click('#copyAddDate');page.locator('[data-copy-date]').nth(1).fill('2026-11-21');page.locator('[data-copy-slot]').nth(1).select_option('2')
  assert page.locator('#saveSheet').is_enabled()
@@ -63,6 +63,11 @@ with sync_playwright() as p:
   assert page.locator('#copySourceDate').input_value()=='2026-10-31'
   assert page.locator('#saveSheet').bounding_box()['y']<844
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  fields=[page.locator(x).bounding_box() for x in ['#copySourceDate','#copyScope','[data-copy-date]','[data-copy-slot]']]
+  assert max(f['width'] for f in fields)-min(f['width'] for f in fields)<1
+  assert fields[0]['x']==fields[2]['x'] and fields[1]['x']==fields[3]['x']
+  page.click('#copyAddDate');assert page.locator('.copy-target-input').count()==2
+  page.locator('[data-copy-remove]').last.click();assert page.locator('.copy-target-input').count()==1
   page.screenshot(path=f'/tmp/copy-ux-{width}.png')
   page.set_viewport_size({'width':width,'height':500});page.locator('[data-copy-date]').focus()
   assert page.locator('#saveSheet').bounding_box()['y']+page.locator('#saveSheet').bounding_box()['height']<=500
@@ -74,7 +79,7 @@ with sync_playwright() as p:
  page.select_option('[data-copy-choice]','replace');page.click('#saveSheet');page.wait_for_function('document.querySelector("#sheetTitle").textContent==="복사 완료"')
  assert any('교체할까요' in d for d in dialogs)
  page.click('#cancelSheet')
- print('PASS copy core protection, source change/empty, multi-date per-slot, same-day, monthly access, cancel, destination navigation, 4 widths and reduced viewport')
+ print('PASS copy core protection, read-only source, multi-date per-slot, same-day, monthly access, cancel, destination navigation, 4 widths and reduced viewport')
  # Deterministic weekly fixture: ingredient counts vs meal counts, snacks included, 0g excluded.
  page.evaluate('''async()=>{const C=PlannerCore,m=(id,slot,names,actualIntake,type='meal')=>({id,slot,type,foods:names.map(name=>({name,g:10})),actualIntake}),d=ms=>({foods:ms[0].foods,actualIntake:ms[0].actualIntake,meals:ms,v3Multi:true});await C.restore({schemaVersion:5,birthday:'2026-03-26',babyName:'요약 검증',startDay:180,days:{220:d([m('a',1,['쌀','소고기','당근'],20),m('b',2,['쌀','두부','사과'],20)]),221:d([m('c',4,['사과','쌀'],10,'snack'),m('z',1,['브로콜리'],0),m('u',2,['시금치'],'')])},cubes:[],cubeUsages:[],cubeChanges:[],ingredients:[],preferences:{}},'replace');}''')
  page.reload();page.wait_for_selector('.week-date');page.evaluate("PlannerIngredientStats.handle('today',null,'2026-10-31')")

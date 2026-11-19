@@ -17,6 +17,16 @@ with sync_playwright() as p:
   assert boxes[0]['x']==boxes[2]['x'] and boxes[1]['x']==boxes[3]['x']
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.screenshot(path=f'/tmp/commercial-fold-{w}.png',full_page=True)
+ page.locator('[data-brand]').select_option('other')
+ page.locator('[data-other-brand]').fill('우리 업체')
+ for w in [320,375,390,430]:
+  page.set_viewport_size({'width':w,'height':844})
+  brand=page.locator('[data-brand]').bounding_box();other=page.locator('[data-other-brand]').bounding_box()
+  name=page.locator('[data-product-name]').bounding_box();grams=page.locator('[data-product-grams]').bounding_box()
+  assert brand['x']==other['x'] and abs(brand['width']-other['width'])<1
+  assert other['y']>brand['y'] and name['y']>other['y'] and name['y']==grams['y']
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  page.screenshot(path=f'/tmp/other-brand-{w}.png',full_page=True)
  foods.locator('summary').click()
  page.locator('.food-name').fill('케일');page.locator('.food-grams').fill('5')
  foods.locator('summary').click()
@@ -32,6 +42,7 @@ with sync_playwright() as p:
  page.locator('[data-meal=qa]').first.click()
  assert not foods.evaluate('(e)=>e.open') and not cubes.evaluate('(e)=>e.open')
  assert page.locator('#draftTotal').inner_text()=='165g'
+ assert page.locator('[data-other-brand]').input_value()=='우리 업체'
  # Cancel leaves saved quantities untouched.
  cubes.locator('summary').click()
  page.on('dialog',lambda d:d.accept())
@@ -48,7 +59,7 @@ with sync_playwright() as p:
  before=page.evaluate('JSON.stringify(PlannerCore.snapshot())')
  page.locator('[data-meal-type]').select_option('homemade')
  page.locator('.commercial-confirm [data-choice=keep]').click()
- assert foods.evaluate('(e)=>e.open') and foods.locator('summary').is_hidden()
+ assert not foods.evaluate('(e)=>e.open') and foods.locator('summary').is_visible()
  assert not cubes.evaluate('(e)=>e.open') and cubes.locator('summary').is_visible()
  page.locator('[data-meal-type]').select_option('commercial')
  assert page.locator('.commercial-confirm [data-choice=delete]').is_disabled()
@@ -60,6 +71,7 @@ with sync_playwright() as p:
  page.evaluate("async()=>{const C=PlannerCore,s=C.snapshot();s.cubes=[];s.cubeUsages=[];s.cubeChanges=[];await C.restore(s,'replace')}")
  page.reload();page.locator('[data-meal=qa]').first.click()
  cubes.locator('summary').click()
+ page.wait_for_timeout(220)
  assert '사용할 수 있는 큐브가 없어요.' in cubes.inner_text()
  # Invalid additional ingredient must reveal its editor rather than remain hidden.
  foods.locator('summary').click()

@@ -78,8 +78,8 @@ function updateMealSections(){
   const cube=id==='cubePicks',summary=section.querySelector('summary');
   summary.textContent=label+(count?' · '+count+'개'+(cube?' 선택':''):'');
   if(cube)summary.title='선택한 큐브 식재료 종류 수 · 총 '+mealDraft.picks.reduce((n,p)=>n+p.quantity,0)+'개 사용';
-  section.dataset.accordion=String(commercial||cube);
-  if(section.dataset.commercial!==String(commercial))section.open=!commercial&&!cube;
+  section.dataset.accordion='true';
+  if(section.dataset.commercial!==String(commercial))section.open=false;
   section.dataset.commercial=String(commercial);
  }
 }

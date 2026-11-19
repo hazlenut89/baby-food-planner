@@ -9,7 +9,7 @@
   const inputValue=day=>state.birthday?iso(dateOf(day)):day;
   const inputAttrs=state.birthday?'type="date"':'type="number" min="1" step="1" inputmode="numeric"';
   const readDay=v=>!v?NaN:state.birthday?(C.validISO(v)?dayOf(new Date(v+'T12:00:00')):NaN):Number(v);
-  openSheet('식단 복사',`<div class="meal-copy form-stack"><label>원본 ${state.birthday?'날짜':'생후 일수'}<input id="copySourceDate" ${inputAttrs} value="${inputValue(sourceDay)}"></label><label>복사 범위<select id="copyScope"></select></label><section aria-label="복사 대상"><div id="copyTargets"></div><button type="button" id="copyAddDate" class="secondary">＋ 날짜 추가</button><p id="copyAllNote" class="note" hidden>하루 전체는 간식을 포함한 원래 끼니 번호로 복사해요.</p></section><details class="copy-preview" open><summary>복사할 식단</summary><div id="copySource"></div><p class="note">식단 구성과 계획량만 복사돼요. 섭취 기록과 큐브 사용 이력은 복사되지 않아요.</p></details><div id="copyReviewResult" aria-live="polite"></div></div>`,async()=>{
+  openSheet('식단 복사',`<div class="meal-copy form-stack"><div class="copy-field-row"><label>원본 ${state.birthday?'날짜':'생후 일수'} · 조회 전용<input id="copySourceDate" type="text" readonly aria-readonly="true" title="이전 화면에서 원본 날짜를 선택하세요." value="${inputValue(sourceDay)}"></label><label>복사 범위<select id="copyScope"></select></label></div><section aria-label="복사 대상"><div id="copyTargets"></div><button type="button" id="copyAddDate" class="secondary">＋ 날짜 추가</button><p id="copyAllNote" class="note" hidden>하루 전체는 간식을 포함한 원래 끼니 번호로 복사해요.</p></section><details class="copy-preview" open><summary>복사할 식단</summary><div id="copySource"></div><p class="note">식단 구성과 계획량만 복사돼요. 섭취 기록과 큐브 사용 이력은 복사되지 않아요.</p></details><div id="copyReviewResult" aria-live="polite"></div></div>`,async()=>{
    if(!review)throw Error('원본과 대상 날짜를 확인해 주세요.');
    const selected=review.rows.filter(r=>['copy','replace'].includes(choices[r.key]));
    if(!selected.length)throw Error('복사할 대상 끼니를 선택해 주세요.');
@@ -41,7 +41,7 @@
    refreshTargets();refresh();
   }
   function sourceChanged(){
-   const previous=selectedMeal(),wasAll=range()==='all';sourceDay=readDay($('copySourceDate').value);
+   const previous=selectedMeal(),wasAll=range()==='all';
    meals=Number.isSafeInteger(sourceDay)&&sourceDay>0?C.mealsOf(C.snapshot().days[sourceDay]).filter(m=>m.foods.length):[];
    $('copyScope').innerHTML=meals.length?meals.map(m=>`<option value="${esc(m.id)}">${mealLabel(m)} · ${m.kind==='commercial'?'시판':'수제'}</option>`).join('')+'<option value="all">하루 전체 (간식 포함)</option>':'<option value="">등록된 식단 없음</option>';
    $('copyScope').disabled=!meals.length;
@@ -68,7 +68,7 @@
    }catch(e){review=null;$('copyReviewResult').textContent=e.message;}
   }
   function updateSave(){ $('saveSheet').disabled=!review||!Object.values(choices).some(v=>v==='copy'||v==='replace');}
-  $('copySourceDate').oninput=sourceChanged;$('copyScope').onchange=sourcePreview;
+  $('copyScope').onchange=sourcePreview;
   $('copyTargets').oninput=refresh;
   $('copyTargets').onchange=refresh;
   $('copyTargets').onclick=e=>{const b=e.target.closest('[data-copy-remove]');if(b){b.closest('.copy-target-input').remove();refresh();}};
