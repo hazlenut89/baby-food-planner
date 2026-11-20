@@ -17,16 +17,25 @@ with sync_playwright() as p:
   assert boxes[0]['x']==boxes[2]['x'] and boxes[1]['x']==boxes[3]['x']
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.screenshot(path=f'/tmp/commercial-fold-{w}.png',full_page=True)
- page.locator('[data-brand]').select_option('other')
- page.locator('[data-other-brand]').fill('우리 업체')
  for w in [320,375,390,430]:
   page.set_viewport_size({'width':w,'height':844})
-  brand=page.locator('[data-brand]').bounding_box();other=page.locator('[data-other-brand]').bounding_box()
+  brand=page.locator('[data-brand]').bounding_box()
+  before=page.locator('[data-product-name]').bounding_box()
+  height=page.locator('.meal-type-fields').bounding_box()['height']
+  page.locator('[data-brand]').select_option('other')
+  page.locator('[data-other-brand]').fill('마미포유')
+  other=page.locator('[data-other-brand]').bounding_box()
   name=page.locator('[data-product-name]').bounding_box();grams=page.locator('[data-product-grams]').bounding_box()
-  assert brand['x']==other['x'] and abs(brand['width']-other['width'])<1
-  assert other['y']>brand['y'] and name['y']>other['y'] and name['y']==grams['y']
+  assert brand==other
+  assert before==name and name['y']==grams['y']
+  assert page.locator('.meal-type-fields').bounding_box()['height']==height
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.screenshot(path=f'/tmp/other-brand-{w}.png',full_page=True)
+  page.locator('[data-brand-change]').click()
+  assert page.locator('[data-brand]').is_visible()
+  page.locator('[data-brand]').select_option('푸드케어(클레)')
+ page.locator('[data-brand]').select_option('other')
+ assert page.locator('[data-other-brand]').input_value()=='마미포유'
  foods.locator('summary').click()
  page.locator('.food-name').fill('케일');page.locator('.food-grams').fill('5')
  foods.locator('summary').click()
@@ -42,7 +51,7 @@ with sync_playwright() as p:
  page.locator('[data-meal=qa]').first.click()
  assert not foods.evaluate('(e)=>e.open') and not cubes.evaluate('(e)=>e.open')
  assert page.locator('#draftTotal').inner_text()=='165g'
- assert page.locator('[data-other-brand]').input_value()=='우리 업체'
+ assert page.locator('[data-other-brand]').input_value()=='마미포유'
  # Cancel leaves saved quantities untouched.
  cubes.locator('summary').click()
  page.on('dialog',lambda d:d.accept())
