@@ -1,0 +1,9 @@
+.git
+dist
+tests
+reports
+previews
+navigation-cubes-results.json
+**/__pycache__
+.env
+.env.*
